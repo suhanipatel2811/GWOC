@@ -1,0 +1,69 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corporate Services</title>
+    <link rel="stylesheet" href="{% static 'core/css/t.css' %}">
+</head>
+
+<body>
+<section class="corporate-hero">
+    <h1>Corporate Mental Well-Being Services</h1>
+    <p>
+        At <strong>MindSettler</strong>, we partner with organizations to
+        build emotionally healthy, resilient, and productive workplaces.
+    </p>
+</section>
+
+<section class="corporate-services">
+    <h2>Our Corporate Offerings</h2>
+
+    <div class="service-card">
+        <h3>Mental Health Workshops</h3>
+        <p>
+            Interactive workshops designed to spread awareness about stress,
+            anxiety, burnout, and emotional well-being in the workplace.
+        </p>
+    </div>
+
+    <div class="service-card">
+        <h3>Employee Training Programs</h3>
+        <p>
+            Skill-based training sessions focused on emotional intelligence,
+            communication, leadership well-being, and work-life balance.
+        </p>
+    </div>
+
+    <div class="service-card">
+        <h3>Organizational Consulting</h3>
+        <p>
+            Customized consulting solutions to help organizations create
+            supportive mental health policies and cultures.
+        </p>
+    </div>
+
+    <div class="service-card">
+        <h3>Well-being Sessions</h3>
+        <p>
+            Guided sessions led by mental health professionals to help
+            employees manage stress and improve emotional resilience.
+        </p>
+    </div>
+</section>
+
+<section class="corporate-cta">
+    <h2>Let’s Build a Healthier Workplace Together</h2>
+    <p>
+        Tell us about your organization’s needs and our team will design
+        a solution tailored just for you.
+    </p>
+
+    <a href="{% url 'corporate:request_service' %}" class="btn-primary">
+        Request Corporate Service
+    </a>
+</section>
+</body>
+</html>

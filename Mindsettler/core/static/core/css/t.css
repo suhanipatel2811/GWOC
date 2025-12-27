@@ -1,0 +1,162 @@
+
+/* ===== Corporate Services ===== */
+
+.corporate-hero {
+    background: linear-gradient(135deg, #6e1da3, #3b1848);
+    color: white;
+    padding: 70px 20px;
+    text-align: center;
+}
+
+.corporate-hero h1 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.corporate-hero p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Services Section */
+.corporate-services {
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.corporate-services h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #3b1848;
+}
+
+.service-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.service-card h3 {
+    color: #4e0953;
+    margin-bottom: 10px;
+}
+
+/* CTA */
+.corporate-cta {
+    background: #f4f6fa;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #380a4e;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+
+
+/* PAGE CENTER */
+.page-wrapper {
+    min-height: calc(100vh - 80px); /* navbar space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* CARD */
+.confirm-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 650px;
+    padding: 50px 45px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* HEADING */
+.confirm-card h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #111827;
+}
+
+/* SUB TEXT */
+.sub-text {
+    font-size: 15px;
+    color: #6b7280;
+    margin-bottom: 30px;
+}
+
+/* FORM */
+.corporate-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* FORM GROUP */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+/* LABEL */
+.form-group label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #5c1375;
+    margin-bottom: 6px;
+}
+
+/* INPUTS */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d5db;
+    font-size: 15px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #5d067c;
+}
+
+/* BUTTON */
+.primary-btn {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #b458d5, #551171);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+.primary-btn:hover {
+    transform: scale(1.03);
+    transition: transform 0.2s ease;
+    background: linear-gradient(90deg,#551171,#740d82);
+}

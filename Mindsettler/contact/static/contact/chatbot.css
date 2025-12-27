@@ -1,0 +1,27 @@
+.chatbot-container {
+    width: 400px;
+    margin: 40px auto;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff;
+}
+
+#chat-box {
+    height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#chat-input {
+    width: 100%;
+    padding: 10px;
+}
+#user-input {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

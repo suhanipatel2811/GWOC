@@ -1,0 +1,67 @@
+body {
+    min-height: 100vh;
+    background: hsl(250, 100%, 98%);
+    font-family: "Segoe UI", sans-serif;
+}
+
+
+/* FULL PAGE CENTERING */
+.page-wrapper {
+    min-height: 100vh;          /* full screen height */
+    display: flex;
+    align-items: center;        /* vertical center */
+    justify-content: center;    /* horizontal center */
+    background: #f5f3ff;
+    padding: 20px;
+}
+
+
+/* CONFIRM CARD */
+.confirm-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 480px;
+    padding: 45px 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* TEXT */
+.confirm-text {
+    font-size: 16px;
+    color: #374151;
+    margin: 25px 0 35px;
+    line-height: 1.6;
+}
+
+/* ACTIONS */
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* BUTTON BASE */
+.btn {
+    padding: 12px 22px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+}
+
+/* CANCEL */
+.danger-btn {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* BACK */
+.secondary-btn {
+    background: #ede9fe;
+    color: #5b21b6;
+}

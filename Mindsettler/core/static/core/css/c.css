@@ -1,0 +1,102 @@
+
+/* PAGE BACKGROUND */
+body {
+    min-height: 100vh;
+    background: hsl(250, 100%, 98%);
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* CENTER WRAPPER */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CARD */
+.contact-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    padding: 50px 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* TITLE */
+.contact-container h2 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #111827;
+}
+
+/* SUCCESS MESSAGE */
+.success {
+    background: #ecfdf5;
+    color: #ab45a5;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* FORM */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* DJANGO as_p FIX */
+.contact-form p {
+    display: flex;
+    flex-direction: column;
+}
+
+/* LABEL */
+.contact-form label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #59106d;
+    margin-bottom: 6px;
+}
+
+/* INPUT & TEXTAREA */
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d5db;
+    font-size: 15px;
+    resize: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+    outline: none;
+    border-color: #881cc6;
+}
+
+/* BUTTON */
+.contact-form button {
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 16px;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, #7311a4, #3d0846e9);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.contact-form button:hover {
+    transform: translateY(-2px);
+}

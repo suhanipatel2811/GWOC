@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MindSettler</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+     <header class="navbar">
+    <!-- Logo -->
+    <div class="nav-logo">
+         <a href="{% url 'core:about' %}" class="logo-link">
+         <img src="{% static 'core/images/logo.png' %}" width="200" alt="MindSettler logo"></a>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="nav-links">
+        <div class="sidebar">
+            <a href="{% url 'resources:blog_list' %}" class="nav-item">Resources</a>
+            <a href="{% url 'core:about' %}" class="nav-item">About</a>
+            <a href="{% url 'appointment:booking' %}" class="nav-item">Session Booking</a>
+            <a href="{% url 'corporate:corporate_services' %}" class="nav-item">Services</a>
+            <a href="{% url 'contact:contact' %}" class="nav-item">Contact Us</a>
+        </div>
+    </nav>
+</header>
+<section class="hero"> 
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1>Understand Your Mind, Navigate Life</h1>
+        <div class="subline-wrapper">
+            <p class="subtext">
+                Online and Offline Psycho-Education & Counseling in a safe,
+                confidential environment
+            </p>
+        </div>
+        <div class="hero-buttons">
+            <a href="{% url 'users:register' %}" class="btn btn-register">Register Now</a>
+            <a href="{% url 'users:login' %}" class="btn btn-login">Login</a>
+        </div>
+    </div>
+</section>
+
+<main>
+{% block content %}
+{% endblock %}
+</main>
+
+<!-- Footer -->
+<footer>
+    <p>© MindSettler | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
+
+

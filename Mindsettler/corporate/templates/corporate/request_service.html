@@ -1,0 +1,80 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corporate Services</title>
+    <link rel="stylesheet" href="{% static 'core/css/t.css' %}">
+</head>
+
+<body>
+
+
+<section class="page-wrapper">
+    <div class="confirm-card">
+
+        <h2>🏢 Request Corporate Services</h2>
+
+        <p class="sub-text">
+            Please fill out the form below and our team will get in touch
+            with you to discuss your requirements in detail.
+        </p>
+
+        <form method="post" class="corporate-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Company Name</label>
+                {{ form.company_name }}
+            </div>
+
+            <div class="form-group">
+                <label>Contact Person</label>
+                {{ form.contact_person }}
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                {{ form.phone }}
+            </div>
+
+            <div class="form-group">
+                <label>Type of Service</label>
+                {{ form.service_type }}
+            </div>
+
+            <div class="form-group">
+                <label>Number of Employees</label>
+                {{ form.number_of_employees }}
+            </div>
+
+            <div class="form-group">
+                <label>Preferred Date</label>
+                {{ form.preferred_date }}
+            </div>
+
+            <div class="form-group">
+                <label>Additional Details</label>
+                {{ form.message }}
+            </div>
+
+            <button type="submit" class="btn primary-btn">
+                Submit Request
+            </button>
+
+        </form>
+
+    </div>
+</section>
+
+
+
+</body>
+</html>

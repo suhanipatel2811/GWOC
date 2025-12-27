@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MindSettler Chatbot</title>
+    <link rel="stylesheet" href="{% static 'contact/chatbot.css' %}">
+</head>
+<body>
+
+<div class="chatbot-container">
+    <h2>MindSettler Chatbot</h2>
+
+    <div id="chat-box"></div>
+
+    <input type="text" id="chat-input" placeholder="Type your message..." />
+</div>
+
+<script src="{% static 'contact/chatbot.js' %}"></script>
+</body>
+</html>

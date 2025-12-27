@@ -1,0 +1,41 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+</head>
+<body>
+    
+
+<div class="article-container">
+
+    <div class="article-header">
+        <h1>{{ article.title }}</h1>
+        <p class="meta">
+            👀 {{ article.views }} views |
+            ❤️ {{ article.likes }} likes |
+            🕒 {{ article.created_at|date:"d M Y" }}
+        </p>
+    </div>
+
+    {% if article.image %}
+        <img src="{{ article.image.url }}" class="article-image">
+    {% endif %}
+
+    <div class="article-content">
+        {{ article.content|linebreaks }}
+    </div>
+
+    <div class="article-actions">
+        <a href="{% url 'resources:like_article' article.slug %}" class="like-btn">
+            ❤️ Like Article
+        </a>
+    </div>
+
+</div>
+</body>
+</html>

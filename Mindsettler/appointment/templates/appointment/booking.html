@@ -1,0 +1,53 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+<section class="page-section booking-section">
+    <div class="booking-card">
+        <div class="container">
+            <h2>✨ Book Your Session</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="input-group">
+                    <label>Full Name</label>
+                    {{ form.full_name }}
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="input-group">
+                    <label>Phone</label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="input-group">
+                    <label>Select Slot</label>
+                    {{ form.slot }}
+                </div>
+
+                {% for message in messages %}
+                    <div class="error-box">{{ message }}</div>
+                {% endfor %}
+
+                <button type="submit" class="proceed-btn">
+                    Proceed to Payment →
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

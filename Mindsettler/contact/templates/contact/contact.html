@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="stylesheet" href="{% static 'core/css/c.css' %}">
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="contact-container">
+
+        <h2>✨ Contact Us</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="success">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" class="contact-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Send Message →</button>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Cancellation & Refund</title>
+    <link rel="stylesheet" href="{% static 'core/css/cc.css' %}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+    <div class="confirm-card">
+
+        <h2>💳 Confirm Cancellation & Refund</h2>
+
+        <p class="confirm-text">
+            Please enter your bank details to process the refund.
+        </p>
+
+        <form method="post" class="refund-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Account Name</label>
+                <input type="text" name="account_name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" name="account_number" required>
+            </div>
+
+            <div class="form-group">
+                <label>IFSC Code</label>
+                <input type="text" name="ifsc" required>
+            </div>
+
+            <button type="submit" class="btn danger-btn">
+                Submit & Cancel Appointment
+            </button>
+        </form>
+
+        <a href="{% url 'appointments' %}" class="btn secondary-btn back-link">
+            ← Back to Appointments
+        </a>
+
+    </div>
+</div>
+
+</body>
+</html>

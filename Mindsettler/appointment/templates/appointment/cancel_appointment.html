@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancel Appointment</title>
+    <link rel="stylesheet" href="{% static 'core/css/ca.css' %}">
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <div class="confirm-card">
+
+            <h2>❌ Cancel Appointment</h2>
+
+            <p class="confirm-text">
+                Are you sure you want to cancel your appointment on
+                <strong>{{ appointment.date }}</strong> at
+                <strong>{{ appointment.time }}</strong>?
+            </p>
+
+            <form method="get" action="{% url 'appointment:confirm_cancellation' appointment.id %}" class="confirm-actions">
+                <button type="submit" class="btn danger-btn">Yes, Cancel</button>
+                <a href="{% url 'appointment:status' %}" class="btn secondary-btn">No, Go Back</a>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

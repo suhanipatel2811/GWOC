@@ -1,0 +1,134 @@
+/* PAGE BACKGROUND */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #f5f3ff;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* CENTER WRAPPER */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 15px;
+}
+
+/* MAIN CONTAINER */
+.resource-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 850px;
+    padding: 45px 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* TITLE */
+.resource-container h2 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #111827;
+}
+
+/* SEARCH */
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d5db;
+    font-size: 15px;
+}
+
+.search-form input:focus {
+    outline: none;
+    border-color: #7c3aed;
+}
+
+.search-form button {
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, #5f1277, #490c5c);
+    cursor: pointer;
+}
+
+/* SECTION HEADINGS */
+.resource-container h3 {
+    margin: 35px 0 20px;
+    color: #4e0d6f;
+}
+
+/* RESOURCE CARD */
+.resource-card {
+    background: #fafafa;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+}
+
+.resource-card h4 {
+    margin-bottom: 8px;
+    color: #111827;
+}
+
+.resource-card p {
+    color: #4b5563;
+    margin-bottom: 10px;
+}
+
+.resource-card a {
+    color: #7c3aed;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.resource-card a:hover {
+    text-decoration: underline;
+}
+
+/* PAGINATION */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0;
+    font-weight: 600;
+}
+
+.pagination a {
+    color: #7c3aed;
+    text-decoration: none;
+}
+
+/* EMPTY TEXT */
+.empty-text {
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* HR */
+hr {
+    margin: 40px 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+}
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #9ca3af;
+    font-size: 14px;
+}

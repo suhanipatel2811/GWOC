@@ -1,0 +1,40 @@
+/* FORM GROUP */
+.refund-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+/* LABEL */
+.form-group label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #6d28d9;
+    margin-bottom: 6px;
+}
+
+/* INPUT */
+.form-group input {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d5db;
+    font-size: 15px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #7c3aed;
+}
+
+/* BACK LINK */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+}

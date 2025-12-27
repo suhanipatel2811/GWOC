@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reschedule Appointment</title>
+    <link rel="stylesheet" href="{% static 'core/css/ra.css' %}">
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="confirm-card">
+
+        <h2>📅 Reschedule Appointment</h2>
+
+        <p class="confirm-text">
+            <strong>Current Date:</strong> {{ appointment.slot.date }}<br>
+            <strong>Current Time:</strong> {{ appointment.slot.time }}
+        </p>
+
+        <p class="sub-text">
+            Please choose a new date and time for your appointment.
+        </p>
+
+        <form method="post" class="reschedule-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.slot.label_tag }}
+                {{ form.slot }}
+                {% if form.slot.errors %}
+                    <div class="error-text">{{ form.slot.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn primary-btn">
+                Reschedule Appointment
+            </button>
+        </form>
+
+        <a href="{% url 'appointment:status' %}" class="btn secondary-btn back-link">
+            ← Back to Appointments
+        </a>
+
+    </div>
+</div>
+
+</body>
+</html>

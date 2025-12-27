@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+</head>
+<body>
+    
+<!-- HERO SECTION -->
+<section class="home-hero">
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+
+    <h1>Welcome to <span>MindSettler</span></h1>
+    <p>
+      A safe space to understand your mind, emotions, and inner strength.
+      We guide you through awareness, education, and compassionate support
+      toward better mental well-being.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="{% url 'core:about' %}" class="btn primary-btn">Know More</a>
+      <a href="{% url 'appointment:booking' %}" class="btn secondary-btn">Book a Session</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- NAVIGATION CARDS -->
+<section class="home-sections">
+  <div class="container">
+
+    <div class="section-card">
+      <h2>About Us</h2>
+      <p>Who we are, our mission, and our vision.</p>
+      <a href="{% url 'core:base' %}">Explore →</a>
+    </div>
+
+    <div class="section-card">
+      <h2>How It Works</h2>
+      <p>Step-by-step guide to our services.</p>
+      <a href="{% url 'core:how_it_works' %}">Explore →</a>
+    </div>
+
+    <div class="section-card">
+      <h2>Psycho-Education</h2>
+      <p>Learn about mental health & emotional awareness.</p>
+      <a href="{% url 'core:psycho_education' %}">Explore →</a>
+    </div>
+
+    <div class="section-card">
+      <h2>Our Journey</h2>
+      <p>Story, milestones, and growth of MindSettler.</p>
+      <a href="{% url 'core:journey' %}">Explore →</a>
+    </div>
+
+    <div class="section-card">
+      <h2>What Makes Us Different</h2>
+      <p>Our unique, human-centered approach.</p>
+      <a href="{% url 'core:what_makes_us_different' %}">Explore →</a>
+    </div>
+
+    <div class="section-card">
+      <h2>Contact & Support</h2>
+      <p>Reach out for guidance or queries.</p>
+      <a href="{% url 'contact:contact' %}">Explore →</a>
+    </div>
+
+  </div>
+</section>
+</body>
+</html>

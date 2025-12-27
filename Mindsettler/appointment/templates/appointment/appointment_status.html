@@ -1,0 +1,67 @@
+{% load static %}
+{% load tz %}
+{% now "Y-m-d" as today %}
+{% now "H:i" as now_time %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Appointments</title>
+    <link rel="stylesheet" href="{% static 'core/css/a.css' %}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+    <div class="appointments-container">
+
+        <h2>📅 Your Appointments</h2>
+
+        {% for appointment in appointments %}
+        <div class="appointment-card">
+
+            <div class="appointment-header">
+                <strong>{{ appointment.full_name }}</strong>
+            </div>
+
+            <div class="appointment-info">
+                {{ appointment.slot.date }} at {{ appointment.slot.time }}
+            </div>
+
+            <div class="appointment-status">
+                Status:
+                {% if appointment.slot.date|date:"Y-m-d" < today %}
+                    <span class="status done">Done</span>
+
+                {% elif appointment.slot.date|date:"Y-m-d" == today and appointment.slot.time|time:"H:i" < now_time %}
+                    <span class="status done">Done</span>
+
+                {% else %}
+                    <span class="status pending">Pending</span>
+                {% endif %}
+            </div>
+
+            {% if appointment.slot.date|date:"Y-m-d" > today or appointment.slot.date|date:"Y-m-d" == today and appointment.slot.time|time:"H:i" >= now_time %}
+            <div class="appointment-actions">
+                <form method="post" action="{% url 'appointment:cancel_appointment' appointment.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn cancel-btn">Cancel</button>
+                </form>
+
+                <form method="get" action="{% url 'appointment:reschedule_appointment' appointment.id %}">
+                    <button type="submit" class="btn reschedule-btn">Reschedule</button>
+                </form>
+            </div>
+            {% endif %}
+
+        </div>
+        {% empty %}
+            <p class="empty-text">No appointments found.</p>
+        {% endfor %}
+
+    </div>
+</div>
+
+</body>
+</html>
