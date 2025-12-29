@@ -7,8 +7,18 @@
     <title>Login</title>
 
     <link rel="stylesheet" href="{% static 'core/css/d.css' %}">
+    <style>
+    /* Modal styles matching site theme */
+    .msg-modal {position: fixed; inset: 0; display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:9999;}
+    .msg-box {background:#ffffff;padding:24px 28px;border-radius:10px;max-width:460px;width:90%;box-shadow:0 10px 30px rgba(0,0,0,0.12);border-left:6px solid #722586;display:flex;flex-direction:column;align-items:center;}
+    .msg-content {color:#222;font-size:16px;line-height:1.5;margin:0 0 14px 0;text-align:center;font-weight:500}
+    .msg-close {display:inline-block;padding:10px 20px;border:none;background:#722586;color:#fff;border-radius:6px;cursor:pointer;font-weight:700;margin:0 auto}
+    @media (max-width:480px){ .msg-box{padding:16px 18px;border-left-width:4px;} }
+    </style>
 </head>
 <body>
+
+
 
 <section class="page-wrapper">
     <div class="auth-card">
@@ -18,15 +28,30 @@
 
         <form method="post" class="auth-form">
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {% for err in form.non_field_errors %}
+                        <div class="error">{{ err }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <div class="form-group">
                 <label>Username</label>
                 {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors|striptags }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
                 <label>Password</label>
                 {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="error">{{ form.password.errors|striptags }}</div>
+                {% endif %}
             </div>
 
             <button type="submit" class="auth-btn">
@@ -41,6 +66,27 @@
 
     </div>
 </section>
+
+{% if messages %}
+    <div id="msgModal" class="msg-modal" style="display:none;">
+        <div class="msg-box">
+            {% for message in messages %}
+                <div class="msg-content">{{ message }}</div>
+            {% endfor %}
+            <div style="text-align:center;margin-top:6px;">
+                <button id="closeMsg" class="msg-close">Close</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            var modal = document.getElementById('msgModal');
+            if(modal){ modal.style.display = 'flex'; }
+            var btn = document.getElementById('closeMsg');
+            if(btn){ btn.addEventListener('click', function(){ modal.style.display = 'none'; }); }
+        });
+    </script>
+{% endif %}
 
 </body>
 </html>

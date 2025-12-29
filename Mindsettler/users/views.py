@@ -10,7 +10,11 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("profile")
+            # honor `next` parameter if present, else go to about page
+            next_url = request.POST.get('next') or request.GET.get('next')
+            if next_url:
+                return redirect(next_url)
+            return redirect('core:about')
     else:
         form = RegisterForm()
 
@@ -19,10 +23,14 @@ def register_view(request):
 
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('users:profile')
+            # honor `next` parameter if present, else go to about page
+            next_url = request.POST.get('next') or request.GET.get('next')
+            if next_url:
+                return redirect(next_url)
+            return redirect('core:about')
     else:
         form = AuthenticationForm()
 

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
@@ -15,6 +16,11 @@ from .models import Appointment, SessionSlot
 from .forms import AppointmentForm, RescheduleForm
 
 def booking(request):
+    # Require login to book a session
+    if not request.user.is_authenticated:
+        messages.info(request, "Please login first")
+        login_url = reverse('users:login')
+        return redirect(f"{login_url}?next={request.path}")
     if request.method == "POST":
         form = AppointmentForm(request.POST)
         if form.is_valid():

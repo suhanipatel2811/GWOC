@@ -16,6 +16,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 import os
 
+# Load environment variables from a .env file in the project root (if present)
+from dotenv import load_dotenv
+load_dotenv(BASE_DIR / '.env')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -150,7 +154,7 @@ import os
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
-    raise ValueError("The OPENAI_API_KEY environment variable is not set.")
+    raise ValueError("The OPENAI_API_KEY environment variable is not set. Add it to the .env file or export it in your environment.")
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "profile"

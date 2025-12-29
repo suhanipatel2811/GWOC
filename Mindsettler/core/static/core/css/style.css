@@ -9,6 +9,9 @@ body { margin: 0; font-family: Arial, sans-serif; }
     padding: 12px 40px;
 }
 
+/* Ensure navbar is static (doesn't stick/fix while scrolling) */
+.navbar{position:static}
+
 /* LOGO */
 .nav-logo {
     width: 180px;
@@ -33,6 +36,9 @@ body { margin: 0; font-family: Arial, sans-serif; }
     align-items: center;
     
 }
+
+/* Profile at right when present */
+.nav-links .profile{margin-left:auto}
 
 .nav-item {
     color: #fff;
