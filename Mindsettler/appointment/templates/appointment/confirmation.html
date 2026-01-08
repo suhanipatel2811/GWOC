@@ -12,16 +12,41 @@
 <div class="page-wrapper">
     <div class="confirm-card success-card">
 
-        <h2>✅ Booking Confirmed</h2>
+        {% if appointment %}
+            <h2>{% if appointment.status == 'CONFIRMED' %}✅ Booking Confirmed{% else %}🔔 Booking Received{% endif %}</h2>
 
-        <p class="confirm-text">
-            Your session has been successfully booked.<br>
-            We look forward to supporting you 🌿
-        </p>
+            <p class="confirm-text">
+                Hi <strong>{{ appointment.full_name }}</strong>, your session is booked for <strong>{{ appointment.slot.date }}</strong> at <strong>{{ appointment.slot.time }}</strong> ({{ appointment.duration_minutes }} minutes).
+                {% if appointment.first_session %}
+                    <br><em>This is marked as your first session.</em>
+                {% endif %}
+            </p>
 
-        <a href="/appointment/status/" class="btn primary-btn">
-            View Appointment Status
-        </a>
+            <div class="payment-instructions">
+                <h4>Payment Instructions</h4>
+                {% if appointment.payment_mode == 'UPI' %}
+                    <p>Please send the payment via UPI to <strong>{{ appointment.upi_id }}</strong>. After sending, we'll manually confirm and update your appointment.</p>
+                {% else %}
+                    <p>Pay in cash at the studio on arrival. Our team will confirm once payment is received.</p>
+                {% endif %}
+            </div>
+
+            {% if gcal_url %}
+                <p><a href="{{ gcal_url }}" target="_blank" class="btn">Add to Google Calendar</a></p>
+            {% endif %}
+
+            {% if ics_url %}
+                <p><a href="{{ ics_url }}" class="btn">Download .ics (Add to other calendars)</a></p>
+            {% endif %}
+
+            <a href="/appointment/status/" class="btn primary-btn">
+                View Appointment Status
+            </a>
+        {% else %}
+            <h2>✅ Booking Confirmed</h2>
+            <p class="confirm-text">Your session has been successfully booked.<br>We look forward to supporting you 🌿</p>
+            <a href="/appointment/status/" class="btn primary-btn">View Appointment Status</a>
+        {% endif %}
 
     </div>
 </div>

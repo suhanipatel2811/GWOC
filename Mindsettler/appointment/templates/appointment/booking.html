@@ -38,12 +38,39 @@
                     {{ form.slot }}
                 </div>
 
+                <div class="input-group">
+                    <label>Session Type</label>
+                    {{ form.session_type }}
+                </div>
+
+                <div class="input-group form-check">
+                    <label>Is this your first session?</label>
+                    {{ form.first_session }}
+                </div>
+
+                <div class="input-group">
+                    <label>Payment Method</label>
+                    {{ form.payment_mode }}
+                </div>
+
+                <div class="input-group">
+                    <label>UPI ID (if paying via UPI)</label>
+                    {{ form.upi_id }}
+                </div>
+
+                <div class="input-group form-check">
+                    <label>Add to Google Calendar</label>
+                    {{ form.add_to_google_calendar }}
+                </div>
+
                 {% for message in messages %}
                     <div class="error-box">{{ message }}</div>
                 {% endfor %}
 
+                <div class="note">Payments are manual via UPI or cash. After booking you'll get instructions to complete payment.</div>
+
                 <button type="submit" class="proceed-btn">
-                    Proceed to Payment →
+                    Book Session →
                 </button>
             </form>
         </div>

@@ -8,6 +8,7 @@ urlpatterns = [
     path('payment-success/<int:appointment_id>/', views.payment_success, name='payment_success'),
     path('payment-cancel/<int:appointment_id>/', views.payment_cancel, name='payment_cancel'),
     path('confirmation/', views.confirmation, name='confirmation'),
+    path('download-ics/<int:appointment_id>/', views.download_ics, name='download_ics'),
     path('status/', views.appointment_status, name='status'),
     path('reschedule/<int:appointment_id>/', views.reschedule_appointment, name='reschedule_appointment'),
     

@@ -3,17 +3,27 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, timedelta, timezone as dt_timezone
+from django.http import HttpResponse
 try:
     import stripe
 except Exception:
     stripe = None
 
-if stripe:
+if stripe and hasattr(settings, 'STRIPE_SECRET_KEY'):
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from .models import Appointment, SessionSlot
 from .forms import AppointmentForm, RescheduleForm
+from urllib.parse import quote
+import json
+from django.contrib.auth.models import User
+try:
+    from google.oauth2.credentials import Credentials as GoogleCredentials
+    from googleapiclient.discovery import build as google_build
+except Exception:
+    GoogleCredentials = None
+    google_build = None
 
 def booking(request):
     # Require login to book a session
@@ -31,43 +41,83 @@ def booking(request):
                 messages.error(request, "This slot is already booked")
                 return redirect('appointment:booking')
 
-            
-            appointment.payment_status = "PENDING"
+            # mark appointment pending confirmation
+            appointment.status = 'PENDING'
             appointment.save()
 
-            if not stripe:
-                messages.error(request, "Payment service unavailable. Please try again later.")
-                appointment.payment_status = "FAILED"
-                appointment.save()
-                slot.is_available = True
-                slot.save()
-                return redirect('appointment:booking')
-
-            # Create Stripe session
-            session = stripe.checkout.Session.create(
-                payment_method_types=["card"],
-                line_items=[{
-                    "price_data": {
-                        "currency": "inr",
-                        "product_data": {"name": f"Session on {slot.date} at {slot.time}"},
-                        "unit_amount": 50000,  # ₹500
-                    },
-                    "quantity": 1,
-                }],
-                mode="payment",
-                success_url=request.build_absolute_uri(f"/appointment/payment-success/{appointment.id}/"),
-                cancel_url=request.build_absolute_uri(f"/appointment/payment-cancel/{appointment.id}/"),
-            )
-
-            appointment.stripe_session_id = session.id
-            appointment.save()
-            
-            # Lock the slot
+            # lock the slot
             slot.is_available = False
             slot.save()
 
+            # If the booking user has linked Google Calendar credentials, create the event server-side
+            if request.user.is_authenticated and GoogleCredentials is not None:
+                try:
+                    cred_obj = getattr(request.user, 'google_credentials', None)
+                    if cred_obj and cred_obj.credentials:
+                        cred_data = json.loads(cred_obj.credentials)
+                        creds = GoogleCredentials.from_authorized_user_info(cred_data, scopes=['https://www.googleapis.com/auth/calendar.events'])
 
-            return redirect(session.url)
+                        service = google_build('calendar', 'v3', credentials=creds)
+                        # prepare event body
+                        try:
+                            start_dt = timezone.make_aware(datetime.combine(slot.date, slot.time))
+                        except Exception:
+                            start_dt = datetime.combine(slot.date, slot.time)
+                            start_dt = timezone.make_aware(start_dt)
+                        end_dt = start_dt + timedelta(minutes=appointment.duration_minutes or 60)
+
+                        event = {
+                            'summary': f"MindSettler Session - {appointment.full_name}",
+                            'description': appointment.location_details or 'MindSettler session',
+                            'start': {'dateTime': start_dt.isoformat()},
+                            'end': {'dateTime': end_dt.isoformat()},
+                        }
+
+                        # insert into primary calendar
+                        try:
+                            service.events().insert(calendarId='primary', body=event).execute()
+                        except Exception:
+                            # don't block booking on calendar errors
+                            pass
+                except Exception:
+                    pass
+
+            # If user requested Google Calendar add, generate a calendar link
+            if appointment.add_to_google_calendar:
+                try:
+                    start_dt = timezone.make_aware(datetime.combine(slot.date, slot.time))
+                except Exception:
+                    start_dt = datetime.combine(slot.date, slot.time)
+                    start_dt = timezone.make_aware(start_dt)
+
+                end_dt = start_dt + timedelta(minutes=appointment.duration_minutes or 60)
+                start_utc = start_dt.astimezone(dt_timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+                end_utc = end_dt.astimezone(dt_timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+
+                from urllib.parse import quote
+                title = quote(f"MindSettler Session - {appointment.full_name}")
+                details = quote('MindSettler consultation session')
+                location = quote(appointment.location_details or 'MindSettler Online / Studio')
+
+
+                # include the user's email as an attendee so the event is added to their calendar when they are signed in
+                try:
+                    attendee = quote(appointment.email)
+                except Exception:
+                    attendee = ''
+
+                add_param = f"&add=mailto:{attendee}" if attendee else ''
+
+                gcal_url = (
+                    "https://www.google.com/calendar/render?action=TEMPLATE"
+                    f"&text={title}&dates={start_utc}/{end_utc}&details={details}&location={location}{add_param}"
+                )
+
+                appointment.google_calendar_link = gcal_url
+                appointment.save()
+
+            # No payment gateway: show confirmation with manual payment instructions
+            return redirect(reverse('appointment:confirmation') + f"?id={appointment.id}")
 
         else:
             print("Form errors:", form.errors)
@@ -78,14 +128,17 @@ def booking(request):
     return render(request, "appointment/booking.html", {"form": form})
 
 def payment_success(request, appointment_id):
+    # kept for backward compatibility if stripe ever used
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    appointment.payment_status = "PAID"
+    appointment.payment_confirmed = True
+    appointment.status = 'CONFIRMED'
     appointment.save()
     return redirect("appointment:confirmation")
 
 def payment_cancel(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    appointment.payment_status = "FAILED"
+    appointment.status = 'PENDING'
+    appointment.payment_confirmed = False
     appointment.save()
 
     # Unlock slot
@@ -96,31 +149,113 @@ def payment_cancel(request, appointment_id):
     return redirect("appointment:booking")
 
 def confirmation(request):
-    appointment = Appointment.objects.filter(payment_status="PAID").order_by("-booked_on").first()
-    return render(request, "appointment/confirmation.html", {"appointment": appointment})
+    appt_id = request.GET.get('id')
+    appointment = None
+    if appt_id:
+        appointment = get_object_or_404(Appointment, id=appt_id)
+    else:
+        appointment = Appointment.objects.filter(payment_confirmed=True).order_by("-booked_on").first()
+
+    gcal_url = None
+    ics_url = None
+    if appointment:
+        # build Google Calendar URL and ICS download url for the template
+        try:
+            start_dt = timezone.make_aware(datetime.combine(appointment.slot.date, appointment.slot.time))
+        except Exception:
+            start_dt = datetime.combine(appointment.slot.date, appointment.slot.time)
+            start_dt = timezone.make_aware(start_dt)
+
+        end_dt = start_dt + timedelta(minutes=appointment.duration_minutes or 60)
+        start_utc = start_dt.astimezone(dt_timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+        end_utc = end_dt.astimezone(dt_timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+
+        title = quote(f"MindSettler Session - {appointment.full_name}")
+        details = quote('MindSettler consultation session')
+        location = quote(appointment.location_details or 'MindSettler Online / Studio')
+
+        try:
+            attendee = quote(appointment.email)
+        except Exception:
+            attendee = ''
+
+        add_param = f"&add=mailto:{attendee}" if attendee else ''
+
+        if appointment.google_calendar_link:
+            gcal_url = appointment.google_calendar_link
+        else:
+            gcal_url = (
+                "https://www.google.com/calendar/render?action=TEMPLATE"
+                f"&text={title}&dates={start_utc}/{end_utc}&details={details}&location={location}{add_param}"
+            )
+
+        ics_url = reverse('appointment:download_ics', args=[appointment.id])
+
+    return render(request, "appointment/confirmation.html", {"appointment": appointment, "gcal_url": gcal_url, "ics_url": ics_url})
+
+
+def download_ics(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+
+    try:
+        start_dt = timezone.make_aware(datetime.combine(appointment.slot.date, appointment.slot.time))
+    except Exception:
+        start_dt = datetime.combine(appointment.slot.date, appointment.slot.time)
+        start_dt = timezone.make_aware(start_dt)
+
+    end_dt = start_dt + timedelta(minutes=appointment.duration_minutes or 60)
+
+    dtstamp = timezone.now().astimezone(dt_timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+    start_utc = start_dt.astimezone(dt_timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+    end_utc = end_dt.astimezone(dt_timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+
+    uid = f"{appointment.id}@mindsettler"
+    summary = f"MindSettler Session - {appointment.full_name}"
+    description = appointment.location_details or 'MindSettler session'
+    location = appointment.location_details or 'MindSettler Online / Studio'
+
+    ics = (
+        "BEGIN:VCALENDAR\n"
+        "VERSION:2.0\n"
+        "PRODID:-//MindSettler//EN\n"
+        "BEGIN:VEVENT\n"
+        f"UID:{uid}\n"
+        f"DTSTAMP:{dtstamp}\n"
+        f"DTSTART:{start_utc}\n"
+        f"DTEND:{end_utc}\n"
+        f"SUMMARY:{summary}\n"
+        f"DESCRIPTION:{description}\n"
+        f"LOCATION:{location}\n"
+        "END:VEVENT\n"
+        "END:VCALENDAR\n"
+    )
+
+    filename = f"mindsettler_session_{appointment.id}.ics"
+    response = HttpResponse(ics, content_type='text/calendar')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
 
 def appointment_status(request):
-    appointments = Appointment.objects.all().order_by('-booked_on')
+    # If the user is staff show all appointments; otherwise show only appointments for the logged-in user's email
+    if request.user.is_authenticated:
+        if request.user.is_staff or request.user.is_superuser:
+            appointments = Appointment.objects.all().order_by('-booked_on')
+        else:
+            user_email = getattr(request.user, 'email', None)
+            if user_email:
+                appointments = Appointment.objects.filter(email=user_email).order_by('-booked_on')
+            else:
+                appointments = Appointment.objects.none()
+    else:
+        # Require login to view appointments
+        messages.info(request, "Please login to view your appointments.")
+        login_url = reverse('users:login')
+        return redirect(f"{login_url}?next={request.path}")
+
     return render(request, 'appointment/appointment_status.html', {'appointments': appointments})
 
 def my_appointments(request):
-    print("🔥 MY_APPOINTMENTS VIEW HIT 🔥")
-    appointments = Appointment.objects.select_related('slot')
-
-    now = timezone.localtime()
-
-    for appointment in appointments:
-        slot_datetime = datetime.combine(
-            appointment.slot.date,
-            appointment.slot.time
-        )
-        slot_datetime = timezone.make_aware(slot_datetime)
-
-        if slot_datetime < now:
-            appointment.status = "Done"
-        else:
-            appointment.status = "Pending"
-
+    appointments = Appointment.objects.select_related('slot').filter(email=request.user.email) if request.user.is_authenticated else Appointment.objects.none()
     return render(request, 'core/about.html', {
         'appointments': appointments
     })
@@ -145,7 +280,7 @@ def confirm_cancellation(request, appointment_id):
         # Example: refund_user(account_name, account_number, ifsc, amount)
 
         # Mark appointment as cancelled
-        appointment.status = 'Cancelled'
+        appointment.status = 'CANCELLED'
         appointment.save()
 
         # Use slot date/time for the message and unlock the slot

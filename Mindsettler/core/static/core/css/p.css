@@ -20,21 +20,38 @@ body {
     justify-content: center;
     padding: 20px;
 }
-
+/* Use site theme gradient for profile buttons */
+.btn { background: linear-gradient(90deg, #3b1d5a, #5e2b97); color:#fff }
 /* OUTER CONTAINER (OPTIONAL LAYOUT CONTROL) */
+.btn:hover { transform: translateY(-3px); filter: brightness(0.95); }
 .container {
     width: 100%;
-    max-width: 450px;
+    max-width: 720px; /* keep page content centered in a moderate width box */
 }
+
+/* Ensure booking card centers its inner container */
+.booking-card { display:flex; justify-content:center; }
+
+/* Remove outer wrapper visuals so only .profile-card looks like a card */
+.booking-section .booking-card { background: transparent !important; box-shadow: none !important; padding: 0 !important; }
+.booking-section .booking-card .container { background: transparent !important; box-shadow: none !important; padding: 0 !important; }
+.booking-section .booking-card .container > .profile-card { margin: 18px auto; }
 
 /* PROFILE CARD */
 .profile-card {
     background: #ffffff;
-    padding: 45px 40px;
+    padding: 40px 28px;
     border-radius: 24px;
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.08);
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    overflow: hidden; /* keep children inside the card */
 }
+
+/* tighten title spacing */
+.profile-title { margin-top: 0; margin-bottom: 18px }
 
 /* TITLE */
 .profile-title {
@@ -67,9 +84,69 @@ body {
 
 /* LOGOUT BUTTON */
 .logout-btn {
-    background: linear-gradient(90deg, #542769, #40065f);
+    background: linear-gradient(90deg, #3b1d5a, #5e2b97);
 }
 
 .logout-btn:hover {
     transform: translateY(-2px);
+    filter: brightness(0.95);
+}
+
+/* Avatar area */
+#avatarImg, #avatarPlaceholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 4px solid rgba(88, 24, 120, 0.06);
+}
+
+#avatarInput { display:block; margin-top:8px }
+
+/* Profile view layout when avatar present */
+
+.profile-grid { display:flex; gap:18px; align-items:center; justify-content:center; flex-direction:column }
+
+.profile-grid > div:first-child,
+.profile-grid > div:last-child { width:100%; display:flex; flex-direction:column; align-items:center; padding:0 }
+
+.profile-grid > div:last-child { padding-top:12px }
+
+.profile-actions { display:flex; flex-direction:column; gap:12px; align-items:flex-start; margin-top:10px }
+.profile-actions .btn { padding: 12px 22px; border-radius: 14px; box-shadow: 0 8px 18px rgba(81,41,160,0.10); min-width:140px }
+
+/* Profile fields */
+#profile-view p { text-align:left; color:#374151; margin:6px 0; font-size:15px }
+#profile-view strong { color:#5b2176 }
+
+/* Forms */
+#profile-form label, #pwd-form label { display:block; text-align:left; margin:8px 0; font-size:14px; color:#333 }
+#profile-form input, #pwd-form input {
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid #e6e1ef; margin-top:6px; font-size:14px
+}
+
+/* Buttons */
+.btn { background: linear-gradient(90deg,#542769,#40065f); color:#fff }
+.btn:hover { transform: translateY(-3px) }
+
+/* Message boxes */
+#profile-msg, #avatar-msg, #avatarMsg, #pwd-msg { font-size:14px }
+
+/* Recent activity */
+#activityList { list-style:none; padding-left:0; margin-top:8px; text-align:left }
+#activityList li { background:#fbf8ff; padding:10px 12px; border-radius:10px; margin-bottom:8px; color:#444; box-shadow:0 6px 12px rgba(88,24,120,0.03) }
+
+@media (max-width:900px) {
+    .container { max-width: 92%; padding: 0 12px }
+    .profile-card { padding: 28px }
+    .profile-grid { gap:18px }
+}
+
+@media (max-width:600px) {
+    .container { max-width: 100%; padding: 0 12px }
+    .profile-card { padding: 22px }
+    .profile-grid { flex-direction:column; align-items:center }
+    #profile-view { width:100% }
+    .profile-actions { align-items:center }
+    .profile-actions .btn { min-width:140px }
 }
