@@ -3,57 +3,124 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>MindSettler</title>
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
 </head>
 <body>
-     <header class="navbar">
-    <!-- Logo -->
-    <div class="nav-logo">
-         <a href="{% url 'core:about' %}" class="logo-link">
-         <img src="{% static 'core/images/logo.png' %}" width="200" alt="MindSettler logo"></a>
-    </div>
 
-    <!-- Navigation Links -->
-    <nav class="nav-links">
-        <div class="sidebar">
-            <a href="{% url 'resources:blog_list' %}" class="nav-item">Resources</a>
-            <a href="{% url 'core:about' %}" class="nav-item">About</a>
-            <a href="{% url 'appointment:booking' %}" class="nav-item">Session Booking</a>
-            <a href="{% url 'corporate:corporate_services' %}" class="nav-item">Services</a>
-            <a href="{% url 'contact:contact' %}" class="nav-item">Contact Us</a>
+<!-- NAVBAR -->
+<header class="ms-navbar">
+    <div class="ms-nav-inner">
+        <div class="ms-brand">
+            <a href="/">MindSettler</a>
         </div>
-    </nav>
+
+        <nav class="ms-nav">
+            <a href="#">Our Approach</a>
+            <a href="#">Resources</a>
+            <a href="#">Specialists</a>
+        </nav>
+
+        <div class="ms-actions">
+            <a class="ms-login" href="#">Login</a>
+            <a class="ms-cta" href="#">Get Started</a>
+        </div>
+    </div>
 </header>
-<section class="hero"> 
-    <div class="overlay"></div>
-    <div class="hero-content">
-        <h1>Understand Your Mind, Navigate Life</h1>
-        <div class="subline-wrapper">
-            <p class="subtext">
-                Online and Offline Psycho-Education & Counseling in a safe,
-                confidential environment
-            </p>
+
+<!-- HERO -->
+<section class="ms-hero">
+    <div class="ms-hero-inner">
+        <div class="ms-hero-left">
+            <span class="ms-hero-badge">A new way to understand yourself</span>
+            <h1>It's okay not to have all the answers yet.
+                <br>Let's find them together.</h1>
+            <p class="ms-hero-sub">MindSettler is a psycho-education platform designed to help you understand the "why" behind your feelings and guide you to clarity through a personal journey.</p>
+
+            <div class="ms-hero-cta">
+                <a class="btn btn-primary" href="#">Start Your Journey</a>
+                <a class="btn btn-secondary" href="#">Watch How It Works</a>
+            </div>
+
+            <div class="ms-hero-meta">
+                <img src="{% static 'core/images/avatar_placeholder.png' %}" alt="avatars">
+                <span>Joined the journey this month</span>
+            </div>
         </div>
-        <div class="hero-buttons">
-            <a href="{% url 'users:register' %}" class="btn btn-register">Register Now</a>
-            <a href="{% url 'users:login' %}" class="btn btn-login">Login</a>
+
+        <div class="ms-hero-right">
+            <div class="ms-hero-card">
+                <img src="{% static 'core/images/meditation.jpg' %}" alt="hero image">
+                <div class="ms-hero-card-tag">Emotional Clarity — "I finally understand why I react this way"</div>
+            </div>
         </div>
     </div>
 </section>
 
-<main>
-{% block content %}
-{% endblock %}
-</main>
+<!-- ROADMAP -->
+<section class="ms-roadmap">
+    <div class="ms-container">
+        <h2>Your Roadmap to Wellness</h2>
+        <p class="muted">Mental health isn't a destination, it's a journey. We've mapped out a guided path to help you move from confusion to confidence.</p>
 
-<!-- Footer -->
-<footer>
-    <p>© MindSettler | All Rights Reserved</p>
+        <div class="ms-steps">
+            <div class="step">
+                <div class="step-card">1. Assessment
+                    <p class="small">We start by understanding where you are. Our clinically-backed assessment helps identify your emotional baseline without judgment.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-card">2. Learning
+                    <p class="small">Access personalized psycho-educational modules. Learn the 'why' behind your emotions with bite-sized content.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-card">3. Growth
+                    <p class="small">Apply your knowledge with therapist support. Track progress and build resilience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="ms-features">
+    <div class="ms-container">
+        <h3>The MindSettler Difference</h3>
+        <p class="muted">We go beyond traditional therapy by combining clinical expertise with educational tools, empowering you to be your own healer.</p>
+
+        <div class="features-grid">
+            <div class="feature">Psycho-Education</div>
+            <div class="feature">Holistic Therapy</div>
+            <div class="feature">Community Circles</div>
+            <div class="feature">Daily Tools</div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="ms-cta-banner">
+    <div class="ms-container cta-inner">
+        <h2>Ready to find your balance?</h2>
+        <p class="muted">Take the first step today. Your first consultation is free, and there's no commitment required.</p>
+        <div class="cta-actions">
+            <a class="btn btn-primary" href="#">Book Your First Session</a>
+            <a class="btn btn-outline" href="#">Take Free Assessment</a>
+        </div>
+        <small class="muted">HIPAA Compliant & Secure</small>
+    </div>
+</section>
+
+<footer class="ms-footer">
+    <div class="ms-container">
+        <div>© 2024 MindSettler Inc. All rights reserved.</div>
+        <div class="footer-links">Terms · Privacy · Cookies</div>
+    </div>
 </footer>
 
 </body>
 </html>
-
-

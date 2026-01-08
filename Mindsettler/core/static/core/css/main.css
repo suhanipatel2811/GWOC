@@ -1,654 +1,212 @@
-body {
-    font-family: 'Georgia', serif;
-    line-height: 1.6;
-    background-color: #f9f9f9;
+/* ================= ROOT PALETTE ================= */
+:root {
+    --primary: #3F2965; /* dark purple */
+    --secondary: #DD1764; /* magenta/pink */
+    --accent: #EBE7F2; /* light lavender */
+    --soft-pink: #FADDE6; /* pale pink */
+    --light-bg: #FBF8FB;
+    --card-bg: #FFFFFF;
+    --text-dark: #2e2e2e;
+    --text-light: #5f5f5f;
+    --border-soft: #EDE6F6;
+}
+
+/* ================= RESET ================= */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+/* ================= BODY ================= */
+body {
+    font-family: 'Poppins', 'Georgia', serif;
+    line-height: 1.7;
+    background: linear-gradient(135deg, #f7f3fb, #fdfcff);
+    color: var(--text-dark);
+}
+
+/* ================= CONTAINER ================= */
 .container {
     width: 80%;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 40px auto;
-    background-color: #fff;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    background-image: url("../images/images.png");
-
+    background: var(--card-bg);
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(63, 41, 101, 0.12);
+    border: 1px solid var(--border-soft);
 }
 
+/* ================= IMAGES ================= */
 .image-container img {
+    max-width: 260px;
     display: block;
-    max-width: 250px;
-    width: 100%;
-    margin: 0 auto 20px auto;
+    margin: 0 auto 25px;
 }
 
-.content h1 {
+/* ================= HEADINGS ================= */
+h1, h2, h3 {
     text-align: center;
-    color: #4b3a7f;
-    font-size: 2rem;
-    margin-bottom: 5px;
-    background-image: url("../images/s.png");
-    background-repeat: no-repeat;
-    background-position:center;
-    background-size: cover;
-    
-    text-shadow: #4b3a7f;
-    text-decoration:solid;
-
-;
+    color: var(--primary);
 }
 
-.content p em {
+h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin: 25px 0 15px;
+}
+
+/* ================= TEXT ================= */
+p {
+    font-size: 16px;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+em {
     display: block;
     text-align: center;
     margin-bottom: 20px;
-    color: #555;
 }
 
-.content h2 {
-    color: #333;
-    margin-top: 20px;
-}
-
-.content p {
-    color: #555;
-    text-align: center;
-    -moz-box-shadow: 0 0 8px #722586;
--webkit-box-shadow: 0 0 8px #722586;
-box-shadow: 0 0 10px #722586;}
-
-
-.step {
-    background-color: #fff;
-    border-left: 5px solid  #722586; /* step indicator line */
-    padding: 25px 30px;
+/* ================= GLOBAL CARDS ================= */
+.step,
+.difference-card,
+.education-card,
+.about-card,
+.section-card,
+.card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-left: 6px solid var(--secondary);
+    border-radius: 14px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 12px 30px rgba(63, 41, 101, 0.08);
+    transition: all 0.35s ease;
 }
 
-.step:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}  
+.step:hover,
+.difference-card:hover,
+.education-card:hover,
+.about-card:hover,
+.section-card:hover,
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 45px rgba(63, 41, 101, 0.16);
+}
 
-.step h2 {
+.step h2,
+.difference-card h2,
+.education-card h2,
+.about-card h2 {
     font-size: 24px;
-    font-weight: 600;
-    color: #500969;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    color: var(--primary);
 }
-.step p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-}
-.step ul {
+
+/* ================= LIST ================= */
+ul {
     list-style: disc inside;
     margin-top: 10px;
 }
-.step ul li {
+
+ul li {
     margin-bottom: 8px;
-    font-size: 16px;
-    color: #555;
-}
-.closing-text {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    margin-top: 40px;
-    color: #444;
 }
 
-/* ===== What Makes Us Different Page ===== */
-
-
-
-/* Cards */
-.difference-card {
-    background: #ffffff;
-    padding: 30px 35px;
-    margin-bottom: 30px;
-    border-left: 6px solid  #722586;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.difference-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
-}
-
-/* Card Heading */
-.difference-card h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #571d67;
-    margin-bottom: 12px;
-}
-
-/* Card Text */
-.difference-card p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.7;
-}
-
-/* Closing Line */
- .closing-text {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 50px;
-    line-height: 1.6;
-}
-
-/* ===== Responsive Design ===== */
-@media (max-width: 768px) {
-   .section-title {
-        font-size: 30px;
-    }
-
-    .difference-card {
-        padding: 25px;
-    }
-
-    .difference-card h2 {
-        font-size: 21px;
-    }
-}
-
-/* ===== Psycho-Education Page ===== */
-
-.psycho-education {
-    padding: 70px 20px;
-    background: #f4f7f8;
-    font-family: 'Poppins', sans-serif;
-}
-
-.psycho-education .container {
-    max-width: 1000px;
-    margin: auto;
-}
-
-/* Page Title */
-.psycho-education .section-title {
-    text-align: center;
-    font-size: 38px;
-    font-weight: 700;
-    color: #2c7be5; /* calming blue */
-    margin-bottom: 15px;
-}
-
-/* Intro Text */
-.psycho-education .intro-text {
-    text-align: center;
-    font-size: 18px;
-    color: #555;
-    max-width: 750px;
-    margin: 0 auto 50px;
-    line-height: 1.7;
-}
-
-/* Education Cards */
-.education-card {
-    background: #ffffff;
-    padding: 30px 35px;
-    margin-bottom: 30px;
-    border-left: 6px solid #722586;
-    border-radius: 10px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.education-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-}
-
-/* Card Headings */
-.education-card h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #5a116c;
-    margin-bottom: 12px;
-}
-
-/* Card Text */
-.education-card p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.7;
-}
-
-/* Closing Text */
-.psycho-education .closing-text {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 50px;
-    line-height: 1.6;
-}
-
-/* ===== Responsive Design ===== */
-@media (max-width: 768px) {
-    .psycho-education .section-title {
-        font-size: 30px;
-    }
-
-    .education-card {
-        padding: 25px;
-    }
-
-    .education-card h2 {
-        font-size: 21px;
-    }
-}
-
-
-/* ===== Journey Page ===== */
-
-.journey {
-    padding: 80px 20px;
-    background: linear-gradient(to bottom, #f5f7fa, #ffffff);
-    font-family: 'Poppins', sans-serif;
-}
-
-.journey .container {
-    max-width: 1000px;
-    margin: auto;
-}
-
-/* Title */
-.journey .section-title {
-    text-align: center;
-    font-size: 40px;
-    font-weight: 700;
-    color: #722586;
-    margin-bottom: 20px;
-}
-
-/* Intro */
-.journey .intro-text {
-    text-align: center;
-    font-size: 18px;
-    color: #555;
-    max-width: 750px;
-    margin: 0 auto 60px;
-    line-height: 1.7;
-}
-
-/* Journey Step */
-.journey-step {
-    display: flex;
-    align-items: flex-start;
+/* ================= HERO ================= */
+.home-hero {
     position: relative;
-    margin-bottom: 50px;
-}
-
-/* Vertical Line */
-.journey-step::before {
-    content: "";
-    position: absolute;
-    left: 22px;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background: #dbe4f0;
-}
-
-/* Step Number */
-.step-number {
-    min-width: 45px;
-    height: 45px;
-    background: #722586;
-    color: #ffffff;
-    font-weight: 600;
-    border-radius: 50%;
+    min-height: 220px;
+    background:
+        linear-gradient(135deg, var(--accent), var(--soft-pink)),
+        url("../images/base.jpg") center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 25px;
-    z-index: 1;
-}
-
-/* Step Content */
-.step-content {
-    background: #ffffff;
-    padding: 25px 30px;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.step-content:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
-}
-
-/* Step Heading */
-.step-content h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 10px;
-}
-
-/* Step Text */
-.step-content p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.7;
-}
-
-/* Closing Text */
-.journey .closing-text {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 60px;
-    line-height: 1.6;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    .journey-step {
-        flex-direction: column;
-        padding-left: 25px;
-    }
-
-    .journey-step::before {
-        left: 10px;
-    }
-
-    .step-number {
-        margin-bottom: 15px;
-    }
-
-    .step-content {
-        width: 100%;
-    }
-
-    .journey .section-title {
-        font-size: 32px;
-    }
-}
-
-
-/* ===== About Page ===== */
-
-.about {
-    padding: 80px 20px;
-    background: #f6f8fb;
-    font-family: 'Poppins', sans-serif;
-}
-
-.about .container {
-    max-width: 1000px;
-    margin: auto;
-}
-
-/* Title */
-.about .section-title {
-    text-align: center;
-    font-size: 40px;
-    font-weight: 700;
-    color: #722586;
-    margin-bottom: 20px;
-}
-
-/* Intro Text */
-.about .intro-text {
-    text-align: center;
-    font-size: 18px;
-    color: #555;
-    max-width: 750px;
-    margin: 0 auto 60px;
-    line-height: 1.7;
-}
-
-/* About Cards */
-.about-card {
-    background: #ffffff;
-    padding: 30px 35px;
-    margin-bottom: 35px;
-    border-left: 6px solid #722586;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.about-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
-}
-
-/* Card Heading */
-.about-card h2 {
-    font-size: 26px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 12px;
-}
-
-/* Card Text */
-.about-card p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.7;
-}
-
-/* Closing Text */
-.about .closing-text {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 60px;
-    line-height: 1.6;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    .about .section-title {
-        font-size: 32px;
-    }
-
-    .about-card {
-        padding: 25px;
-    }
-
-    .about-card h2 {
-        font-size: 22px;
-    }
-}
-
-
-.home-hero {
-    position: relative;
-    height: 90vh;
-    background: url("../images/base.jpg")  center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    color: #630d92;
-}
-
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-}
-
-.hero-content {
-    position: relative;
-    max-width: 800px;
-    text-align: center;
-    z-index: 1;
+    text-align: left;
+    color: var(--text-dark);
 }
 
 .home-hero h1 {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color:#4b3a7f,
+    font-size: 36px;
+    color: var(--primary);
 }
 
 .home-hero h1 span {
-    color: #a622e3;
+    color: var(--secondary);
 }
 
 .home-hero p {
-    font-size: 22px;
-    line-height: 1.7;
-    margin-bottom: 35px;
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 18px;
 }
 
-/* BUTTONS */
+/* ================= BUTTONS ================= */
 .hero-buttons {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-.btn {
+.btn,
+.auth-btn,
+form button,
+.like-btn {
     padding: 14px 30px;
     border-radius: 30px;
     font-weight: 600;
     text-decoration: none;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.primary-btn {
-     background-color: #f7e6f2;
-    color: #3a0a52;
-    border: 2px solid #c04dc0;
+.btn:hover,
+.auth-btn:hover,
+form button:hover,
+.like-btn:hover {
+    transform: translateY(-3px);
+    opacity: 0.92;
 }
 
-.primary-btn:hover {
-    background-color: #c04dc0;
-    color: #fff;
-    transform: translateY(-2px);
-}
-
-.secondary-btn {
-    background-color: #f7e6f2;
-    color: #3a0a52;
-    border: 2px solid #c04dc0;
-}
-
-.secondary-btn:hover {
-    background-color: #c04dc0;
-    color: #fff;
-    transform: translateY(-2px);
-}
-
-/* SECTIONS */
+/* ================= SECTIONS GRID ================= */
 .home-sections {
     padding: 80px 20px;
-    background: #f5f7fb;
+    background: var(--light-bg);
 }
 
 .home-sections .container {
-    max-width: 1100px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
-/* CARD */
-.section-card {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-    transition: all 0.3s ease;
-}
-
-.section-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 28px rgba(0,0,0,0.12);
-}
-
-.section-card h2 {
-    font-size: 22px;
-    color: #a622e3;
-    margin-bottom: 10px;
-}
-
-.section-card p {
-    font-size: 16px;
-    color: #530876;
-    margin-bottom: 15px;
-}
-
-.section-card a {
-    font-weight: 600;
-    color: #722586;
-    text-decoration: none;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .home-hero h1 {
-        font-size: 34px;
-    }
-}
-
-
-
-/* ===== Journey Page ===== */
-
+/* ================= JOURNEY ================= */
 .journey {
     padding: 80px 20px;
-    background: linear-gradient(to bottom, #f5f7fa, #ffffff);
-    font-family: 'Poppins', sans-serif;
 }
 
-.journey .container {
-    max-width: 1000px;
-    margin: auto;
-}
-
-/* Title */
-.journey .section-title {
-    text-align: center;
-    font-size: 40px;
-    font-weight: 700;
-    color: #68108e;
-    margin-bottom: 20px;
-}
-
-/* Intro */
-.journey .intro-text {
-    text-align: center;
-    font-size: 18px;
-    color: #555;
-    max-width: 750px;
-    margin: 0 auto 60px;
-    line-height: 1.7;
-}
-
-/* Journey Step */
 .journey-step {
     display: flex;
-    align-items: flex-start;
+    gap: 25px;
     position: relative;
     margin-bottom: 50px;
 }
 
-/* Vertical Line */
 .journey-step::before {
     content: "";
     position: absolute;
@@ -656,392 +214,22 @@ box-shadow: 0 0 10px #722586;}
     top: 0;
     width: 4px;
     height: 100%;
-    background: #dbe4f0;
+    background: linear-gradient(to bottom, #e1bee7, #f3e5f5);
 }
 
-/* Step Number */
 .step-number {
     min-width: 45px;
     height: 45px;
-    background: #590a7b;
-    color: #ffffff;
-    font-weight: 600;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 25px;
     z-index: 1;
 }
 
-/* Step Content */
-.step-content {
-    background: #ffffff;
-    padding: 25px 30px;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(141, 32, 168, 0.06);
-    transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.step-content:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 25px rgba(136, 23, 161, 0.12);
-}
-
-/* Step Heading */
-.step-content h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #511266;
-    margin-bottom: 10px;
-}
-
-/* Step Text */
-.step-content p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.7;
-}
-
-/* Closing Text */
-.journey .closing-text {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 60px;
-    line-height: 1.6;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    .journey-step {
-        flex-direction: column;
-        padding-left: 25px;
-    }
-
-    .journey-step::before {
-        left: 10px;
-    }
-
-    .step-number {
-        margin-bottom: 15px;
-    }
-
-    .step-content {
-        width: 100%;
-    }
-
-    .journey .section-title {
-        font-size: 32px;
-    }
-}
-
-
-
-/* BLOG ARTICLE CONTAINER */
-.article-container {
-    max-width: 850px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    font-family: 'Poppins', sans-serif;
-}
-
-/* HEADER */
-.article-header h1 {
-    font-size: 2.3rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #222;
-}
-
-.meta {
-    font-size: 0.95rem;
-    color: #777;
-    margin-bottom: 25px;
-}
-
-/* IMAGE */
-.article-image {
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 25px;
-}
-
-/* CONTENT */
-.article-content {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: #333;
-    margin-bottom: 30px;
-}
-
-/* ACTION BUTTONS */
-.article-actions {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.like-btn {
-    text-decoration: none;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #ff4d6d, #ff758f);
-    color: white;
-    font-weight: 600;
-    border-radius: 30px;
-    transition: 0.3s ease;
-    box-shadow: 0 6px 15px rgba(255, 77, 109, 0.35);
-}
-
-.like-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(255, 77, 109, 0.5);
-}
-.like-btn.liked {
-    background: linear-gradient(135deg, #6a5acd, #836fff);
-}
-
-@media (max-width: 768px) {
-    .article-container {
-        padding: 20px;
-        margin: 20px;
-    }
-
-    .article-header h1 {
-        font-size: 1.8rem;
-    }
-}
-
-
-.contact-container, .chatbot-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-button {
-    padding: 10px 20px;
-    border: none;
-    background: #5b67f1;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.success {
-    color: green;
-}
-
-
-
-.chatbot-container {
-    max-width: 500px;
-    margin: auto;
-    background: #f9f9ff;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-#chat-box {
-    height: 300px;
-    overflow-y: auto;
-    background: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.user-msg {
-    text-align: right;
-    margin: 6px 0;
-    color: #4b4bff;
-}
-
-.bot-msg {
-    text-align: left;
-    margin: 6px 0;
-    color: #333;
-}
-
-.chat-input {
-    display: flex;
-    gap: 10px;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-.chat-input button {
-    padding: 8px 14px;
-    border: none;
-    background: #4b4bff;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-}
-@media (max-width: 600px) {
-    .contact-container, .chatbot-container {
-        padding: 20px;
-        margin: 20px;
-    }
-}
-
-
-
-.container {
-    width: 80%;
-    max-width: 900px;
-    margin: 40px auto;
-    background-color: #fff;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    
-
-}
-
-/* ===== Headings ===== */
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #2c3e50;
-}
-
-h3 {
-    margin: 30px 0 15px;
-    color: #34495e;
-}
-
-/* ===== Search Form ===== */
-form {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-form input {
-    width: 280px;
-    padding: 10px 14px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-
-form button {
-    padding: 10px 18px;
-    border: none;
-    background: #7d1765;
-    color: #fff;
-    font-size: 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-form button:hover {
-    background: #217dbb;
-}
-
-/* ===== Cards ===== */
-.card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.12);
-}
-
-.card h4 {
-    margin-bottom: 10px;
-    color: #2c3e50;
-}
-
-.card p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 12px;
-}
-
-/* ===== Links ===== */
-.card a {
-    display: inline-block;
-    text-decoration: none;
-    color: #3498db;
-    font-weight: 600;
-}
-
-.card a:hover {
-    text-decoration: underline;
-}
-
-/* ===== Pagination ===== */
-.pagination,
-div:has(> a) {
-    text-align: center;
-    margin: 25px 0;
-}
-
-.pagination a,
-div a {
-    margin: 0 8px;
-    text-decoration: none;
-    color: #3498db;
-    font-weight: 600;
-}
-
-.pagination a:hover,
-div a:hover {
-    text-decoration: underline;
-}
-
-/* ===== Divider ===== */
-hr {
-    margin: 40px 0;
-    border: none;
-    height: 1px;
-    background: #ddd;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    body {
-        padding: 15px;
-    }
-
-    form {
-        flex-direction: column;
-    }
-
-    form input {
-        width: 100%;
-    }
-
-    form button {
-        width: 100%;
-    }
-}
-
-
-/* CENTER PAGE */
+/* ================= AUTH ================= */
 .page-wrapper {
     min-height: 100vh;
     display: flex;
@@ -1049,93 +237,72 @@ hr {
     justify-content: center;
 }
 
-/* CARD */
 .auth-card {
-    background: #ffffff;
-    width: 100%;
+    background: white;
     max-width: 480px;
+    width: 100%;
     padding: 50px 40px;
-    border-radius: 22px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(63, 41, 101, 0.18);
 }
 
-/* TITLE */
 .auth-title {
-    text-align: center;
     font-size: 30px;
     font-weight: 700;
-    margin-bottom: 35px;
-    color: #111827;
+    color: var(--primary);
+    margin-bottom: 30px;
 }
 
-/* FORM */
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-
-/* DJANGO <p> */
-.auth-form p {
-    display: flex;
-    flex-direction: column;
-}
-
-/* LABELS */
 .auth-form label {
-    font-size: 15px;
     font-weight: 600;
-    color: #6d28d9; /* purple */
-    margin-bottom: 6px;
+    color: var(--secondary);
 }
 
-/* INPUTS */
 .auth-form input {
-    padding: 14px 16px;
+    padding: 14px;
     border-radius: 12px;
-    border: 1.5px solid #d1d5db;
-    font-size: 15px;
+    border: 1.5px solid var(--border-soft);
 }
 
-.auth-form input:focus {
-    outline: none;
-    border-color: #7c3aed;
+/* ================= BLOG ================= */
+.article-container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
 }
 
-/* BUTTON */
-.auth-btn {
-    margin-top: 10px;
-    padding: 16px;
+/* ================= CHATBOT ================= */
+.chatbot-container {
+    background: #f9f5ff;
     border-radius: 14px;
-    border: none;
-    font-size: 17px;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(90deg, #7c3aed, #8b5cf6);
-    cursor: pointer;
-    transition: transform 0.2s ease;
 }
 
-.auth-btn:hover {
-    transform: translateY(-2px);
+.user-msg {
+    text-align: right;
+    color: var(--secondary);
 }
 
-/* REGISTER LINK */
-.auth-link {
-    text-align: center;
-    margin-top: 25px;
-    font-size: 15px;
+.bot-msg {
+    text-align: left;
+    color: var(--text-dark);
 }
 
-.auth-link a {
-    color: #7c3aed;
-    font-weight: 600;
-    text-decoration: none;
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .home-hero h1 {
+        font-size: 34px;
+    }
+
+    .journey-step {
+        flex-direction: column;
+        padding-left: 20px;
+    }
 }
-
-.auth-link a:hover {
-    text-decoration: underline;
-}
-
-
-

@@ -11,6 +11,7 @@ urlpatterns = [
     path('what', views.what, name='what'),
     path('how-it-works/', views.how_it_works, name='how_it_works'),
     path('journey/', views.journey, name='journey'),
-     path('what_makes_us_different/', views.what_makes_us_different, name='what_makes_us_different'),
+    path('what_makes_us_different/', views.what_makes_us_different, name='what_makes_us_different'),
+    path('book-session/', views.book_session, name='book_session'),
 ]
 

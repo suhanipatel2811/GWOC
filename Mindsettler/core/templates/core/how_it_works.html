@@ -1,4 +1,3 @@
-
 {% load static %}
 
 <!DOCTYPE html>
@@ -6,103 +5,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How It Works</title>
+    <title>How It Works | MindSettler</title>
     <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/how.css' %}">
 </head>
 <body>
 
+<!-- HERO -->
+<section class="ms-hero how-hero">
+    <div class="ms-container hero-inner">
+        <div class="hero-copy">
+            <span class="badge">YOUR JOURNEY</span>
+            <h1>Your Path to <span class="accent">Clarity</span></h1>
+            <p class="lead">Mental well-being is a journey, not a destination. We've designed a simple, empathetic process to help you find the right support, exactly when you need it.</p>
 
-    <div class="container">
-    <div class="content">
-    <h1>How It Works</h1>
-    <p>
-      MindSettler is designed to make mental well-being simple, accessible, and personalized. 
-      Here’s a step-by-step guide to help you understand how you can benefit from our services.
-    </p>
+            <div class="hero-actions">
+                <a href="#" class="btn btn-primary">Start Your Journey</a>
+                <a href="#" class="btn btn-outline">Watch Video</a>
+            </div>
+        </div>
 
-    <!-- Step 1 -->
-    <div class="step">
-      <h2>Step 1: Explore & Learn</h2>
-      <p>
-        Start your journey by exploring our website. Learn about who we are, our philosophy, and 
-        the mental health resources we provide. Browse through our <strong>Psycho-Education</strong> 
-        section to understand key mental health topics.
-      </p>
+        <div class="hero-media">
+            <div class="media-card">
+                <img src="{% static 'core/images/how-hero.jpg' %}" alt="testimonial">
+                <div class="media-caption"> <strong>Safe Space</strong> — "The first step was the hardest, but MindSettler made it feel natural."</div>
+            </div>
+        </div>
     </div>
+</section>
 
-    <!-- Step 2 -->
-    <div class="step">
-      <h2>Step 2: Choose Your Service</h2>
-      <p>
-        MindSettler offers personalized sessions, corporate programs, and knowledge resources. 
-        Choose what best fits your needs:
-        <ul>
-          <li><strong>Personal Sessions:</strong> Book one-on-one sessions with our mental health experts.</li>
-          <li><strong>Corporate Services:</strong> Request customized programs for organizations and employees.</li>
-          <li><strong>Resources:</strong> Access blogs, articles, and videos to educate yourself about mental well-being.</li>
-        </ul>
-      </p>
+<!-- HOW IT WORKS TIMELINE -->
+<section class="ms-timeline">
+    <div class="ms-container">
+        <h3 class="center">How It Works</h3>
+        <p class="muted center">Five simple steps to a healthier mind.</p>
+
+        <div class="timeline-wrap">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-step left">
+                <div class="marker">1</div>
+                <div class="content">
+                    <h4>Explore MindSettler</h4>
+                    <p class="small muted">Browse our library of resources and expert profiles. Filter by specialty, approach, or language to find what resonates with you.</p>
+                </div>
+            </div>
+
+            <div class="timeline-step right">
+                <div class="marker">2</div>
+                <div class="content">
+                    <h4>Choose Session Type</h4>
+                    <p class="small muted">Everyone heals differently. Select from 1-on-1 therapy, group workshops, or self-guided audio modules.</p>
+                </div>
+            </div>
+
+            <div class="timeline-step left">
+                <div class="marker">3</div>
+                <div class="content">
+                    <h4>Book a Slot</h4>
+                    <p class="small muted">Find a time that fits your life with our flexible scheduling calendar. No back-and-forth emails needed.</p>
+                </div>
+            </div>
+
+            <div class="timeline-step right">
+                <div class="marker">4</div>
+                <div class="content">
+                    <h4>Attend Session</h4>
+                    <p class="small muted">Join your secure, encrypted video room or start your module from the comfort and privacy of your home.</p>
+                </div>
+            </div>
+
+            <div class="timeline-step left">
+                <div class="marker">5</div>
+                <div class="content">
+                    <h4>Continue Your Journey</h4>
+                    <p class="small muted">Healing is ongoing. Track your progress, access session notes, and build lasting habits with our tools.</p>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 
-    <!-- Step 3 -->
-    <div class="step">
-      <h2>Step 3: Book a Session</h2>
-      <p>
-        For personal sessions, select your preferred date and time using our online booking system. 
-        Fill in your details and confirm your appointment. You can also track your appointment status 
-        anytime through your account.
-      </p>
+<!-- KEY FEATURES -->
+<section class="ms-features">
+    <div class="ms-container features-grid">
+        <div class="feature-card">
+            <h4>Confidential & Secure</h4>
+            <p class="small muted">Your privacy is our top priority. All sessions are HIPAA-compliant and end-to-end encrypted.</p>
+        </div>
+
+        <div class="feature-card">
+            <h4>Certified Experts</h4>
+            <p class="small muted">All specialists are thoroughly vetted, licensed, and experienced in diverse therapeutic fields.</p>
+        </div>
+
+        <div class="feature-card">
+            <h4>Empathetic Care</h4>
+            <p class="small muted">We prioritize creating a safe, non-judgmental space for your healing and growth.</p>
+        </div>
     </div>
+</section>
 
-    <!-- Step 4 -->
-    <div class="step">
-      <h2>Step 4: Attend & Engage</h2>
-      <p>
-        Attend your scheduled session with our trained experts. Share your concerns, ask questions, 
-        and follow the guidance provided. Every session is tailored to your needs for effective support.
-      </p>
+<!-- CTA BANNER -->
+<section class="ms-cta-banner">
+    <div class="ms-container cta-inner">
+        <h2>Ready to begin?</h2>
+        <p class="muted">Take the first step towards a clearer mind today. Our specialists are ready to listen.</p>
+        <a class="btn btn-primary" href="#">Find a Specialist</a>
     </div>
-
-    <!-- Step 5 -->
-    <div class="step">
-      <h2>Step 5: Continuous Support</h2>
-      <p>
-        MindSettler is here for continuous support. You can:
-        <ul>
-          <li>Track your upcoming sessions and progress.</li>
-          <li>Access resources anytime from our blogs and videos.</li>
-          <li>Reach out through our <strong>Contact Form</strong> or <strong>Chatbot</strong> for queries.</li>
-        </ul>
-      </p>
-    </div>
-
-    <!-- Step 6 -->
-    <div class="step">
-      <h2>Step 6: Corporate Programs</h2>
-      <p>
-        If you are an organization, request tailored programs for employee well-being. 
-        Our team will coordinate and deliver workshops, training sessions, or counseling sessions 
-        according to your requirements.
-      </p>
-    </div>
-
-    <!-- Step 7 -->
-    <div class="step">
-      <h2>Step 7: Learn & Grow</h2>
-      <p>
-        MindSettler encourages continuous learning. Keep exploring our resources, track your sessions, 
-        and engage with the community to achieve better mental well-being and personal growth.
-      </p>
-    </div>
-
-    <p class="closing-text">
-      MindSettler is more than just a platform – it’s your partner in the journey toward a healthier mind and happier life.
-    </p>
-  </div>
-
-</div>
-
+</section>
 
 </body>
 </html>
 
+</body>
+</html>

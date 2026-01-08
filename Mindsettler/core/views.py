@@ -23,3 +23,5 @@ def journey(request):
 
 def what_makes_us_different(request):
     return render(request, 'core/what_makes_us_different.html')
+def book_session(request):
+    return render(request, 'core/book_session.html')

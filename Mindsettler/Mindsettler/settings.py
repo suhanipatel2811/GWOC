@@ -128,7 +128,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIR = [BASE_DIR / 'static',
+# Additional static files directories (project-level static)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
 ]
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -156,8 +158,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("The OPENAI_API_KEY environment variable is not set. Add it to the .env file or export it in your environment.")
 
-LOGIN_URL = "login"
+LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "profile"
-LOGOUT_REDIRECT_URL = "login"
+LOGOUT_REDIRECT_URL = "core:home"
 # Default primary key field type
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field

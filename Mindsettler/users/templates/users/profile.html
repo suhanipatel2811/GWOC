@@ -1,34 +1,246 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
-
-    <link rel="stylesheet" href="{% static 'core/css/p.css' %}">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Profile</title>
+        <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'core/css/p.css' %}">
+        <style>
+            /* Inline overrides to ensure the profile card stays centered and content remains inside the box */
+            .container { max-width:720px !important; margin:0 auto !important; }
+            .profile-card { width:100% !important; box-sizing:border-box !important; overflow:hidden !important; }
+            .profile-grid { display:flex !important; gap:24px !important; align-items:flex-start !important; justify-content:flex-start !important; flex-wrap:nowrap !important }
+            .profile-grid > div:first-child { flex: 0 0 200px !important; display:flex !important; flex-direction:column !important; align-items:center !important }
+            .profile-grid > div:last-child { flex: 1 1 auto !important; min-width:0 !important; padding-left:8px !important }
+            .profile-actions { display:flex !important; flex-direction:column !important; gap:14px !important; align-items:flex-start !important; margin-top:12px }
+            .profile-actions .btn { min-width:150px !important }
+            /* Mobile adjustments */
+            @media (max-width:600px) {
+                .profile-grid { flex-direction:column !important; align-items:center !important }
+                .profile-actions { align-items:center !important }
+            }
+        </style>
 </head>
 <body>
 
-<div class="page-wrapper">
-    <div class="container">
-        <div class="profile-card">
+<section class="page-section booking-section">
+        <div class="booking-card">
+                <div class="container">
+                        <div class="profile-card">
 
-            <h2 class="profile-title">
-                👋 Welcome, {{ request.user.username }}
-            </h2>
+                                <h2 class="profile-title">👋 Welcome, <span id="display-username">{{ request.user.username }}</span></h2>
 
-            <p class="profile-email">
-                📧 {{ request.user.email }}
-            </p>
+                                <div class="profile-grid">
+                                    <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                                        {% if request.user.profile.avatar %}
+                                            <img id="avatarImg" src="{{ request.user.profile.avatar.url }}" alt="avatar">
+                                        {% else %}
+                                            <div id="avatarPlaceholder">No Avatar</div>
+                                        {% endif %}
 
-            <a href="{% url 'users:logout' %}" class="btn logout-btn">
-                Logout
-            </a>
+                                        <div style="margin-top:8px;">
+                                            <input id="avatarInput" type="file" accept="image/*">
+                                            <button id="uploadAvatarBtn" class="btn">Upload</button>
+                                        </div>
+                                        <div id="avatarMsg" style="margin-top:6px;display:none"></div>
 
+                                        <div id="profile-view" style="margin-top:18px; text-align:center;">
+                                            <p><strong>Name:</strong> <span id="display-name">{{ request.user.first_name }} {{ request.user.last_name }}</span></p>
+                                            <p><strong>Email:</strong> <span id="display-email">{{ request.user.email }}</span></p>
+                                            <div class="profile-actions" style="margin-top:12px;">
+                                                <button id="editBtn" class="btn">Edit Profile</button>
+                                                <a href="{% url 'users:logout' %}" class="btn logout-btn">Logout</a>
+                                                <button id="pwdBtn" class="btn">Change Password</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form id="profile-form" style="display:none; margin-top:12px;" onsubmit="return false;">
+                                        {% csrf_token %}
+                                        <label>First name<br><input type="text" id="first_name" name="first_name" value="{{ request.user.first_name }}"></label><br>
+                                        <label>Last name<br><input type="text" id="last_name" name="last_name" value="{{ request.user.last_name }}"></label><br>
+                                        <label>Email<br><input type="email" id="email" name="email" value="{{ request.user.email }}"></label><br>
+                                        <div style="margin-top:8px;">
+                                                <button id="saveBtn" class="btn">Save</button>
+                                                <button id="cancelBtn" class="btn">Cancel</button>
+                                        </div>
+                                        <div id="profile-msg" style="margin-top:8px;display:none;"></div>
+                                </form>
+
+                                <form id="pwd-form" style="display:none;margin-top:12px;" onsubmit="return false;">
+                                        {% csrf_token %}
+                                        <label>Current password<br><input type="password" id="old_password" name="old_password"></label><br>
+                                        <label>New password<br><input type="password" id="new_password1" name="new_password1"></label><br>
+                                        <label>Confirm new password<br><input type="password" id="new_password2" name="new_password2"></label><br>
+                                        <div style="margin-top:8px;">
+                                                <button id="pwdSaveBtn" class="btn">Save Password</button>
+                                                <button id="pwdCancelBtn" class="btn">Cancel</button>
+                                        </div>
+                                        <div id="pwd-msg" style="margin-top:8px;display:none"></div>
+                                </form>
+
+                                <div style="margin-top:18px;">
+                                        <h3>Recent activity</h3>
+                                        <ul id="activityList">
+                                                {% for a in activities %}
+                                                        <li>{{ a.action }} — {{ a.timestamp }}</li>
+                                                {% empty %}
+                                                        <li>No recent activity</li>
+                                                {% endfor %}
+                                        </ul>
+                                </div>
+
+                        </div>
+                </div>
         </div>
-    </div>
-</div>
+</section>
 
+<script>
+// CSRF helper
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const editBtn = document.getElementById('editBtn');
+const saveBtn = document.getElementById('saveBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const profileForm = document.getElementById('profile-form');
+const profileView = document.getElementById('profile-view');
+const msg = document.getElementById('profile-msg');
+
+if (editBtn) {
+    editBtn.addEventListener('click', () => {
+        profileView.style.display = 'none';
+        profileForm.style.display = 'block';
+        msg.style.display = 'none';
+    });
+}
+
+if (cancelBtn) {
+    cancelBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        profileForm.style.display = 'none';
+        profileView.style.display = 'block';
+    });
+}
+
+if (saveBtn) {
+    saveBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const csrftoken = getCookie('csrftoken');
+        const data = new URLSearchParams();
+        data.append('first_name', document.getElementById('first_name').value);
+        data.append('last_name', document.getElementById('last_name').value);
+        data.append('email', document.getElementById('email').value);
+
+        saveBtn.disabled = true;
+        msg.style.display = 'none';
+
+        try {
+            const res = await fetch('{% url "users:update_profile" %}', { method: 'POST', headers: { 'X-CSRFToken': csrftoken }, body: data });
+            const json = await res.json();
+            if (res.ok && json.success) {
+                document.getElementById('display-name').textContent = (json.first_name + ' ' + json.last_name).trim();
+                document.getElementById('display-email').textContent = json.email;
+                profileForm.style.display = 'none';
+                profileView.style.display = 'block';
+                msg.style.display = 'block';
+                msg.style.color = 'green';
+                msg.textContent = 'Profile updated successfully.';
+            } else {
+                msg.style.display = 'block';
+                msg.style.color = 'red';
+                msg.textContent = json.error || 'Failed to update profile.';
+            }
+        } catch (err) {
+            msg.style.display = 'block';
+            msg.style.color = 'red';
+            msg.textContent = 'Network error.';
+        } finally {
+            saveBtn.disabled = false;
+        }
+    });
+}
+
+// Avatar upload
+const uploadAvatarBtn = document.getElementById('uploadAvatarBtn');
+const avatarInput = document.getElementById('avatarInput');
+const avatarMsg = document.getElementById('avatarMsg');
+if (uploadAvatarBtn) {
+    uploadAvatarBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (!avatarInput.files.length) return;
+        const csrftoken = getCookie('csrftoken');
+        const fd = new FormData();
+        fd.append('avatar', avatarInput.files[0]);
+        uploadAvatarBtn.disabled = true;
+        avatarMsg.style.display = 'none';
+        try {
+            const res = await fetch('{% url "users:upload_avatar" %}', { method: 'POST', headers: { 'X-CSRFToken': csrftoken }, body: fd });
+            const json = await res.json();
+            if (res.ok && json.success) {
+                const img = document.getElementById('avatarImg');
+                if (img) img.src = json.avatar_url + '?t=' + Date.now();
+                const ph = document.getElementById('avatarPlaceholder'); if (ph) ph.style.display = 'none';
+                avatarMsg.style.display = 'block'; avatarMsg.style.color = 'green'; avatarMsg.textContent = 'Avatar uploaded.';
+            } else {
+                avatarMsg.style.display = 'block'; avatarMsg.style.color = 'red'; avatarMsg.textContent = json.error || 'Upload failed';
+            }
+        } catch (err) {
+            avatarMsg.style.display = 'block'; avatarMsg.style.color = 'red'; avatarMsg.textContent = 'Network error';
+        } finally { uploadAvatarBtn.disabled = false; }
+    });
+}
+
+// Password change handlers
+const pwdBtn = document.getElementById('pwdBtn');
+const pwdForm = document.getElementById('pwd-form');
+const pwdCancelBtn = document.getElementById('pwdCancelBtn');
+const pwdSaveBtn = document.getElementById('pwdSaveBtn');
+const pwdMsg = document.getElementById('pwd-msg');
+
+if (pwdBtn) pwdBtn.addEventListener('click', () => { profileView.style.display = 'none'; profileForm.style.display = 'none'; pwdForm.style.display = 'block'; pwdMsg.style.display = 'none'; });
+if (pwdCancelBtn) pwdCancelBtn.addEventListener('click', (e) => { e.preventDefault(); pwdForm.style.display = 'none'; profileView.style.display = 'block'; });
+
+if (pwdSaveBtn) {
+    pwdSaveBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const csrftoken = getCookie('csrftoken');
+        const data = new URLSearchParams();
+        data.append('old_password', document.getElementById('old_password').value);
+        data.append('new_password1', document.getElementById('new_password1').value);
+        data.append('new_password2', document.getElementById('new_password2').value);
+        pwdSaveBtn.disabled = true; pwdMsg.style.display = 'none';
+        try {
+            const res = await fetch('{% url "users:change_password" %}', { method: 'POST', headers: { 'X-CSRFToken': csrftoken }, body: data });
+            const json = await res.json();
+            if (res.ok && json.success) {
+                pwdMsg.style.display = 'block'; pwdMsg.style.color = 'green'; pwdMsg.textContent = 'Password changed.';
+                setTimeout(() => { pwdForm.style.display = 'none'; profileView.style.display = 'block'; }, 900);
+            } else {
+                pwdMsg.style.display = 'block'; pwdMsg.style.color = 'red';
+                pwdMsg.textContent = json.error || 'Failed to change password.';
+            }
+        } catch (err) { pwdMsg.style.display = 'block'; pwdMsg.style.color = 'red'; pwdMsg.textContent = 'Network error'; }
+        finally { pwdSaveBtn.disabled = false; }
+    });
+}
+</script>
 </body>
 </html>

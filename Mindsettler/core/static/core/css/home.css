@@ -1,0 +1,66 @@
+/* Basic home page styles for the new homepage layout */
+:root{
+  --green:#1fc27c;
+  --muted:#7a858e;
+  --bg:#f7fbfa;
+  --card:#ffffff;
+}
+body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:#0b1b1a; margin:0}
+.ms-container{max-width:1100px;margin:0 auto;padding:40px 20px}
+
+/* Navbar */
+.ms-navbar{background:transparent;padding:18px 0}
+.ms-nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto}
+.ms-brand a{font-weight:700;color:var(--green);text-decoration:none;font-size:20px}
+.ms-nav a{margin:0 14px;color:var(--muted);text-decoration:none}
+.ms-actions{display:flex;align-items:center;gap:12px}
+.ms-login{color:var(--muted);text-decoration:none}
+.ms-cta{background:var(--green);color:#fff;padding:10px 14px;border-radius:24px;text-decoration:none}
+
+/* Hero */
+.ms-hero{padding:48px 0}
+.ms-hero-inner{display:flex;gap:40px;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto}
+.ms-hero-left{flex:1}
+.ms-hero-badge{display:inline-block;background:#eafaf3;color:var(--green);padding:6px 10px;border-radius:999px;font-size:13px;margin-bottom:18px}
+.ms-hero-left h1{font-size:44px;line-height:1.02;margin:0 0 18px}
+.ms-hero-sub{color:var(--muted);max-width:520px}
+.ms-hero-cta{margin:20px 0;display:flex;gap:12px}
+.btn{padding:12px 18px;border-radius:30px;text-decoration:none;font-weight:600}
+.btn-primary{background:var(--green);color:#fff}
+.btn-secondary{background:#fff;border:1px solid #e6f2ee;color:var(--green)}
+.ms-hero-meta{display:flex;align-items:center;gap:10px;margin-top:14px;color:var(--muted)}
+.ms-hero-meta img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+
+.ms-hero-right{flex:0 0 420px}
+.ms-hero-card{background:var(--card);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(10,20,20,0.04)}
+.ms-hero-card img{width:100%;border-radius:12px;display:block}
+.ms-hero-card-tag{margin-top:10px;background:#fff;padding:8px 12px;border-radius:999px;display:inline-block;color:var(--muted);font-size:13px}
+
+/* Roadmap */
+.ms-roadmap{padding:40px 0}
+.ms-roadmap h2{font-size:28px}
+.ms-steps{display:flex;gap:18px;margin-top:18px}
+.step{flex:1}
+.step-card{background:linear-gradient(180deg,#fbfffc, #fff);padding:18px;border-radius:12px;min-height:110px;box-shadow:0 6px 18px rgba(11,27,22,0.03)}
+.step-card .small{color:var(--muted);font-size:13px;margin-top:8px}
+
+/* Features */
+.ms-features{padding:40px 0;background:transparent}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.feature{background:var(--card);padding:18px;border-radius:10px;text-align:center;color:var(--muted);box-shadow:0 6px 18px rgba(11,27,22,0.03)}
+
+/* CTA Banner */
+.ms-cta-banner{padding:46px 0;background:linear-gradient(90deg,#eaf8f0,#f6fff9);border-radius:16px;margin:40px 0}
+.cta-inner{text-align:center;padding:28px}
+.cta-actions{display:inline-flex;gap:12px;margin-top:18px}
+.btn-outline{background:transparent;border:1px solid rgba(11,27,22,0.06);padding:10px 16px;border-radius:24px}
+
+/* Footer */
+.ms-footer{padding:28px 0;color:var(--muted);font-size:14px}
+
+@media(max-width:900px){
+  .ms-hero-inner{flex-direction:column-reverse;align-items:flex-start}
+  .ms-hero-right{width:100%}
+  .features-grid{grid-template-columns:repeat(2,1fr)}
+  .ms-nav{display:none}
+}

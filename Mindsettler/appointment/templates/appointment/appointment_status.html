@@ -26,34 +26,57 @@
             </div>
 
             <div class="appointment-info">
-                {{ appointment.slot.date }} at {{ appointment.slot.time }}
+                {{ appointment.slot.date }} at {{ appointment.slot.time }} · {{ appointment.duration_minutes }} minutes
+                {% if appointment.first_session %}
+                    <span class="badge first-session">First Session</span>
+                {% endif %}
             </div>
 
             <div class="appointment-status">
                 Status:
-                {% if appointment.slot.date|date:"Y-m-d" < today %}
-                    <span class="status done">Done</span>
-
-                {% elif appointment.slot.date|date:"Y-m-d" == today and appointment.slot.time|time:"H:i" < now_time %}
-                    <span class="status done">Done</span>
-
+                {% if appointment.status == 'CONFIRMED' %}
+                    <span class="status confirmed">Confirmed</span>
+                {% elif appointment.status == 'CANCELLED' %}
+                    <span class="status cancelled">Cancelled</span>
                 {% else %}
-                    <span class="status pending">Pending</span>
+                    <span class="status pending">Pending Confirmation</span>
                 {% endif %}
             </div>
 
-            {% if appointment.slot.date|date:"Y-m-d" > today or appointment.slot.date|date:"Y-m-d" == today and appointment.slot.time|time:"H:i" >= now_time %}
-            <div class="appointment-actions">
-                <form method="post" action="{% url 'appointment:cancel_appointment' appointment.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn cancel-btn">Cancel</button>
-                </form>
+            <div class="appointment-payment">
+                Payment: {{ appointment.payment_mode }}
+                {% if appointment.payment_mode == 'UPI' and appointment.upi_id %}
+                    <div class="payment-instructions">Please pay via UPI to <strong>{{ appointment.upi_id }}</strong> and mark as paid once done.</div>
+                {% elif appointment.payment_mode == 'CASH' %}
+                    <div class="payment-instructions">Pay in cash at the studio before or on arrival.</div>
+                {% endif %}
+                {% if appointment.payment_confirmed %}
+                    <div class="payment-status paid">Payment Confirmed</div>
+                {% endif %}
+            </div>
 
-                <form method="get" action="{% url 'appointment:reschedule_appointment' appointment.id %}">
-                    <button type="submit" class="btn reschedule-btn">Reschedule</button>
-                </form>
+            {% if appointment.add_to_google_calendar and appointment.google_calendar_link %}
+            <div class="appointment-calendar">
+                <a href="{{ appointment.google_calendar_link }}" target="_blank">Add to Google Calendar</a>
             </div>
             {% endif %}
+
+            {% with slot_date=appointment.slot.date|date:"Y-m-d" slot_time=appointment.slot.time|time:"H:i" %}
+                {% if appointment.status != 'CANCELLED' %}
+                    {% if slot_date > today or slot_date == today and slot_time >= now_time %}
+                    <div class="appointment-actions">
+                        <form method="post" action="{% url 'appointment:cancel_appointment' appointment.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn cancel-btn">Cancel</button>
+                        </form>
+
+                        <form method="get" action="{% url 'appointment:reschedule_appointment' appointment.id %}">
+                            <button type="submit" class="btn reschedule-btn">Reschedule</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
 
         </div>
         {% empty %}

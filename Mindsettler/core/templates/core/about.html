@@ -4,104 +4,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About - MindSettler</title>
+    <title>About Us - MindSettler</title>
+
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/about.css' %}">
 </head>
 <body>
-     <header class="navbar">
-    <!-- Logo -->
+
+<!-- NAVBAR (unchanged) -->
+<header class="navbar">
     <div class="nav-logo">
-         <a href="{% url 'core:about' %}" class="logo-link">
-         <img src="{% static 'core/images/logo.png' %}" width="200" alt="MindSettler logo"></a>
+        <a href="{% url 'core:about' %}">
+            <img src="{% static 'core/images/logo.png' %}" width="180">
+        </a>
     </div>
 
-    <!-- Navigation Links + Profile -->
     <nav class="nav-links">
-        <div class="sidebar">
-          <a href="{% url 'resources:blog_list' %}" class="nav-item">Resources</a>
-          <a href="{% url 'appointment:booking' %}" class="nav-item">Session Booking</a>
-          <a href="{% url 'corporate:corporate_services' %}" class="nav-item">Services</a>
-          <a href="{% url 'contact:contact' %}" class="nav-item">Contact Us</a>
-        </div>
-
-        <div class="profile">
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'users:profile' %}" class="nav-item nav-highlight">{{ request.user.first_name|default:request.user.username }}</a>
-            {% else %}
-                <a href="{% url 'users:login' %}" class="nav-item">Login</a>
-                <a href="{% url 'users:register' %}" class="nav-item">Register</a>
-            {% endif %}
-        </div>
+        <a href="{% url 'core:about' %}">About Us</a>
+        <a href="#">Psycho-Education</a>
+        <a href="#">How It Works</a>
+        <a href="#">Services</a>
+        <a href="#">Resources</a>
+        <a href="#">FAQ & Contact</a>
+        <a href="{% url 'appointment:booking' %}" class="nav-btn">Book a Session</a>
     </nav>
 </header>
 
-<!-- HERO SECTION -->
-<section class="home-hero">
-  <div class="hero-overlay"></div>
-  <div class="container hero-content">
+<!-- HERO / INTRO -->
+<section class="ms-hero ms-about-hero">
+    <div class="ms-container hero-grid">
+        <div class="hero-left">
+            <span class="hero-badge">OUR PURPOSE</span>
+            <h1>Guiding You to a <span class="accent">Settled Mind</span></h1>
+            <p class="lead">MindSettler bridges the gap between clinical psychology and daily life. We believe mental health education should be accessible, scientifically grounded, and deeply human.</p>
 
-    <h1>Welcome to <span>MindSettler</span></h1>
-    <p>
-      A safe space to understand your mind, emotions, and inner strength.
-      We guide you through awareness, education, and compassionate support
-      toward better mental well-being.
-    </p>
+            <div class="hero-ctas">
+                <a class="btn btn-primary" href="#">Start Your Journey</a>
+                <a class="btn btn-outline" href="#">Read Our Manifesto</a>
+            </div>
+        </div>
 
-    <div class="hero-buttons">
-      <a href="{% url 'core:about' %}" class="btn primary-btn">Know More</a>
-      <a href="{% url 'appointment:booking' %}" class="btn secondary-btn">Book a Session</a>
+        <div class="hero-right">
+            <div class="hero-image-card">
+                <img src="{% static 'core/images/hero-illustration.jpg' %}" alt="hero">
+            </div>
+        </div>
     </div>
-
-  </div>
 </section>
 
-<!-- NAVIGATION CARDS -->
-<section class="home-sections">
-  <div class="container">
+<!-- CORE FOUNDATION (MISSION / VISION) -->
+<section class="ms-core-foundation">
+    <div class="ms-container">
+        <h2>Our Core Foundation</h2>
+        <p class="muted">We exist to make the complex world of psychology simple, safe, and supportive for everyone.</p>
 
-    <div class="section-card">
-      <h2>About Us</h2>
-      <p>Who we are, our mission, and our vision.</p>
-      <a href="{% url 'core:base' %}">Explore →</a>
+        <div class="foundation-grid">
+            <div class="fv-card">
+                <div class="fv-icon">📘</div>
+                <h3>Our Mission</h3>
+                <p>To democratize mental health tools, ensuring that emotional literacy is not a luxury but a readily-available resource for healing and growth.</p>
+            </div>
+
+            <div class="fv-card">
+                <div class="fv-icon">👁️</div>
+                <h3>Our Vision</h3>
+                <p>A world where understanding one's own mind is as fundamental as reading and writing, fostering a society of empathy and resilience.</p>
+            </div>
+        </div>
     </div>
-
-    <div class="section-card">
-      <h2>How It Works</h2>
-      <p>Step-by-step guide to our services.</p>
-      <a href="{% url 'core:how_it_works' %}">Explore →</a>
-    </div>
-
-    <div class="section-card">
-      <h2>Psycho-Education</h2>
-      <p>Learn about mental health & emotional awareness.</p>
-      <a href="{% url 'core:psycho_education' %}">Explore →</a>
-    </div>
-
-    <div class="section-card">
-      <h2>Our Journey</h2>
-      <p>Story, milestones, and growth of MindSettler.</p>
-      <a href="{% url 'core:journey' %}">Explore →</a>
-    </div>
-
-    <div class="section-card">
-      <h2>What Makes Us Different</h2>
-      <p>Our unique, human-centered approach.</p>
-      <a href="{% url 'core:what_makes_us_different' %}">Explore →</a>
-    </div>
-
-    <div class="section-card">
-      <h2>Contact & Support</h2>
-      <p>Reach out for guidance or queries.</p>
-      <a href="{% url 'contact:contact' %}">Explore →</a>
-    </div>
-
-  </div>
 </section>
 
-<!-- Footer -->
-<footer>
-    <p>© MindSettler | All Rights Reserved</p>
+<!-- METHODOLOGY -->
+<section class="ms-methodology">
+    <div class="ms-container">
+        <h3>How We Guide You</h3>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="marker">1</div>
+                <div class="timeline-body">
+                    <h4>Learn</h4>
+                    <p>Phase 1 focuses on psycho-education. We provide bite-sized, clinically reviewed content that helps you name your emotions and understand the 'why' behind your feelings.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="marker">2</div>
+                <div class="timeline-body">
+                    <h4>Reflect</h4>
+                    <p>Phase 2 is about internalization. Through guided journaling and secure prompts, you apply what you've learned to your personal context in a safe, private space.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="marker">3</div>
+                <div class="timeline-body">
+                    <h4>Grow</h4>
+                    <p>Phase 3 is integration. You build sustainable habits and emotional resilience, turning insights into lasting change and a more settled mind.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONFIDENTIALITY & FEATURES -->
+<section class="ms-confidentiality">
+    <div class="ms-container">
+        <div class="conf-grid">
+            <div class="conf-left">
+                <h3>Confidentiality &amp; Safety</h3>
+                <p class="muted">Healing requires safety. We've built MindSettler with a privacy-first architecture. Your data is encrypted, your identity is protected, and your space is yours alone.</p>
+                <a href="#" class="read-link">Read our full Privacy Policy →</a>
+            </div>
+
+            <div class="conf-right">
+                <div class="conf-cards">
+                    <div class="conf-card">End-to-End Encryption<p class="small muted">Your journal entries and personal reflections are encrypted before they ever leave your device.</p></div>
+                    <div class="conf-card">Anonymous Usage<p class="small muted">Explore our library and tools without the pressure of a public profile.</p></div>
+                    <div class="conf-card">Clinical Oversight<p class="small muted">Every piece of educational content is reviewed by licensed mental health professionals.</p></div>
+                    <div class="conf-card">Data Ownership<p class="small muted">Export your data or permanently delete your account at any time with one click.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GUIDED BY EXPERTS (TEAM) -->
+<section class="ms-team">
+    <div class="ms-container">
+        <h3>Guided by Experts</h3>
+        <p class="muted">Our content is shaped by a diverse board of psychologists, therapists, and researchers dedicated to making mental health accessible.</p>
+
+        <div class="team-row">
+            <div class="person-card">
+                <img src="{% static 'core/images/team1.jpg' %}" alt="Dr. Sarah Chen">
+                <h4>Dr. Sarah Chen</h4>
+                <p class="small muted">Clinical Director</p>
+            </div>
+
+            <div class="person-card">
+                <img src="{% static 'core/images/team2.jpg' %}" alt="Marcus Johnson">
+                <h4>Marcus Johnson</h4>
+                <p class="small muted">Lead Therapist</p>
+            </div>
+
+            <div class="person-card">
+                <img src="{% static 'core/images/team3.jpg' %}" alt="Dr. Elena Rodriguez">
+                <h4>Dr. Elena Rodriguez</h4>
+                <p class="small muted">Research Lead</p>
+            </div>
+
+            <div class="person-card">
+                <img src="{% static 'core/images/team4.jpg' %}" alt="James Alistair">
+                <h4>James Alistair</h4>
+                <p class="small muted">Education Advisor</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="about-cta">
+    <h2>Ready to Start Your Journey?</h2>
+    <p>Explore our services and take the first step toward a calmer you.</p>
+    <a href="{% url 'appointment:booking' %}" class="primary-btn">Book Your First Session</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>© 2024 MindSettler. All rights reserved.</p>
 </footer>
 
 </body>
