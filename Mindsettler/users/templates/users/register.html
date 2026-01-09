@@ -1,77 +1,177 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-
-    <link rel="stylesheet" href="{% static 'core/css/d.css' %}">
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Register New Account</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#3F2965", // Deep Purple
+              "accent": "#DD1764",  // Vibrant Pink
+              "lavender": "#EBE7F2", // Pale Lavender
+              "soft-pink": "#FADDE6", // Soft Pink
+              "background-page": "#FFFFFF",
+              "text-dark": "#3F2965",
+              "text-muted": "#6b5b8a",
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "1rem",
+              "xl": "1.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .form-checkbox:checked {
+            background-color: #DD1764;
+            border-color: #DD1764;
+        }
+        .form-checkbox:focus {
+            box-shadow: 0 0 0 2px rgba(221, 23, 100, 0.2);
+        }
+        .custom-gradient-overlay {
+            background: linear-gradient(to top, rgba(63, 41, 101, 0.9) 0%, rgba(63, 41, 101, 0.2) 100%);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-background-page text-text-dark min-h-screen flex flex-col font-display antialiased selection:bg-accent/20">
+<header class="w-full px-6 py-4 flex items-center justify-between absolute top-0 left-0 z-20">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-primary text-xl font-bold tracking-tight">MindSettler</h2>
+</div>
+<div>
+<a class="text-sm font-medium text-text-muted hover:text-accent transition-colors" href="#">Need help?</a>
+</div>
+</header>
+<main class="flex-1 flex items-center justify-center p-4 min-h-[800px] lg:min-h-screen">
+<div class="w-full max-w-[1100px] bg-white rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(63,41,101,0.1)] flex flex-col md:flex-row h-full min-h-[650px] border border-lavender">
+<div class="hidden md:flex md:w-5/12 relative bg-lavender flex-col p-12 justify-between">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center opacity-70 mix-blend-multiply" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDO-h00CuvIOlbFkaWa6iI2kVrkUeP1C30xWhoDxiozGqa7Ca2nqIdonMPshLlx0sKvsl-hzlZnyxF8NED5W1sTH2wYhit7NQmApXWThgE7dgLbgTrz04dWG1I-V4hwxfPu8Bdwkg9GVXhJxjxq_gMy8ZTMlOhOIzZtq0OFDvjfM3DY5KFj3lAgxcs_6D3pq2UD7ArG08ZLt25swRxT_tMKP-J-m8aQCVkE2Jg1xRZuyf3Kd8XKO9J4PjQbJ_TKPn8XgnKieOIVuq0");'>
+</div>
+<div class="absolute inset-0 custom-gradient-overlay"></div>
+</div>
+<div class="relative z-10 mt-auto">
+<h1 class="text-4xl font-bold text-white mb-4 leading-tight">Your journey to healing starts here.</h1>
+<p class="text-white/90 text-lg font-light leading-relaxed">Join MindSettler and discover a space where empathy meets expert psycho-education.</p>
+</div>
+<div class="absolute top-10 right-10 size-24 rounded-full bg-accent blur-[60px] opacity-30 z-0"></div>
+</div>
+<div class="w-full md:w-7/12 p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-white">
+<div class="mb-10">
+<div class="mb-10 border-b border-lavender flex w-full" >
+<a href="{% url 'users:login' %}" class="relative pb-3 px-4 text-base font-bold text-primary transition-all duration-200">
+                        Sign In
+                        
+</a>
+<a href="{% url 'users:register' %}" class="relative pb-3 px-4 text-base font-medium text-text-muted hover:text-primary transition-all duration-200 ml-4">
+                        Create Account<span class="absolute bottom-0 left-0 w-full h-[3px] bg-accent rounded-t-full"></span>
+                    </a>
+</div>
+</div>
+<div class="mb-8">
+<h2 class="text-3xl font-bold text-primary mb-2 tracking-tight">Register New Account</h2>
+<p class="text-text-muted">Fill in your details to create your secure profile.</p>
+</div>
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-primary block" for="email">Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px]">mail</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="email" placeholder="name@example.com" type="email"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-primary block" for="password">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px]">lock</span>
+</div>
+<input class="block w-full pl-11 pr-12 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-text-muted hover:text-accent transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-primary block" for="confirm-password">Confirm Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px]">verified_user</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="confirm-password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="flex items-start pt-1">
+<div class="flex items-center h-5">
+<input class="h-4 w-4 rounded border-lavender text-accent focus:ring-accent/20 form-checkbox" id="terms" name="terms" type="checkbox"/>
+</div>
+<label class="ml-3 block text-xs text-text-muted leading-relaxed" for="terms">
+                            I agree to the <a class="text-accent font-semibold hover:underline" href="#">Terms of Service</a> and <a class="text-accent font-semibold hover:underline" href="#">Privacy Policy</a>.
+                        </label>
+</div>
+<a href="{% url 'core:about' %}" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-all duration-200 mt-6" type="submit">
+                        Register Account
+                    </a>
+</form>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-lavender"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-4 bg-white text-text-muted">Or join with</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center w-full px-4 py-3 bg-white border border-lavender rounded-xl hover:bg-soft-pink/20 transition-colors" type="button">
+<img alt="Google logo" class="h-5 w-5 mr-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSAe5EZT116yR_Frp0wwTMRSvczPEA-_eORpIw2sOytgIYovEwjTSWWBk8CyCQVD-bdfUP7pDjDEeR-1y06wWJAIIFKdLZV6kw91bJ1TbDs1e-40x_Kj-ctGIUTeUNIpSOaOsZgaG30sma9gpISMa67VnDxs0xBG4rwc7fEq7B9DjNhUTAntsyAmFXTJf9G0YLvnNZZjqNLCen6DOzFi5DxQCpGh2C7vJ3JqUj1guqnulHDMQn3l7IW-G4hfLBknCU8YFvA-veiDI"/>
+<span class="text-sm font-medium text-primary">Google</span>
+</button>
+<button class="flex items-center justify-center w-full px-4 py-3 bg-white border border-lavender rounded-xl hover:bg-soft-pink/20 transition-colors" type="button">
+<img alt="Apple logo" class="h-5 w-5 mr-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArMPOwgeqSLxe0hIJO_RYFEbXihHQqEtaQsgWW-sw_i3U-NayiiAXNC7d1NQ3UpVI4mwplVnaTlgffrV110LC2Yez4LtJqQiLZnWISeS2dzAEUcpWM1ftY_pKhQEWbUPlm7uTfAGKBuRSOZVppqWKyZ6AGSBEumTD2-o9X6hsH6X9TvZeoWSd3Dgq_8bdyPyo9GssJvY3uTfa4-DOLHbHeYtLN_lc6Z7u8xZoLaHLPeHFTjmoVZXaivpN6HtZpeKSaM4KdzzZj8J4"/>
+<span class="text-sm font-medium text-primary">Apple</span>
+</button>
+</div>
+<div class="mt-8 text-center">
+<p class="text-xs text-text-muted flex items-center justify-center">
+<span class="material-symbols-outlined align-middle text-sm mr-1.5 text-accent">verified</span>
+                        Your journey is private and protected.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full py-6 text-center">
+<div class="flex justify-center gap-8 text-sm text-text-muted">
+<a class="hover:text-accent transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-accent transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-accent transition-colors" href="#">Cookie Policy</a>
+</div>
+</footer>
 
-<section class="page-wrapper">
-    <div class="auth-card">
-
-        <h2 class="auth-title">✨ Create Account</h2>
-        <p class="auth-subtitle">Join us and start your journey</p>
-
-        <form method="post" class="auth-form">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}">
-
-            {% if form.non_field_errors %}
-                <div class="form-errors">
-                    {% for err in form.non_field_errors %}
-                        <div class="error">{{ err }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-            <div class="form-group">
-                <label>Username</label>
-                {{ form.username }}
-                {% if form.username.errors %}
-                    <div class="error">{{ form.username.errors|striptags }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                {{ form.email }}
-                {% if form.email.errors %}
-                    <div class="error">{{ form.email.errors|striptags }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                {{ form.password1 }}
-                {% if form.password1.errors %}
-                    <div class="error">{{ form.password1.errors|striptags }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label>Confirm Password</label>
-                {{ form.password2 }}
-                {% if form.password2.errors %}
-                    <div class="error">{{ form.password2.errors|striptags }}</div>
-                {% endif %}
-            </div>
-
-            <button type="submit" class="auth-btn">
-                Register →
-            </button>
-        </form>
-
-        <p class="auth-link">
-            Already have an account?
-            <a href="{% url 'users:login' %}">Login</a>
-        </p>
-
-    </div>
-</section>
-
-</body>
-</html>
+</body></html>

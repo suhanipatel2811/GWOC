@@ -1,246 +1,322 @@
-
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Profile</title>
-        <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
-        <link rel="stylesheet" href="{% static 'core/css/p.css' %}">
-        <style>
-            /* Inline overrides to ensure the profile card stays centered and content remains inside the box */
-            .container { max-width:720px !important; margin:0 auto !important; }
-            .profile-card { width:100% !important; box-sizing:border-box !important; overflow:hidden !important; }
-            .profile-grid { display:flex !important; gap:24px !important; align-items:flex-start !important; justify-content:flex-start !important; flex-wrap:nowrap !important }
-            .profile-grid > div:first-child { flex: 0 0 200px !important; display:flex !important; flex-direction:column !important; align-items:center !important }
-            .profile-grid > div:last-child { flex: 1 1 auto !important; min-width:0 !important; padding-left:8px !important }
-            .profile-actions { display:flex !important; flex-direction:column !important; gap:14px !important; align-items:flex-start !important; margin-top:12px }
-            .profile-actions .btn { min-width:150px !important }
-            /* Mobile adjustments */
-            @media (max-width:600px) {
-                .profile-grid { flex-direction:column !important; align-items:center !important }
-                .profile-actions { align-items:center !important }
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - User Profile</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3F2965", // Deep Purple
+                        "primary-dark": "#2a1b46",
+                        "vibrant-pink": "#DD1764", // Vibrant Pink
+                        "pale-lavender": "#EBE7F2", // Soft Pale Lavender
+                        "soft-pink": "#FADDE6", // Soft Pink
+                        "background-light": "#FFFFFF", // White as requested
+                        "background-dark": "#18151d", 
+                        "surface-light": "#ffffff", 
+                        "surface-dark": "#1a2c26", 
+                        "text-main": "#111815", 
+                        "text-muted": "#63887c"
+                    }, 
+                    fontFamily: {
+                        display: "Lexend"
+                    }, 
+                    borderRadius: {
+                        DEFAULT: "0.5rem", 
+                        lg: "1rem", 
+                        xl: "1.5rem", 
+                        full: "9999px"
+                    }
+                }
             }
-        </style>
+        };
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dce5e2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #63887c;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
 </head>
-<body>
-
-<section class="page-section booking-section">
-        <div class="booking-card">
-                <div class="container">
-                        <div class="profile-card">
-
-                                <h2 class="profile-title">👋 Welcome, <span id="display-username">{{ request.user.username }}</span></h2>
-
-                                <div class="profile-grid">
-                                    <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
-                                        {% if request.user.profile.avatar %}
-                                            <img id="avatarImg" src="{{ request.user.profile.avatar.url }}" alt="avatar">
-                                        {% else %}
-                                            <div id="avatarPlaceholder">No Avatar</div>
-                                        {% endif %}
-
-                                        <div style="margin-top:8px;">
-                                            <input id="avatarInput" type="file" accept="image/*">
-                                            <button id="uploadAvatarBtn" class="btn">Upload</button>
-                                        </div>
-                                        <div id="avatarMsg" style="margin-top:6px;display:none"></div>
-
-                                        <div id="profile-view" style="margin-top:18px; text-align:center;">
-                                            <p><strong>Name:</strong> <span id="display-name">{{ request.user.first_name }} {{ request.user.last_name }}</span></p>
-                                            <p><strong>Email:</strong> <span id="display-email">{{ request.user.email }}</span></p>
-                                            <div class="profile-actions" style="margin-top:12px;">
-                                                <button id="editBtn" class="btn">Edit Profile</button>
-                                                <a href="{% url 'users:logout' %}" class="btn logout-btn">Logout</a>
-                                                <button id="pwdBtn" class="btn">Change Password</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <form id="profile-form" style="display:none; margin-top:12px;" onsubmit="return false;">
-                                        {% csrf_token %}
-                                        <label>First name<br><input type="text" id="first_name" name="first_name" value="{{ request.user.first_name }}"></label><br>
-                                        <label>Last name<br><input type="text" id="last_name" name="last_name" value="{{ request.user.last_name }}"></label><br>
-                                        <label>Email<br><input type="email" id="email" name="email" value="{{ request.user.email }}"></label><br>
-                                        <div style="margin-top:8px;">
-                                                <button id="saveBtn" class="btn">Save</button>
-                                                <button id="cancelBtn" class="btn">Cancel</button>
-                                        </div>
-                                        <div id="profile-msg" style="margin-top:8px;display:none;"></div>
-                                </form>
-
-                                <form id="pwd-form" style="display:none;margin-top:12px;" onsubmit="return false;">
-                                        {% csrf_token %}
-                                        <label>Current password<br><input type="password" id="old_password" name="old_password"></label><br>
-                                        <label>New password<br><input type="password" id="new_password1" name="new_password1"></label><br>
-                                        <label>Confirm new password<br><input type="password" id="new_password2" name="new_password2"></label><br>
-                                        <div style="margin-top:8px;">
-                                                <button id="pwdSaveBtn" class="btn">Save Password</button>
-                                                <button id="pwdCancelBtn" class="btn">Cancel</button>
-                                        </div>
-                                        <div id="pwd-msg" style="margin-top:8px;display:none"></div>
-                                </form>
-
-                                <div style="margin-top:18px;">
-                                        <h3>Recent activity</h3>
-                                        <ul id="activityList">
-                                                {% for a in activities %}
-                                                        <li>{{ a.action }} — {{ a.timestamp }}</li>
-                                                {% empty %}
-                                                        <li>No recent activity</li>
-                                                {% endfor %}
-                                        </ul>
-                                </div>
-
-                        </div>
-                </div>
-        </div>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex w-72 flex-col bg-surface-light dark:bg-surface-dark border-r border-[#f0f4f3] dark:border-[#2a3c36] h-full transition-colors duration-200">
+<div class="p-6">
+<div class="flex items-center gap-3 text-text-main dark:text-white mb-8">
+<div class="size-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-tight text-primary">MindSettler</h2>
+</div>
+<div class="flex gap-4 items-center mb-8 p-3 rounded-xl bg-gray-50 dark:bg-[#11211c]">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" data-alt="Portrait of Sarah Jenkins, a mindful member" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB4G3pPFJ2c3tBWd6DkWcI25mqVwnVl0FPHvIlKT-DcZg0JMcwM7dvJU9i4-Zu3MH3G8QTV5mUUfZmJ5C8IWO5LwSvggk6EsNQsU9-x9hGPbrex-pD6erfnb1YkL7wkw8ps6IHmyPjPllrJnT2abhuPla-rolJLcAzV_swck7FNTzXuaFCDZcIRO2HTKLPFrQ3LGYRWMxA-sGzJvqLzuApArcLoyOxmWjzCRJiwKz9N54WWmAuBnebSokkjxgz3aIA0rLVB-h4LShI");'></div>
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-bold truncate text-text-main dark:text-white">Sarah Jenkins</h3>
+<p class="text-xs text-text-muted dark:text-gray-400 truncate">Member since 2023</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="#">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">dashboard</span>
+<span class="font-medium text-sm">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-pale-lavender dark:bg-primary/20 text-primary dark:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined filled">person</span>
+<span class="font-medium text-sm">Personal Info</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="#">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">history</span>
+<span class="font-medium text-sm">Session History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="#">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">bar_chart</span>
+<span class="font-medium text-sm">My Progress</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="#">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-[#f0f4f3] dark:border-[#2a3c36]">
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-text-muted dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-medium text-sm">Log Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto relative bg-background-light dark:bg-background-dark">
+<header class="md:hidden flex items-center justify-between px-4 py-3 bg-surface-light dark:bg-surface-dark border-b border-[#f0f4f3] dark:border-[#2a3c36] sticky top-0 z-20">
+<div class="flex items-center gap-3 text-text-main dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="font-bold text-lg text-primary">MindSettler</span>
+</div>
+<button class="text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<header class="hidden md:flex items-center justify-between px-8 py-4 bg-background-light dark:bg-background-dark/50 backdrop-blur-sm sticky top-0 z-10 border-b border-transparent">
+<div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors relative border border-gray-100 dark:border-transparent">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2.5 right-2.5 size-2 bg-vibrant-pink rounded-full border-2 border-white dark:border-[#2a3c36]"></span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors border border-gray-100 dark:border-transparent">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</header>
+<div class="px-4 md:px-8 py-6 w-full max-w-6xl mx-auto space-y-6 md:space-y-8 pb-20">
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-[#2a3c36] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+<div class="flex flex-col md:flex-row items-center md:items-start gap-6 relative z-10">
+<div class="relative group cursor-pointer">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-24 md:size-32 ring-4 ring-white dark:ring-[#2a3c36]" data-alt="Close up portrait of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZNVSHydHlpDz-U6fQIqeeAhL3ySFcvTkBbDj6zT0cDuV8UHJ4p-urubE0V3zN1ZB-byeRooPK8SgPKaBcXbAz73UMzmTvC0i44I2qdKGF3OgdLiBdgCJSxK4W4bf1Lcx7QHurhL4HDs5vlLn8e1ko5wr4mdsDw3gasr5ozVyHvxipaAqYxH4dELWBxkPnaTsgceqvq6-vRL1mmzF76_YZwglsjhgSYwtCPAG73IwwybBg9zXRwN3JOh_KTgJ2LSP4_LcPdQCHraU");'></div>
+<button aria-label="Change Avatar" class="absolute bottom-0 right-0 p-2 bg-vibrant-pink text-white rounded-full shadow-lg hover:bg-vibrant-pink/90 transition-colors">
+<span class="material-symbols-outlined text-[18px] md:text-[20px]">photo_camera</span>
+</button>
+</div>
+<div class="flex flex-col items-center md:items-start text-center md:text-left pt-2">
+<h1 class="text-2xl md:text-3xl font-bold text-text-main dark:text-white leading-tight">Welcome back, Sarah</h1>
+<p class="text-text-muted dark:text-gray-400 mt-1">Ready to continue your journey today?</p>
+<div class="flex items-center gap-2 mt-3">
+<span class="px-3 py-1 bg-pale-lavender dark:bg-primary/20 text-primary dark:text-primary-light text-xs font-bold rounded-full uppercase tracking-wider">Mindful Member</span>
+</div>
+</div>
+<div class="md:ml-auto flex gap-3 mt-4 md:mt-0">
+<button class="px-4 py-2 bg-primary text-white font-bold text-sm rounded-lg shadow-md hover:bg-primary/90 transition-colors">Start Session</button>
+</div>
+</div>
 </section>
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 border border-gray-100 dark:border-[#2a3c36] shadow-sm flex flex-col justify-between h-32 hover:border-vibrant-pink/30 transition-colors group">
+<div class="flex items-center gap-2 text-text-muted dark:text-gray-400">
+<span class="material-symbols-outlined text-vibrant-pink group-hover:scale-110 transition-transform">self_improvement</span>
+<p class="text-sm font-medium">Days Mindful</p>
+</div>
+<p class="text-3xl font-bold text-text-main dark:text-white">14</p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 border border-gray-100 dark:border-[#2a3c36] shadow-sm flex flex-col justify-between h-32 hover:border-vibrant-pink/30 transition-colors group">
+<div class="flex items-center gap-2 text-text-muted dark:text-gray-400">
+<span class="material-symbols-outlined text-vibrant-pink group-hover:scale-110 transition-transform">school</span>
+<p class="text-sm font-medium">Modules Completed</p>
+</div>
+<p class="text-3xl font-bold text-text-main dark:text-white">8</p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 border border-gray-100 dark:border-[#2a3c36] shadow-sm flex flex-col justify-between h-32 hover:border-vibrant-pink/30 transition-colors group">
+<div class="flex items-center gap-2 text-text-muted dark:text-gray-400">
+<span class="material-symbols-outlined text-vibrant-pink group-hover:scale-110 transition-transform">local_fire_department</span>
+<p class="text-sm font-medium">Current Streak</p>
+</div>
+<p class="text-3xl font-bold text-text-main dark:text-white">5 <span class="text-base font-normal text-text-muted dark:text-gray-500">days</span></p>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] overflow-hidden">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-[#2a3c36] flex justify-between items-center">
+<h3 class="text-lg font-bold text-text-main dark:text-white">Personal Information</h3>
+<button class="text-sm font-medium text-primary hover:text-primary-dark transition-colors">Edit</button>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-medium text-primary dark:text-gray-400" for="fullName">Full Name</label>
+<input class="w-full px-4 py-3 rounded-lg bg-pale-lavender dark:bg-[#11211c] border-transparent focus:border-primary focus:bg-white dark:focus:bg-[#1a2c26] focus:ring-0 text-text-main dark:text-white text-sm transition-all" id="fullName" readonly="" type="text" value="Sarah Jenkins"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-primary dark:text-gray-400" for="email">Email Address</label>
+<input class="w-full px-4 py-3 rounded-lg bg-pale-lavender dark:bg-[#11211c] border-transparent focus:border-primary focus:bg-white dark:focus:bg-[#1a2c26] focus:ring-0 text-text-main dark:text-white text-sm transition-all" id="email" readonly="" type="email" value="sarah.jenkins@example.com"/>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="text-sm font-medium text-primary dark:text-gray-400" for="bio">Your Motto</label>
+<div class="relative">
+<textarea class="w-full px-4 py-3 rounded-lg bg-pale-lavender dark:bg-[#11211c] border-transparent focus:border-primary focus:bg-white dark:focus:bg-[#1a2c26] focus:ring-0 text-text-main dark:text-white text-sm transition-all resize-none" id="bio" placeholder="What drives you?" rows="2">Finding peace in the little moments.</textarea>
+</div>
+<p class="text-xs text-text-muted dark:text-gray-500 mt-1">This will be displayed on your profile card.</p>
+</div>
+</div>
+<div class="px-6 py-4 bg-gray-50 dark:bg-[#15231f] flex justify-end">
+<button class="px-5 py-2 bg-primary text-white font-bold text-sm rounded-lg shadow-sm hover:bg-primary/90 transition-colors">Save Changes</button>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] p-6">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-white">Mood History</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Your emotional journey over the last 7 days</p>
+</div>
+<select class="bg-gray-50 dark:bg-[#11211c] border-none text-xs rounded-lg px-3 py-1.5 text-text-main dark:text-white focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+</select>
+</div>
+<div class="relative w-full h-48">
+<svg class="w-full h-full overflow-visible" fill="none" height="100%" preserveAspectRatio="none" viewBox="0 0 478 150" width="100%">
+<defs>
+<linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#DD1764" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#DD1764" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path d="M0 109 C18 109 18 21 36 21 C54 21 54 41 72 41 C90 41 90 93 108 93 C127 93 127 33 145 33 C163 33 163 101 181 101 C199 101 199 61 217 61 C236 61 236 45 254 45 C272 45 272 121 290 121 C308 121 308 149 326 149 C344 149 344 1 363 1 C381 1 381 81 399 81 C417 81 417 129 435 129 C453 129 453 25 478 25 V 150 H 0 Z" fill="url(#chartGradient)"></path>
+<path d="M0 109 C18 109 18 21 36 21 C54 21 54 41 72 41 C90 41 90 93 108 93 C127 93 127 33 145 33 C163 33 163 101 181 101 C199 101 199 61 217 61 C236 61 236 45 254 45 C272 45 272 121 290 121 C308 121 308 149 326 149 C344 149 344 1 363 1 C381 1 381 81 399 81 C417 81 417 129 435 129 C453 129 453 25 478 25" fill="none" stroke="#DD1764" stroke-linecap="round" stroke-width="3"></path>
+<circle class="fill-white dark:fill-[#1a2c26] stroke-vibrant-pink" cx="36" cy="21" r="4" stroke-width="2"></circle>
+<circle class="fill-white dark:fill-[#1a2c26] stroke-vibrant-pink" cx="145" cy="33" r="4" stroke-width="2"></circle>
+<circle class="fill-white dark:fill-[#1a2c26] stroke-vibrant-pink" cx="254" cy="45" r="4" stroke-width="2"></circle>
+<circle class="fill-white dark:fill-[#1a2c26] stroke-vibrant-pink" cx="363" cy="1" r="4" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="flex justify-between mt-4 px-2">
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Mon</span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Tue</span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Wed</span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Thu</span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Fri</span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Sat</span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Sun</span>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-soft-pink dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] p-6">
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-4">Recent Journey</h3>
+<div class="relative pl-4 border-l-2 border-white/50 dark:border-[#2a3c36] space-y-6">
+<div class="relative pl-4">
+<div class="absolute -left-[21px] top-1 size-3 bg-vibrant-pink rounded-full border-2 border-white dark:border-[#1a2c26]"></div>
+<p class="text-xs font-semibold text-text-muted dark:text-gray-400 mb-0.5">Today, 9:30 AM</p>
+<h4 class="text-sm font-bold text-text-main dark:text-white">Morning Meditation</h4>
+<p class="text-xs text-text-muted dark:text-gray-500 mt-1">Completed 15 min session</p>
+</div>
+<div class="relative pl-4">
+<div class="absolute -left-[21px] top-1 size-3 bg-vibrant-pink rounded-full border-2 border-white dark:border-[#1a2c26]"></div>
+<p class="text-xs font-semibold text-text-muted dark:text-gray-400 mb-0.5">Yesterday</p>
+<h4 class="text-sm font-bold text-text-main dark:text-white">Anxiety Basics: Module 3</h4>
+<p class="text-xs text-text-muted dark:text-gray-500 mt-1">Read article &amp; journaled</p>
+</div>
+<div class="relative pl-4">
+<div class="absolute -left-[21px] top-1 size-3 bg-vibrant-pink rounded-full border-2 border-white dark:border-[#1a2c26]"></div>
+<p class="text-xs font-semibold text-text-muted dark:text-gray-400 mb-0.5">Oct 24</p>
+<h4 class="text-sm font-bold text-text-main dark:text-white">Weekly Check-in</h4>
+<p class="text-xs text-text-muted dark:text-gray-500 mt-1">Mood logged: Calm</p>
+</div>
+</div>
+<button class="w-full mt-6 py-2 text-sm font-medium text-primary hover:bg-white/30 rounded-lg transition-colors">View Full History</button>
+</div>
+<div class="bg-pale-lavender dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] p-6">
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-4">Preferences</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-text-main dark:text-white">Email Notifications</p>
+<p class="text-xs text-text-muted dark:text-gray-500">Weekly progress reports</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-vibrant-pink"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-text-main dark:text-white">Daily Reminder</p>
+<p class="text-xs text-text-muted dark:text-gray-500">Push notifications at 9 AM</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-vibrant-pink"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-text-main dark:text-white">Public Profile</p>
+<p class="text-xs text-text-muted dark:text-gray-500">Allow friends to find you</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-vibrant-pink"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="mt-8 text-center border-t border-gray-100 dark:border-[#2a3c36] pt-6 pb-2">
+<p class="text-xs text-text-muted dark:text-gray-500">
+                    © 2024 MindSettler. Prioritizing your mental wellness.
+                </p>
+</footer>
+</main>
+</div>
 
-<script>
-// CSRF helper
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-const editBtn = document.getElementById('editBtn');
-const saveBtn = document.getElementById('saveBtn');
-const cancelBtn = document.getElementById('cancelBtn');
-const profileForm = document.getElementById('profile-form');
-const profileView = document.getElementById('profile-view');
-const msg = document.getElementById('profile-msg');
-
-if (editBtn) {
-    editBtn.addEventListener('click', () => {
-        profileView.style.display = 'none';
-        profileForm.style.display = 'block';
-        msg.style.display = 'none';
-    });
-}
-
-if (cancelBtn) {
-    cancelBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        profileForm.style.display = 'none';
-        profileView.style.display = 'block';
-    });
-}
-
-if (saveBtn) {
-    saveBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const csrftoken = getCookie('csrftoken');
-        const data = new URLSearchParams();
-        data.append('first_name', document.getElementById('first_name').value);
-        data.append('last_name', document.getElementById('last_name').value);
-        data.append('email', document.getElementById('email').value);
-
-        saveBtn.disabled = true;
-        msg.style.display = 'none';
-
-        try {
-            const res = await fetch('{% url "users:update_profile" %}', { method: 'POST', headers: { 'X-CSRFToken': csrftoken }, body: data });
-            const json = await res.json();
-            if (res.ok && json.success) {
-                document.getElementById('display-name').textContent = (json.first_name + ' ' + json.last_name).trim();
-                document.getElementById('display-email').textContent = json.email;
-                profileForm.style.display = 'none';
-                profileView.style.display = 'block';
-                msg.style.display = 'block';
-                msg.style.color = 'green';
-                msg.textContent = 'Profile updated successfully.';
-            } else {
-                msg.style.display = 'block';
-                msg.style.color = 'red';
-                msg.textContent = json.error || 'Failed to update profile.';
-            }
-        } catch (err) {
-            msg.style.display = 'block';
-            msg.style.color = 'red';
-            msg.textContent = 'Network error.';
-        } finally {
-            saveBtn.disabled = false;
-        }
-    });
-}
-
-// Avatar upload
-const uploadAvatarBtn = document.getElementById('uploadAvatarBtn');
-const avatarInput = document.getElementById('avatarInput');
-const avatarMsg = document.getElementById('avatarMsg');
-if (uploadAvatarBtn) {
-    uploadAvatarBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        if (!avatarInput.files.length) return;
-        const csrftoken = getCookie('csrftoken');
-        const fd = new FormData();
-        fd.append('avatar', avatarInput.files[0]);
-        uploadAvatarBtn.disabled = true;
-        avatarMsg.style.display = 'none';
-        try {
-            const res = await fetch('{% url "users:upload_avatar" %}', { method: 'POST', headers: { 'X-CSRFToken': csrftoken }, body: fd });
-            const json = await res.json();
-            if (res.ok && json.success) {
-                const img = document.getElementById('avatarImg');
-                if (img) img.src = json.avatar_url + '?t=' + Date.now();
-                const ph = document.getElementById('avatarPlaceholder'); if (ph) ph.style.display = 'none';
-                avatarMsg.style.display = 'block'; avatarMsg.style.color = 'green'; avatarMsg.textContent = 'Avatar uploaded.';
-            } else {
-                avatarMsg.style.display = 'block'; avatarMsg.style.color = 'red'; avatarMsg.textContent = json.error || 'Upload failed';
-            }
-        } catch (err) {
-            avatarMsg.style.display = 'block'; avatarMsg.style.color = 'red'; avatarMsg.textContent = 'Network error';
-        } finally { uploadAvatarBtn.disabled = false; }
-    });
-}
-
-// Password change handlers
-const pwdBtn = document.getElementById('pwdBtn');
-const pwdForm = document.getElementById('pwd-form');
-const pwdCancelBtn = document.getElementById('pwdCancelBtn');
-const pwdSaveBtn = document.getElementById('pwdSaveBtn');
-const pwdMsg = document.getElementById('pwd-msg');
-
-if (pwdBtn) pwdBtn.addEventListener('click', () => { profileView.style.display = 'none'; profileForm.style.display = 'none'; pwdForm.style.display = 'block'; pwdMsg.style.display = 'none'; });
-if (pwdCancelBtn) pwdCancelBtn.addEventListener('click', (e) => { e.preventDefault(); pwdForm.style.display = 'none'; profileView.style.display = 'block'; });
-
-if (pwdSaveBtn) {
-    pwdSaveBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const csrftoken = getCookie('csrftoken');
-        const data = new URLSearchParams();
-        data.append('old_password', document.getElementById('old_password').value);
-        data.append('new_password1', document.getElementById('new_password1').value);
-        data.append('new_password2', document.getElementById('new_password2').value);
-        pwdSaveBtn.disabled = true; pwdMsg.style.display = 'none';
-        try {
-            const res = await fetch('{% url "users:change_password" %}', { method: 'POST', headers: { 'X-CSRFToken': csrftoken }, body: data });
-            const json = await res.json();
-            if (res.ok && json.success) {
-                pwdMsg.style.display = 'block'; pwdMsg.style.color = 'green'; pwdMsg.textContent = 'Password changed.';
-                setTimeout(() => { pwdForm.style.display = 'none'; profileView.style.display = 'block'; }, 900);
-            } else {
-                pwdMsg.style.display = 'block'; pwdMsg.style.color = 'red';
-                pwdMsg.textContent = json.error || 'Failed to change password.';
-            }
-        } catch (err) { pwdMsg.style.display = 'block'; pwdMsg.style.color = 'red'; pwdMsg.textContent = 'Network error'; }
-        finally { pwdSaveBtn.disabled = false; }
-    });
-}
-</script>
-</body>
-</html>
+</body></html>

@@ -1,126 +1,373 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MindSettler</title>
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Your Path to Clarity</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3F2965",
+                        secondary: "#DD1764",
+                        lavender: "#EBE7F2",
+                        "soft-pink": "#FADDE6",
+                        "text-main": "#2D1F44",
+                        "text-sub": "#635875"
+                    }, 
+                    fontFamily: {
+                        display: "Lexend"
+                    }, 
+                    borderRadius: {
+                        DEFAULT: "0.5rem", 
+                        lg: "1rem", 
+                        xl: "1.5rem", 
+                        full: "9999px"
+                    }, 
+                    animation: {
+                        float: "float 6s ease-in-out infinite"
+                    }, 
+                    keyframes: {
+                        float: {
+                            "0%, 100%": {transform: "translateY(0)"}, 
+                            "50%": {transform: "translateY(-10px)"}
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+<style type="text/tailwindcss">html {
+            scroll-behavior: smooth;
+        }::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3F2965; 
+            border-radius: 4px;
+            opacity: 0.2;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2D1F44; 
+        }
+        .path-connector {
+            background: linear-gradient(180deg, #EBE7F2 0%, #DD1764 50%, #EBE7F2 100%);
+            width: 2px;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-white font-display text-text-main overflow-x-hidden antialiased">
+<header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-lavender">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">spa</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-primary">MindSettler</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a href="{% url 'core:about' %}"class="text-sm font-medium text-text-main hover:text-secondary transition-colors" href="#approach">About Us</a>
+<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors" href="#resources">Psycho-Education</a>
+<a href="{% url 'core:journey' %}"class="text-sm font-medium text-text-main hover:text-secondary transition-colors" href="#specialists">Journey</a>
+<a href="{% url 'users:login' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors">
+                        Login</a>
+<a href="{% url 'users:register' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors">Register</a>
+</nav>
 
-<!-- NAVBAR -->
-<header class="ms-navbar">
-    <div class="ms-nav-inner">
-        <div class="ms-brand">
-            <a href="/">MindSettler</a>
-        </div>
-
-        <nav class="ms-nav">
-            <a href="#">Our Approach</a>
-            <a href="#">Resources</a>
-            <a href="#">Specialists</a>
-        </nav>
-
-        <div class="ms-actions">
-            <a class="ms-login" href="#">Login</a>
-            <a class="ms-cta" href="#">Get Started</a>
-        </div>
-    </div>
+<button class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-primary hover:opacity-90 shadow-lg shadow-primary/20 transition-all transform hover:scale-105">
+                        Get Started
+                    </button>
+</div>
+</div>
+<div class="md:hidden">
+<button class="p-2 rounded-lg text-primary hover:bg-lavender">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
 </header>
-
-<!-- HERO -->
-<section class="ms-hero">
-    <div class="ms-hero-inner">
-        <div class="ms-hero-left">
-            <span class="ms-hero-badge">A new way to understand yourself</span>
-            <h1>It's okay not to have all the answers yet.
-                <br>Let's find them together.</h1>
-            <p class="ms-hero-sub">MindSettler is a psycho-education platform designed to help you understand the "why" behind your feelings and guide you to clarity through a personal journey.</p>
-
-            <div class="ms-hero-cta">
-                <a class="btn btn-primary" href="#">Start Your Journey</a>
-                <a class="btn btn-secondary" href="#">Watch How It Works</a>
-            </div>
-
-            <div class="ms-hero-meta">
-                <img src="{% static 'core/images/avatar_placeholder.png' %}" alt="avatars">
-                <span>Joined the journey this month</span>
-            </div>
-        </div>
-
-        <div class="ms-hero-right">
-            <div class="ms-hero-card">
-                <img src="{% static 'core/images/meditation.jpg' %}" alt="hero image">
-                <div class="ms-hero-card-tag">Emotional Clarity — "I finally understand why I react this way"</div>
-            </div>
-        </div>
-    </div>
+<main class="relative flex flex-col w-full">
+<section class="relative pt-20 pb-32 overflow-hidden bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="flex flex-col gap-6 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-soft-pink text-secondary w-fit text-sm font-medium">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+<span>A new way to understand yourself</span>
+</div>
+<h1 class="text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-primary">
+                        It's okay not to have all the answers yet. <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">Let's find them together.</span>
+</h1>
+<p class="text-lg text-text-sub leading-relaxed max-w-lg">
+                        MindSettler is a psycho-education platform designed to help you understand the 'why' behind your feelings and guide you to clarity through a personal journey.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<a href="{% url 'users:login' %}" class="flex items-center justify-center gap-2 h-14 px-8 rounded-xl bg-primary text-white text-base font-bold shadow-xl shadow-primary/25 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                            Start Your Journey
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+<button class="flex items-center justify-center gap-2 h-14 px-8 rounded-xl bg-white border border-lavender text-primary text-base font-bold hover:bg-lavender/30 transition-colors">
+<span class="material-symbols-outlined text-secondary">play_circle</span>
+                            Watch How It Works
+                        </button>
+</div>
+<div class="pt-8 flex items-center gap-4 text-sm text-text-sub">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-white bg-lavender overflow-hidden">
+<img alt="User portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLNRLIVlTpdcxT3RDz6SISIOJ5oxKfyrNp64bda4X2GQj8g5sUEunD-SNGV9_4KwWw5_c3M53itobuxm9zAsHikIytvmcopkJpm-HSsmtCF9pp5FVB0_a1-bsGGig-br02dbyI0CGcHf4zpy9K2lzX9uKHYaYTXEzcqQj6Q6zNheBYfaZKZAx0TGuoSf08GQT6Dnsm4AI5_Pm2Yq39qci8V3FN4wXuMvQ9jqWwxjqfAIZeady5dKytvpOdJrTOgk6iktPpPvmiF1o"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-lavender overflow-hidden">
+<img alt="User portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7nkBQTPBR-VHOYjRN_vU-L3WIVKIETFsSewTPsH3QPNZ8bpr5VwRC_kqxfXn7BLOgqrCqxJuj_AK8em0PGeMjfepiXAehgGAM06e5WRcAM6TTJP7sA77lUjQ17R1HJgEnsP9lPXN7xPo-CCHCeCx5b32HHinvQABNJhohuHIihUXrfYcJDWDUghFC54C6U8tIe7xLrBtLEFMelL75IFFw2eKtxDGuJfITVTpD3-ZA4WoP7l6ovLPgViuF_pKjjX3dxVxyUjct7wk"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-lavender overflow-hidden">
+<img alt="User portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5T2y_R9cJZWntz9wZLOlPZ9tsODTWK3E55A8nBHDsrQDrIu3cNe8h1tL0jMABmlMjhMoXMTmHla1SSi6xPRKG4445m4iLuyLZtHO8NBcJuMYdmalrPB8wDimKnszflHa7zfR43y0rk93p-4SVhTAFiClwy-UedUJ-tt97C1bbqTbNGcbyA8a6lclUqZJZ_uTerZrQ7z0dqQJhcINhwuKXGzFFEqlysNvXMFtsKRNInF5jk-ZHa3Cm-SXavIWnLzyOlwMUsV7wewM"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-secondary flex items-center justify-center text-white text-xs font-bold">
+                                2k+
+                            </div>
+</div>
+<p>Joined the journey this month</p>
+</div>
+</div>
+<div class="relative lg:h-[600px] w-full flex items-center justify-center animate-float hidden lg:flex">
+<div class="absolute inset-0 bg-gradient-to-tr from-lavender to-soft-pink rounded-[3rem] transform rotate-3 scale-90 opacity-60"></div>
+<div class="relative z-10 w-full h-[500px] rounded-[2.5rem] overflow-hidden shadow-2xl">
+<img alt="Hiker overlooking a serene valley" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc6ZYflLKNnU1WoaWgBW0OrYL_VZeucXVqBZueTPlAR3E3pBUNlgTM28WTmybtPJuFHNVyzc479-8F4f5Ckfr1junAAje8zo7gArLVM3Ujm6o_k7gEbGfoYkIqMAjRteW62_KJb1inNiaRu8AKWSf3ffArDVHyenH35tw37rGa3RwjIQU4LoBIaA4v0IuF9-viX33ZjrHlRmwf0leNNNBp3LIIkLdpviYzMFnSVJZtJYCPA4ID3CSlkDipHoN5uNkt8DjcVUeRvzU"/>
+<div class="absolute bottom-8 left-8 bg-white/95 backdrop-blur p-4 rounded-xl shadow-lg max-w-[260px] border border-lavender">
+<div class="flex items-start gap-3">
+<div class="p-2 bg-lavender rounded-lg text-primary">
+<span class="material-symbols-outlined">psychology_alt</span>
+</div>
+<div>
+<h4 class="font-bold text-sm text-primary">Emotional Clarity</h4>
+<p class="text-xs text-text-sub mt-1">"I finally understand why I react this way."</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute top-0 right-0 -z-10 w-1/2 h-full bg-gradient-to-l from-lavender/30 to-transparent pointer-events-none"></div>
 </section>
-
-<!-- ROADMAP -->
-<section class="ms-roadmap">
-    <div class="ms-container">
-        <h2>Your Roadmap to Wellness</h2>
-        <p class="muted">Mental health isn't a destination, it's a journey. We've mapped out a guided path to help you move from confusion to confidence.</p>
-
-        <div class="ms-steps">
-            <div class="step">
-                <div class="step-card">1. Assessment
-                    <p class="small">We start by understanding where you are. Our clinically-backed assessment helps identify your emotional baseline without judgment.</p>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-card">2. Learning
-                    <p class="small">Access personalized psycho-educational modules. Learn the 'why' behind your emotions with bite-sized content.</p>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-card">3. Growth
-                    <p class="small">Apply your knowledge with therapist support. Track progress and build resilience.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="py-10 border-y border-lavender bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+<div class="h-8 w-32 bg-primary/10 rounded"></div>
+<div class="h-8 w-32 bg-primary/10 rounded"></div>
+<div class="h-8 w-32 bg-primary/10 rounded"></div>
+<div class="h-8 w-32 bg-primary/10 rounded"></div>
+</div>
+</div>
 </section>
-
-<!-- FEATURES -->
-<section class="ms-features">
-    <div class="ms-container">
-        <h3>The MindSettler Difference</h3>
-        <p class="muted">We go beyond traditional therapy by combining clinical expertise with educational tools, empowering you to be your own healer.</p>
-
-        <div class="features-grid">
-            <div class="feature">Psycho-Education</div>
-            <div class="feature">Holistic Therapy</div>
-            <div class="feature">Community Circles</div>
-            <div class="feature">Daily Tools</div>
-        </div>
-    </div>
+<section class="relative py-24 bg-white" id="approach">
+<div class="max-w-3xl mx-auto text-center px-4 mb-20">
+<h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Your Roadmap to Wellness</h2>
+<p class="text-text-sub text-lg">Mental health isn't a destination, it's a journey. We've mapped out a guided path to help you move from confusion to confidence.</p>
+</div>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 relative">
+<div class="absolute left-1/2 top-0 bottom-0 w-1 bg-lavender -translate-x-1/2 hidden md:block rounded-full"></div>
+<div class="relative grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-24 group">
+<div class="md:text-right order-2 md:order-1">
+<div class="bg-lavender p-8 rounded-2xl shadow-sm border border-transparent hover:border-secondary/30 transition-all hover:shadow-md">
+<span class="inline-block p-3 bg-white text-secondary rounded-xl mb-4">
+<span class="material-symbols-outlined">search</span>
+</span>
+<h3 class="text-xl font-bold text-primary mb-2">1. Assessment</h3>
+<p class="text-text-sub">We start by understanding where you are. Our clinically-backed assessment helps identify your emotional baseline without judgment.</p>
+</div>
+</div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-4 border-white bg-secondary shadow-lg hidden md:block z-10 group-hover:scale-125 transition-transform"></div>
+<div class="order-1 md:order-2 pl-12 md:pl-0 relative">
+<div class="aspect-video rounded-xl overflow-hidden shadow-lg bg-soft-pink/50 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-secondary opacity-40">analytics</span>
+</div>
+</div>
+</div>
+<div class="relative grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-24 group">
+<div class="order-2 md:order-2">
+<div class="bg-soft-pink p-8 rounded-2xl shadow-sm border border-transparent hover:border-primary/30 transition-all hover:shadow-md">
+<span class="inline-block p-3 bg-white text-primary rounded-xl mb-4">
+<span class="material-symbols-outlined">menu_book</span>
+</span>
+<h3 class="text-xl font-bold text-primary mb-2">2. Learning</h3>
+<p class="text-text-sub">Access personalized psycho-educational modules. Learn the 'why' behind your emotions with bite-sized, digestible content.</p>
+</div>
+</div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-4 border-white bg-primary shadow-lg hidden md:block z-10 group-hover:scale-125 transition-transform"></div>
+<div class="order-1 md:order-1 pr-12 md:pr-0 relative text-right">
+<div class="aspect-video rounded-xl overflow-hidden shadow-lg bg-lavender/50 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-primary opacity-40">school</span>
+</div>
+</div>
+</div>
+<div class="relative grid md:grid-cols-2 gap-8 md:gap-16 items-center group">
+<div class="md:text-right order-2 md:order-1">
+<div class="bg-lavender p-8 rounded-2xl shadow-sm border border-transparent hover:border-secondary/30 transition-all hover:shadow-md">
+<span class="inline-block p-3 bg-white text-secondary rounded-xl mb-4">
+<span class="material-symbols-outlined">potted_plant</span>
+</span>
+<h3 class="text-xl font-bold text-primary mb-2">3. Growth</h3>
+<p class="text-text-sub">Apply your knowledge with therapist support. Track your progress, build resilience, and thrive in your daily life.</p>
+</div>
+</div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-4 border-white bg-secondary shadow-lg hidden md:block z-10 group-hover:scale-125 transition-transform"></div>
+<div class="order-1 md:order-2 pl-12 md:pl-0 relative">
+<div class="aspect-video rounded-xl overflow-hidden shadow-lg bg-soft-pink/50 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-secondary opacity-40">wb_sunny</span>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- CTA BANNER -->
-<section class="ms-cta-banner">
-    <div class="ms-container cta-inner">
-        <h2>Ready to find your balance?</h2>
-        <p class="muted">Take the first step today. Your first consultation is free, and there's no commitment required.</p>
-        <div class="cta-actions">
-            <a class="btn btn-primary" href="#">Book Your First Session</a>
-            <a class="btn btn-outline" href="#">Take Free Assessment</a>
-        </div>
-        <small class="muted">HIPAA Compliant & Secure</small>
-    </div>
+<section class="py-24 bg-white" id="resources">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row gap-12 items-start">
+<div class="flex-1 sticky top-32">
+<h2 class="text-4xl font-black text-primary mb-6 leading-tight">The MindSettler Difference</h2>
+<p class="text-lg text-text-sub mb-8 max-w-md">
+                        We go beyond traditional therapy by combining clinical expertise with educational tools, empowering you to be your own healer.
+                    </p>
+<button class="text-secondary font-bold hover:text-primary transition-colors inline-flex items-center gap-2 group">
+                        Explore all features 
+                        <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+<div class="flex-[1.5] grid sm:grid-cols-2 gap-6 w-full">
+<div class="p-6 rounded-2xl bg-lavender/40 border border-lavender hover:border-secondary transition-colors">
+<div class="w-12 h-12 rounded-xl bg-white text-primary flex items-center justify-center mb-4 shadow-sm">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Psycho-Education</h3>
+<p class="text-sm text-text-sub">Deep dive into the science of your mind with courses curated by PhDs.</p>
+</div>
+<div class="p-6 rounded-2xl bg-soft-pink/40 border border-soft-pink hover:border-primary transition-colors">
+<div class="w-12 h-12 rounded-xl bg-white text-secondary flex items-center justify-center mb-4 shadow-sm">
+<span class="material-symbols-outlined">handshake</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Holistic Therapy</h3>
+<p class="text-sm text-text-sub">Connect with licensed professionals who view you as a whole person.</p>
+</div>
+<div class="p-6 rounded-2xl bg-lavender/40 border border-lavender hover:border-secondary transition-colors">
+<div class="w-12 h-12 rounded-xl bg-white text-primary flex items-center justify-center mb-4 shadow-sm">
+<span class="material-symbols-outlined">diversity_3</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Community Circles</h3>
+<p class="text-sm text-text-sub">Find strength in small, moderated groups of peers on similar paths.</p>
+</div>
+<div class="p-6 rounded-2xl bg-soft-pink/40 border border-soft-pink hover:border-primary transition-colors">
+<div class="w-12 h-12 rounded-xl bg-white text-secondary flex items-center justify-center mb-4 shadow-sm">
+<span class="material-symbols-outlined">tools_wrench</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Daily Tools</h3>
+<p class="text-sm text-text-sub">Mood trackers, journaling prompts, and CBT exercises available 24/7.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<footer class="ms-footer">
-    <div class="ms-container">
-        <div>© 2024 MindSettler Inc. All rights reserved.</div>
-        <div class="footer-links">Terms · Privacy · Cookies</div>
-    </div>
+<section class="py-20 px-4 bg-white">
+<div class="max-w-5xl mx-auto bg-gradient-to-br from-lavender via-soft-pink to-lavender rounded-[2.5rem] p-10 md:p-20 text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+<div class="absolute bottom-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+<div class="relative z-10">
+<h2 class="text-3xl md:text-5xl font-black text-primary mb-6">Ready to find your balance?</h2>
+<p class="text-lg md:text-xl text-text-sub mb-10 max-w-2xl mx-auto">
+                    Take the first step today. Your first consultation is free, and there's no commitment required.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a href="{%url 'appointment:booking' %}" class="h-14 px-8 rounded-xl bg-primary text-white text-lg font-bold shadow-lg shadow-primary/30 hover:opacity-90 transition-all transform hover:scale-105">
+                        Book Your First Session
+                    </a>
+<button class="h-14 px-8 rounded-xl bg-white text-primary text-lg font-bold shadow-sm border border-lavender hover:border-secondary transition-all">
+                        Take Free Assessment
+                    </button>
+</div>
+<p class="mt-6 text-sm text-text-sub flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base text-secondary">verified_user</span>
+                    HIPAA Compliant &amp; Secure
+                </p>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white border-t border-lavender pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+<div class="col-span-2 lg:col-span-2">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">spa</span>
+<span class="text-xl font-bold text-primary">MindSettler</span>
+</div>
+<p class="text-text-sub text-sm leading-relaxed max-w-xs mb-6">
+                    Empowering individuals to understand their minds and reclaim their peace through education and connection.
+                </p>
+<div class="flex gap-4">
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Facebook</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+</a>
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Twitter</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>
+</a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Platform</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="#">Our Approach</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Specialists</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Resources</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Pricing</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Company</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Contact</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Support</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Crisis Resources</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Community Guidelines</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-lavender pt-8 mt-8 text-center md:text-left">
+<div class="bg-soft-pink/30 border border-soft-pink rounded-lg p-4 mb-6">
+<p class="text-secondary text-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-lg shrink-0">warning</span>
+<strong>In Crisis?</strong> If you or someone you know is in immediate danger, please call 911 or your local emergency number immediately. MindSettler is not an emergency service.
+                </p>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center text-sm text-text-sub">
+<p>© 2024 MindSettler Inc. All rights reserved.</p>
+<div class="flex gap-6 mt-4 md:mt-0">
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-primary transition-colors" href="#">Cookies</a>
+</div>
+</div>
+</div>
+</div>
 </footer>
 
-</body>
-</html>
+</body></html>

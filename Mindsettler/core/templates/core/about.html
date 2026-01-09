@@ -1,179 +1,324 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About Us - MindSettler</title>
-
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'core/css/about.css' %}">
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>How MindSettler Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3F2965",
+                        "accent": "#DD1764",
+                        "pale-lavender": "#EBE7F2",
+                        "soft-pink": "#FADDE6",
+                        "surface-light": "#ffffff",
+                        "text-main": "#3F2965",
+                        "text-muted": "#6b5e84",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            h1, h2, h3, h4 { @apply font-display text-primary; }
+            body { @apply font-body bg-white text-text-muted; }
+        }
+        .journey-line {
+            background: linear-gradient(to bottom, #3F2965, #FADDE6);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-white overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<header class="sticky top-0 z-50 w-full border-b border-pale-lavender bg-white/95 backdrop-blur-sm px-4 md:px-10 py-3">
+<div class="layout-content-container mx-auto flex max-w-[1200px] items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center rounded-full bg-pale-lavender p-2 text-accent">
+<span class="material-symbols-outlined">spa</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] text-primary">MindSettler</h2>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a href="#" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Home
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a href="{% url 'core:about' %}" class="text-sm font-medium text-accent cursor-default relative" href="#">
+                About
+                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-accent"></span>
+</a>
+<a href="{% url 'core:how_it_works' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                How It Works   
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
 
-<!-- NAVBAR (unchanged) -->
-<header class="navbar">
-    <div class="nav-logo">
-        <a href="{% url 'core:about' %}">
-            <img src="{% static 'core/images/logo.png' %}" width="180">
-        </a>
-    </div>
+<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                PsychoEdu
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a href="{% url 'corporate:corporate_services' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                Corporate Services
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+</nav>
+<div class="hidden md:flex gap-3">
+<a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJFeMdiXartq1qgkpFvqLvmJ5OkdfETBsbUebd226te2Wzf2gIcgjp8QC-jQfHeMLfEWIS66vx4-kMbBUaXXVdy2eDyyOQNZI8nH07pLuwpBzdbcIaUmuYhOS87LHpsaBziq_6XOBqKCF_aM9m1mARwk99Ok4vv7zDVTqdPQZ1EUJRUbr1KZ34vKBUFS8YNdBz6kJcmzYR0gDnaMKOV_kURF-SKv5WRPvDhFALyfsIsR77UkXb_AYfIOgyZ7r8MCYS1XqwC0WQA58");'>
+</a>
+</div>
 
-    <nav class="nav-links">
-        <a href="{% url 'core:about' %}">About Us</a>
-        <a href="#">Psycho-Education</a>
-        <a href="#">How It Works</a>
-        <a href="#">Services</a>
-        <a href="#">Resources</a>
-        <a href="#">FAQ & Contact</a>
-        <a href="{% url 'appointment:booking' %}" class="nav-btn">Book a Session</a>
-    </nav>
+<button class="md:hidden flex items-center justify-center p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
 </header>
-
-<!-- HERO / INTRO -->
-<section class="ms-hero ms-about-hero">
-    <div class="ms-container hero-grid">
-        <div class="hero-left">
-            <span class="hero-badge">OUR PURPOSE</span>
-            <h1>Guiding You to a <span class="accent">Settled Mind</span></h1>
-            <p class="lead">MindSettler bridges the gap between clinical psychology and daily life. We believe mental health education should be accessible, scientifically grounded, and deeply human.</p>
-
-            <div class="hero-ctas">
-                <a class="btn btn-primary" href="#">Start Your Journey</a>
-                <a class="btn btn-outline" href="#">Read Our Manifesto</a>
-            </div>
-        </div>
-
-        <div class="hero-right">
-            <div class="hero-image-card">
-                <img src="{% static 'core/images/hero-illustration.jpg' %}" alt="hero">
-            </div>
-        </div>
-    </div>
+<main class="flex-grow">
+<section class="w-full px-4 md:px-10 py-12 md:py-20 flex justify-center bg-white">
+<div class="max-w-[1200px] w-full">
+<div class="@container">
+<div class="flex flex-col-reverse gap-8 md:gap-16 lg:flex-row items-center">
+<div class="flex flex-col gap-6 flex-1 text-left">
+<div class="flex flex-col gap-4">
+<div class="inline-flex items-center gap-2 rounded-full bg-soft-pink px-3 py-1 w-fit">
+<span class="material-symbols-outlined text-accent text-sm">auto_awesome</span>
+<span class="text-xs font-bold uppercase tracking-wide text-accent">Our Journey</span>
+</div>
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-[-0.033em]">
+                                    Guiding You to a <span class="text-accent italic">Settled Mind</span>
+</h1>
+<h2 class="text-lg md:text-xl font-normal leading-relaxed text-text-muted max-w-[600px] font-body">
+                                    MindSettler bridges the gap between clinical psychology and daily life. We believe mental health education should be accessible, scientifically grounded, and deeply human.
+                                </h2>
+</div>
+<div class="flex gap-4 flex-wrap">
+<a href="{% url 'appointment:booking' %}" class="flex h-12 items-center justify-center rounded-xl bg-primary px-6 text-base font-bold text-white shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<span>Start Your Journey</span>
+</a>
+<button class="flex h-12 items-center justify-center rounded-xl border border-pale-lavender bg-white px-6 text-base font-bold text-primary hover:bg-pale-lavender/30 transition-colors">
+<span>Watch Introduction</span>
+</button>
+</div>
+</div>
+<div class="w-full flex-1">
+<div class="aspect-[4/3] w-full rounded-2xl bg-pale-lavender bg-cover bg-center shadow-2xl relative overflow-hidden" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA6-RwGSC3Xfzbc7mFEkYEOG6cmvem1nIYoZkWvQrevii2v1wZnjX-oxAZudL3tT-hWJ4DA_sT8_kPAbEfOv6u_J6I8ME_IEeSwGYDngZ2qCLM2j2TM4h3Ds2dTvVr-F4ojNvwks2mU3jdCFcYVPTwABxVLh3yx4jV9RHCBtudZuU6ASYytrVkh3n2q8BCgydQswl7Xwbc3hMEEozsyhQY4wHoi_YFWQaksgnpsuqdAj7obX_82ixrbs4gpsQYHQAEc4a93jaLEM_g");'>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- CORE FOUNDATION (MISSION / VISION) -->
-<section class="ms-core-foundation">
-    <div class="ms-container">
-        <h2>Our Core Foundation</h2>
-        <p class="muted">We exist to make the complex world of psychology simple, safe, and supportive for everyone.</p>
-
-        <div class="foundation-grid">
-            <div class="fv-card">
-                <div class="fv-icon">📘</div>
-                <h3>Our Mission</h3>
-                <p>To democratize mental health tools, ensuring that emotional literacy is not a luxury but a readily-available resource for healing and growth.</p>
-            </div>
-
-            <div class="fv-card">
-                <div class="fv-icon">👁️</div>
-                <h3>Our Vision</h3>
-                <p>A world where understanding one's own mind is as fundamental as reading and writing, fostering a society of empathy and resilience.</p>
-            </div>
-        </div>
-    </div>
+<section class="w-full px-4 md:px-10 py-12 bg-white border-y border-pale-lavender">
+<div class="mx-auto max-w-[1000px] flex flex-col gap-10">
+<div class="text-center max-w-[720px] mx-auto">
+<h2 class="text-3xl font-bold mb-4 tracking-tight">Our Core Foundation</h2>
+<p class="text-text-muted text-lg font-body">We exist to make the complex world of psychology simple, safe, and supportive for everyone.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="group flex flex-col gap-4 rounded-2xl bg-pale-lavender p-8 hover:bg-soft-pink transition-colors duration-300">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-white text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[28px]">flag</span>
+</div>
+<div>
+<h3 class="text-xl font-bold leading-tight mb-2">Our Mission</h3>
+<p class="text-text-muted leading-relaxed font-body">To democratize mental health tools, ensuring that emotional literacy is not a luxury but a readily available resource for healing and growth.</p>
+</div>
+</div>
+<div class="group flex flex-col gap-4 rounded-2xl bg-soft-pink p-8 hover:bg-pale-lavender transition-colors duration-300">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-white text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[28px]">visibility</span>
+</div>
+<div>
+<h3 class="text-xl font-bold leading-tight mb-2">Our Vision</h3>
+<p class="text-text-muted leading-relaxed font-body">A world where understanding one's own mind is as fundamental as reading and writing, fostering a society of empathy and resilience.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- METHODOLOGY -->
-<section class="ms-methodology">
-    <div class="ms-container">
-        <h3>How We Guide You</h3>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="marker">1</div>
-                <div class="timeline-body">
-                    <h4>Learn</h4>
-                    <p>Phase 1 focuses on psycho-education. We provide bite-sized, clinically reviewed content that helps you name your emotions and understand the 'why' behind your feelings.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="marker">2</div>
-                <div class="timeline-body">
-                    <h4>Reflect</h4>
-                    <p>Phase 2 is about internalization. Through guided journaling and secure prompts, you apply what you've learned to your personal context in a safe, private space.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="marker">3</div>
-                <div class="timeline-body">
-                    <h4>Grow</h4>
-                    <p>Phase 3 is integration. You build sustainable habits and emotional resilience, turning insights into lasting change and a more settled mind.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="w-full px-4 md:px-10 py-20 bg-pale-lavender/30">
+<div class="mx-auto max-w-[800px]">
+<div class="mb-12 text-center">
+<span class="text-sm font-bold text-accent uppercase tracking-wider mb-2 block">Our Methodology</span>
+<h2 class="text-3xl md:text-4xl font-black tracking-tight">How We Guide You</h2>
+</div>
+<div class="grid grid-cols-[60px_1fr] gap-x-6">
+<div class="flex flex-col items-center pt-2">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-white border-2 border-primary text-primary shadow-sm z-10">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div class="w-0.5 journey-line h-24 grow my-2"></div>
+</div>
+<div class="pb-12 pt-2">
+<h3 class="text-xl font-bold mb-2">Learn</h3>
+<p class="text-text-muted leading-relaxed font-body">
+                            Phase 1 focuses on psycho-education. We provide bite-sized, clinically reviewed content that helps you name your emotions and understand the 'why' behind your feelings.
+                        </p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-0.5 bg-primary/20 h-2"></div>
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-white border-2 border-accent text-accent shadow-sm z-10">
+<span class="material-symbols-outlined">self_improvement</span>
+</div>
+<div class="w-0.5 journey-line h-24 grow my-2"></div>
+</div>
+<div class="pb-12 pt-2">
+<h3 class="text-xl font-bold mb-2">Reflect</h3>
+<p class="text-text-muted leading-relaxed font-body">
+                            Phase 2 is about internalization. Through guided journaling and secure prompts, you apply what you've learned to your personal context in a safe, private space.
+                        </p>
+</div>
+<div class="flex flex-col items-center pb-2">
+<div class="w-0.5 bg-accent/20 h-2"></div>
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-white border-2 border-primary text-primary shadow-sm z-10">
+<span class="material-symbols-outlined">forest</span>
+</div>
+</div>
+<div class="pb-4 pt-2">
+<h3 class="text-xl font-bold mb-2">Grow</h3>
+<p class="text-text-muted leading-relaxed font-body">
+                            Phase 3 is integration. You build sustainable habits and emotional resilience, turning insights into lasting change and a more settled mind.
+                        </p>
+</div>
+</div>
+</div>
 </section>
-
-<!-- CONFIDENTIALITY & FEATURES -->
-<section class="ms-confidentiality">
-    <div class="ms-container">
-        <div class="conf-grid">
-            <div class="conf-left">
-                <h3>Confidentiality &amp; Safety</h3>
-                <p class="muted">Healing requires safety. We've built MindSettler with a privacy-first architecture. Your data is encrypted, your identity is protected, and your space is yours alone.</p>
-                <a href="#" class="read-link">Read our full Privacy Policy →</a>
-            </div>
-
-            <div class="conf-right">
-                <div class="conf-cards">
-                    <div class="conf-card">End-to-End Encryption<p class="small muted">Your journal entries and personal reflections are encrypted before they ever leave your device.</p></div>
-                    <div class="conf-card">Anonymous Usage<p class="small muted">Explore our library and tools without the pressure of a public profile.</p></div>
-                    <div class="conf-card">Clinical Oversight<p class="small muted">Every piece of educational content is reviewed by licensed mental health professionals.</p></div>
-                    <div class="conf-card">Data Ownership<p class="small muted">Export your data or permanently delete your account at any time with one click.</p></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="w-full px-4 md:px-10 py-16 bg-white border-y border-pale-lavender">
+<div class="mx-auto max-w-[1200px]">
+<div class="flex flex-col lg:flex-row gap-12 items-start">
+<div class="flex flex-col gap-6 lg:w-1/3 sticky top-24">
+<h2 class="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
+                            Confidentiality &amp; <span class="text-accent">Safety</span>
+</h2>
+<p class="text-text-muted text-lg leading-relaxed font-body">
+                            Healing requires safety. We've built MindSettler with a privacy-first architecture. Your data is encrypted, your identity is protected, and your space is yours alone.
+                        </p>
+<button class="flex w-fit items-center gap-2 text-sm font-bold text-accent hover:underline">
+                            Read our full Privacy Policy
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 lg:w-2/3">
+<div class="flex flex-col gap-3 rounded-xl bg-soft-pink p-6">
+<span class="material-symbols-outlined text-3xl text-primary">lock</span>
+<div>
+<h3 class="text-lg font-bold">End-to-End Encryption</h3>
+<p class="text-sm text-text-muted mt-1 font-body">Your journal entries and personal reflections are encrypted before they ever leave your device.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-pale-lavender p-6">
+<span class="material-symbols-outlined text-3xl text-primary">shield_person</span>
+<div>
+<h3 class="text-lg font-bold">Anonymous Usage</h3>
+<p class="text-sm text-text-muted mt-1 font-body">Explore our library and tools without the pressure of a public profile. You are in control.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-pale-lavender p-6">
+<span class="material-symbols-outlined text-3xl text-primary">verified_user</span>
+<div>
+<h3 class="text-lg font-bold">Clinical Oversight</h3>
+<p class="text-sm text-text-muted mt-1 font-body">Every piece of educational content is reviewed by licensed mental health professionals.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-soft-pink p-6">
+<span class="material-symbols-outlined text-3xl text-primary">delete_forever</span>
+<div>
+<h3 class="text-lg font-bold">Data Ownership</h3>
+<p class="text-sm text-text-muted mt-1 font-body">Export your data or permanently delete your account and history at any time with one click.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- GUIDED BY EXPERTS (TEAM) -->
-<section class="ms-team">
-    <div class="ms-container">
-        <h3>Guided by Experts</h3>
-        <p class="muted">Our content is shaped by a diverse board of psychologists, therapists, and researchers dedicated to making mental health accessible.</p>
-
-        <div class="team-row">
-            <div class="person-card">
-                <img src="{% static 'core/images/team1.jpg' %}" alt="Dr. Sarah Chen">
-                <h4>Dr. Sarah Chen</h4>
-                <p class="small muted">Clinical Director</p>
-            </div>
-
-            <div class="person-card">
-                <img src="{% static 'core/images/team2.jpg' %}" alt="Marcus Johnson">
-                <h4>Marcus Johnson</h4>
-                <p class="small muted">Lead Therapist</p>
-            </div>
-
-            <div class="person-card">
-                <img src="{% static 'core/images/team3.jpg' %}" alt="Dr. Elena Rodriguez">
-                <h4>Dr. Elena Rodriguez</h4>
-                <p class="small muted">Research Lead</p>
-            </div>
-
-            <div class="person-card">
-                <img src="{% static 'core/images/team4.jpg' %}" alt="James Alistair">
-                <h4>James Alistair</h4>
-                <p class="small muted">Education Advisor</p>
-            </div>
-        </div>
-    </div>
+<section class="w-full px-4 md:px-10 py-20 bg-pale-lavender">
+<div class="mx-auto max-w-[1200px] flex flex-col gap-10">
+<div class="text-center">
+<h2 class="text-3xl font-bold mb-4">Guided by Experts</h2>
+<p class="text-text-muted max-w-2xl mx-auto font-body">
+                        Our content is shaped by a diverse board of psychologists, therapists, and researchers dedicated to making mental health accessible.
+                    </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+<div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQhJL_EMQVKyCeTWPsPEoPpOTkMtiW8zWN6THeDGC5gQ2ZU3PTS1WuQx4ODOxMty1qXClJLT6WJz3dJxz7KLiUfL_V-S3w33QrrM24TTsfcpZUtzfghIQewOyI3rHui_6by--HfF2Casm-pg1uuOnsps1gZVLg-BCAkq7xM5SKDKPbTVzvkt7u-8p77JVLCQw9XNueITNW69eGJKrcQstIZM-18QNNkW_KmTuQtSejFCA1r41W1Wz1QJU4ShyoKhiX7jg_R-PnbvA');"></div>
+<h3 class="font-bold text-lg">Dr. Sarah Chen</h3>
+<p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Clinical Director</p>
+<p class="text-sm text-text-muted font-body">PhD in Clinical Psychology with 15 years specializing in CBT and anxiety disorders.</p>
+</div>
+<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+<div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxxvj5jZF3T0VVB6zKWStWSVk2O0zpD8W75Qhm79w868vgXOezGan5LPzvhjcVJoA3gxMyPZoT1rjBMSAIN9K4LyuE-fHiCEreFuPZ4spFVML9xkoA63NQ9S1TPhYGndr3ZG_y_R9mc4q9r4heaM57m1Nqsc6TxIZ-9MgOtX04dcafhc3cMZN4FF5kEsO8LGdYRE6EoGgBmyzBilwdFXRD_J-tSRBQk-LXz6Rm3Z7dI6q2NdhUZKwlNmAQPVDKx8DAwTOfg3c02Ng');"></div>
+<h3 class="font-bold text-lg">Marcus Johnson</h3>
+<p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Lead Therapist</p>
+<p class="text-sm text-text-muted font-body">Licensed MFT focused on accessible community care and trauma-informed practices.</p>
+</div>
+<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+<div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4YLq11QGaU3Ipe_mgTwtEe8h0D25Xi5JHM_k_PMieEdjZHurICfvj1tzSJjGqZb4Y1zVtBD75Fa9YVXqpBZMph3mQilKtdReP_u7Ivxeb1MAvQID5QDfvLdS-UWoeIY-at9CwQrlDQWOHr1nfDjxOB2LpRVg3LGTY55zLzYG85HDWQqrK3z18od1Vod6xTkwtUphL_VLogBIaGTlnmlRzboDCLub6qPwCSTtuQM0r0tTdkWziXEe98DqwlmMYBGFqK9zOtL907E');"></div>
+<h3 class="font-bold text-lg">Dr. Elena Rodriguez</h3>
+<p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Research Lead</p>
+<p class="text-sm text-text-muted font-body">Published author on mindfulness-based stress reduction and emotional regulation.</p>
+</div>
+<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+<div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuhEbfHaqhRUOPlHNZvPzacffq7Fr5WfZ30AaZFs075XP_VunuG32bXOVE2K8XULfwXSQE96rUjGAld6snBwhOmEhfxWZx04XWYcxot5CwlbFSuTbg2mxU4ewsayuyU1gTAi-SlegDgGqheJvdlwdk8mtJcB7v4VU3s_JZhjgfOwory40VqOcjwIGH8PHLRymXpr8UIJOCi7Jv5PEudw-cpF7UymdiL9gHM7-gs_PPBeqXA5r0uYF4BCegXuORFtUFz1SLOkzM3_0');"></div>
+<h3 class="font-bold text-lg">James Alistair</h3>
+<p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Education Advisor</p>
+<p class="text-sm text-text-muted font-body">Pedagogical expert ensuring our complex concepts are easy to learn and retain.</p>
+</div>
+</div>
+</div>
 </section>
-
-<!-- CTA -->
-<section class="about-cta">
-    <h2>Ready to Start Your Journey?</h2>
-    <p>Explore our services and take the first step toward a calmer you.</p>
-    <a href="{% url 'appointment:booking' %}" class="primary-btn">Book Your First Session</a>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-    <p>© 2024 MindSettler. All rights reserved.</p>
+</main>
+<footer class="w-full border-t border-pale-lavender bg-white px-4 md:px-10 py-12">
+<div class="mx-auto max-w-[1200px] flex flex-col md:flex-row justify-between gap-10">
+<div class="flex flex-col gap-4 max-w-sm">
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center rounded-full bg-soft-pink p-1.5 text-accent">
+<span class="material-symbols-outlined text-lg">spa</span>
+</div>
+<h2 class="text-lg font-bold text-primary">MindSettler</h2>
+</div>
+<p class="text-sm text-text-muted font-body">
+                    Empowering you to find balance through education, reflection, and secure self-discovery.
+                </p>
+<div class="flex gap-4 mt-2">
+<a class="text-text-muted hover:text-accent transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+<a class="text-text-muted hover:text-accent transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+</div>
+</div>
+<div class="flex gap-12 flex-wrap">
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-sm uppercase tracking-wide text-primary">Platform</h4>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Library</a>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Journaling</a>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Pricing</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-sm uppercase tracking-wide text-primary">Company</h4>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">About Us</a>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Careers</a>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Contact</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-sm uppercase tracking-wide text-primary">Legal</h4>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Privacy Policy</a>
+<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+<div class="mx-auto max-w-[1200px] mt-12 pt-8 border-t border-pale-lavender text-center md:text-left">
+<p class="text-xs text-text-muted font-body">© 2024 MindSettler Inc. All rights reserved.</p>
+</div>
 </footer>
+</div>
 
-</body>
-</html>
+</body></html>

@@ -306,3 +306,63 @@ form button:hover,
         padding-left: 20px;
     }
 }
+
+/* ===== Palette overrides for legacy inline hex usages in templates ===== */
+/* These map hard-coded hex classes/attributes used in templates to the
+   project's CSS variables so the provided palette is applied site-wide. */
+
+[class*="text-[#111815]"] {
+    color: var(--text-dark) !important;
+}
+
+[class*="text-[#63887c]"],
+[class*="text-[#638869]"],
+[class*="text-[#94a3b8]"],
+[class*="text-[#111812]"] {
+    color: var(--text-light) !important;
+}
+
+[class*="bg-[#f0f4f3]"],
+[class*="bg-[#f1f1f1]"],
+[class*="bg-[#dce5e2]"],
+[class*="bg[#dce5dd]"],
+[class*="bg-[#cbd5e1]"],
+[class*="bg-[#dce5dd]"] {
+    background-color: var(--accent) !important;
+}
+
+[class*="border-[#dce5e2]"],
+[class*="border-[#f0f4f3]"] {
+    border-color: var(--border-soft) !important;
+}
+
+[class*="bg-[#30e8ab]"],
+[class*="bg-[#17cf36]"],
+[class*="bg-[#25b383]"],
+[class*="bg-[#25b685]"] {
+    background-color: var(--secondary) !important;
+    color: #fff !important;
+}
+
+[class*="bg-[#d4fce9]"],
+[class*="from-[#d4fce9]"],
+[class*="to-[#bbf7d0]"] {
+    background: linear-gradient(135deg, var(--accent), var(--soft-pink)) !important;
+}
+
+/* SVG/stroke/stop overrides */
+[stroke="#30e8ab"],
+[stop-color="#30e8ab"] {
+    stroke: var(--secondary) !important;
+    stop-color: var(--secondary) !important;
+}
+
+[class*="bg-[#1a2c26]"],
+[class*="bg-[#11211c]"],
+[class*="dark:bg-[#1a2c26]"] {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+/* Fallback: any inline color style using hex can be overridden by mapping
+   common legacy hexes above. Add more mappings here if you find other hexes. */

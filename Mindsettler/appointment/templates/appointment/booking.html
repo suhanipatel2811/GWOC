@@ -6,75 +6,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+        <title>Book Session</title>
+        <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+        <style>
+                /* Booking multi-step page styles (uses project palette variables) */
+                .booking-wrap { max-width:1100px; margin:28px auto; padding:20px; }
+                .booking-card { background: white; border-radius:14px; padding:20px; box-shadow:0 18px 40px rgba(63,41,101,0.06); border:1px solid var(--border-soft); }
+                .booking-header { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:18px; }
+                .progress { flex:1; margin-left:18px; }
+                .progress-bar { height:8px; background:var(--border-soft); border-radius:8px; overflow:hidden; }
+                .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,var(--secondary),var(--primary)); transition:width 300ms ease; }
+                .steps { display:flex; gap:12px; align-items:center; }
+                .step-ind { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:white; background:var(--accent); color:var(--primary); }
+
+                .booking-body { display:grid; grid-template-columns: 1fr 340px; gap:24px; }
+                .step-pane { display:none; }
+                .step-pane.active { display:block; }
+
+                /* Step 1 cards */
+                .choice-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+                .choice-card { background: linear-gradient(180deg, #fff, #fff); border-radius:12px; padding:18px; border:1px solid var(--border-soft); box-shadow:0 8px 20px rgba(63,41,101,0.04); cursor:pointer; }
+                .choice-card img { width:100%; height:140px; object-fit:cover; border-radius:8px; margin-bottom:12px; display:block; }
+                .choice-card.selected { border-color:var(--secondary); box-shadow:0 12px 26px rgba(221,23,100,0.08); }
+
+                /* Right aside (assistant/summary) */
+                .aside { background:var(--light-bg); padding:18px; border-radius:12px; border:1px solid var(--border-soft); }
+
+                /* Step 2 calendar and slots */
+                .calendar { background:white; padding:18px; border-radius:12px; border:1px solid var(--border-soft); }
+                .slots { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+                .slot { padding:12px 14px; border-radius:10px; border:1px solid var(--border-soft); cursor:pointer; }
+                .slot.selected { border-color:var(--secondary); background:linear-gradient(90deg, rgba(221,23,100,0.06), rgba(63,41,101,0.02)); }
+
+                /* Step 3 review */
+                .review-row { display:flex; gap:12px; flex-wrap:wrap; }
+                .review-card { flex:1; background:white; padding:16px; border-radius:10px; border:1px solid var(--border-soft); }
+
+                .booking-actions { display:flex; justify-content:space-between; gap:12px; margin-top:18px; }
+                .btn { padding:10px 18px; border-radius:999px; border:none; cursor:pointer; }
+                .btn.secondary { background:transparent; border:1px solid var(--border-soft); color:var(--text-dark); }
+                .btn.primary { background:linear-gradient(90deg,var(--secondary),var(--primary)); color:white; font-weight:700; }
+
+                @media (max-width: 900px) {
+                        .booking-body { grid-template-columns: 1fr; }
+                        .aside { order:2; }
+                }
+        </style>
 </head>
 <body>
-<section class="page-section booking-section">
+<div class="booking-wrap">
     <div class="booking-card">
-        <div class="container">
-            <h2>✨ Book Your Session</h2>
+        <div class="booking-header">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="font-weight:800;color:var(--primary);font-size:18px;">Step <span id="current-step">1</span> of 3</div>
+                <div class="steps">
+                    <div class="step-ind">1</div>
+                    <div class="step-ind">2</div>
+                    <div class="step-ind">3</div>
+                </div>
+            </div>
+            <div class="progress" aria-hidden>
+                <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+            </div>
+        </div>
 
-            <form method="POST">
-                {% csrf_token %}
+        <div class="booking-body">
+            <div>
+                <!-- STEP 1: Choose session type -->
+                <div class="step-pane active" data-step="1">
+                    <h2 style="color:var(--primary);">How would you like to meet today?</h2>
+                    <p style="color:var(--text-light);">Choose the setting that makes you feel most comfortable.</p>
+                    <div class="choice-grid" style="margin-top:18px;">
+                        <div class="choice-card" data-value="online">
+                            <img src="{% static 'core/images/meditation.jpg' %}" alt="Online session">
+                            <h3>Online Video Call</h3>
+                            <p style="color:var(--text-light);">Secure, private sessions from the comfort of your home via our encrypted video platform.</p>
+                            <div style="margin-top:12px;"> <button class="btn secondary select-btn" type="button">Select Online →</button></div>
+                        </div>
 
-                <div class="input-group">
-                    <label>Full Name</label>
-                    {{ form.full_name }}
+                        <div class="choice-card" data-value="studio">
+                            <img src="{% static 'core/images/team1.jpg' %}" alt="Studio session">
+                            <h3>In-Person Studio</h3>
+                            <p style="color:var(--text-light);">Visit our serene studio spaces designed for healing, presence, and face-to-face connection.</p>
+                            <div style="margin-top:12px;"><button class="btn secondary select-btn" type="button">Select Studio →</button></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>Email</label>
-                    {{ form.email }}
+                <!-- STEP 2: Schedule -->
+                <div class="step-pane" data-step="2">
+                    <h2 style="color:var(--primary);">Schedule Your Session</h2>
+                    <p style="color:var(--text-light);">Select a date and an available time slot.</p>
+                    <div class="calendar" style="margin-top:16px;">
+                        <label style="display:block;margin-bottom:8px;color:var(--primary);font-weight:700;">Choose Date</label>
+                        <input type="date" id="session-date" class="" />
+
+                        <div class="slots" id="slots">
+                            <!-- slots will be generated by script: 1-hour slots from 09:00 to 18:00 -->
+                        </div>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>Phone</label>
-                    {{ form.phone }}
+                <!-- STEP 3: Review & Confirm -->
+                <div class="step-pane" data-step="3">
+                    <h2 style="color:var(--primary);">Review Your Booking</h2>
+                    <p style="color:var(--text-light);">Confirm details and submit your booking. You'll receive payment instructions after booking.</p>
+                    <div style="margin-top:16px;" class="review-row">
+                        <div class="review-card">
+                            <h4 style="margin:0 0 8px 0;color:var(--primary);">Session</h4>
+                            <div id="rev-type">—</div>
+                            <div id="rev-date">—</div>
+                            <div id="rev-time">—</div>
+                        </div>
+                        <div class="review-card">
+                            <h4 style="margin:0 0 8px 0;color:var(--primary);">Payment</h4>
+                            <p style="color:var(--text-light);">Manual payment via UPI or cash. Instructions will be provided after booking.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>Select Slot</label>
-                    {{ form.slot }}
+                <div class="booking-actions">
+                    <div>
+                        <button class="btn secondary" id="back-btn" type="button" disabled>Back</button>
+                    </div>
+                    <div>
+                        <button class="btn secondary" id="save-later" type="button">Save for Later</button>
+                        <button class="btn primary" id="next-btn" type="button">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right aside: assistant / booking summary -->
+            <aside class="aside">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(90deg,var(--secondary),var(--primary));"></div>
+                    <div>
+                        <div style="font-weight:700;color:var(--primary);">MindSettler Assistant</div>
+                        <div style="color:var(--text-light);font-size:13px;">Always here to help</div>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>Session Type</label>
-                    {{ form.session_type }}
+                <div style="color:var(--text-light);font-size:14px;margin-bottom:12px;">Select options on the left to build your booking. You'll review before confirming.</div>
+
+                <div style="margin-top:12px;border-top:1px dashed var(--border-soft);padding-top:12px;">
+                    <div style="font-weight:700;color:var(--primary);">Booking Summary</div>
+                    <div id="summary-type" style="color:var(--text-light);margin-top:8px;">Type: —</div>
+                    <div id="summary-date" style="color:var(--text-light);">Date: —</div>
+                    <div id="summary-time" style="color:var(--text-light);">Time: —</div>
                 </div>
-
-                <div class="input-group form-check">
-                    <label>Is this your first session?</label>
-                    {{ form.first_session }}
-                </div>
-
-                <div class="input-group">
-                    <label>Payment Method</label>
-                    {{ form.payment_mode }}
-                </div>
-
-                <div class="input-group">
-                    <label>UPI ID (if paying via UPI)</label>
-                    {{ form.upi_id }}
-                </div>
-
-                <div class="input-group form-check">
-                    <label>Add to Google Calendar</label>
-                    {{ form.add_to_google_calendar }}
-                </div>
-
-                {% for message in messages %}
-                    <div class="error-box">{{ message }}</div>
-                {% endfor %}
-
-                <div class="note">Payments are manual via UPI or cash. After booking you'll get instructions to complete payment.</div>
-
-                <button type="submit" class="proceed-btn">
-                    Book Session →
-                </button>
-            </form>
+            </aside>
         </div>
     </div>
-</section>
+</div>
+
+<script>
+    // Simple client-side step handling
+    (function(){
+        const panes = document.querySelectorAll('.step-pane');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('back-btn');
+        const progressFill = document.getElementById('progress-fill');
+        const currentStepEl = document.getElementById('current-step');
+        let step = 1;
+
+        function showStep(n){
+            panes.forEach(p => p.classList.toggle('active', parseInt(p.dataset.step)===n));
+            currentStepEl.textContent = n;
+            progressFill.style.width = ((n-1)/2*100)+'%';
+            backBtn.disabled = n===1;
+            nextBtn.textContent = n===3 ? 'Confirm Booking' : 'Next';
+        }
+
+        document.querySelectorAll('.choice-card').forEach(card=>{
+            card.addEventListener('click', ()=>{
+                document.querySelectorAll('.choice-card').forEach(c=>c.classList.remove('selected'));
+                card.classList.add('selected');
+                document.getElementById('summary-type').textContent = 'Type: '+(card.dataset.value==='online'?'Online Video Call':'In-Person Studio');
+                document.getElementById('rev-type').textContent = (card.dataset.value==='online'?'Online Video Call':'In-Person Studio');
+            });
+        });
+
+        // generate 1-hour slots from 9:00 to 18:00 (last slot starts at 17:00)
+        function formatTime(hour){
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const h = ((hour + 11) % 12) + 1; // convert 0-23 to 1-12
+            return String(h).padStart(2,'0') + ':00 ' + ampm;
+        }
+
+        function generateSlots(){
+            const slotsContainer = document.getElementById('slots');
+            slotsContainer.innerHTML = '';
+            for(let h=9; h<=17; h++){ // start times 9..17 (17:00-18:00)
+                const timeLabel = formatTime(h);
+                const div = document.createElement('div');
+                div.className = 'slot';
+                div.dataset.time = timeLabel;
+                div.textContent = timeLabel;
+                slotsContainer.appendChild(div);
+            }
+        }
+
+        generateSlots();
+
+        document.getElementById('slots').addEventListener('click', e=>{
+            const slot = e.target.closest('.slot');
+            if(!slot) return;
+            document.querySelectorAll('.slot').forEach(s=>s.classList.remove('selected'));
+            slot.classList.add('selected');
+            document.getElementById('summary-time').textContent = 'Time: '+slot.dataset.time;
+            document.getElementById('rev-time').textContent = slot.dataset.time;
+            document.getElementById('rev-date').textContent = document.getElementById('session-date').value || 'Selected date';
+        });
+
+        // Update summary when date input changes
+        function formatDateHuman(dateStr){
+            if(!dateStr) return '';
+            try{
+                const d = new Date(dateStr + 'T00:00:00');
+                const opts = { weekday: 'short', month: 'short', day: 'numeric' };
+                return d.toLocaleDateString(undefined, opts);
+            }catch(e){
+                return dateStr;
+            }
+        }
+
+        const dateInput = document.getElementById('session-date');
+        if(dateInput){
+            dateInput.addEventListener('change', ()=>{
+                const val = dateInput.value;
+                const human = val ? formatDateHuman(val) : 'Selected date';
+                document.getElementById('summary-date').textContent = 'Date: '+(human || 'Selected date');
+                document.getElementById('rev-date').textContent = human || 'Selected date';
+            });
+        }
+
+        nextBtn.addEventListener('click', ()=>{
+            if(step===1){
+                // require a choice
+                const chosen = document.querySelector('.choice-card.selected');
+                if(!chosen){ alert('Please select Online or Studio to continue.'); return; }
+                step++;
+            } else if(step===2){
+                const chosenSlot = document.querySelector('.slot.selected');
+                if(!chosenSlot){ alert('Please select a time slot.'); return; }
+                // fill review date/time
+                document.getElementById('rev-date').textContent = document.getElementById('session-date').value || 'Selected date';
+                step++;
+            } else if(step===3){
+                // Use fetch() with CSRF cookie to POST booking data
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+                const csrftoken = getCookie('csrftoken');
+                const postUrl = "{% url 'appointment:booking' %}";
+                const confirmUrl = "{% url 'appointment:confirmation' %}";
+
+                const payload = new URLSearchParams();
+                payload.append('session_type', document.querySelector('.choice-card.selected')?.dataset.value||'');
+                payload.append('date', document.getElementById('session-date').value||'');
+                payload.append('time', document.querySelector('.slot.selected')?.dataset.time||'');
+
+                fetch(postUrl, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: payload.toString()
+                }).then(response=>{
+                    if(response.redirected){
+                        window.location.href = response.url;
+                        return;
+                    }
+                    if(response.ok){
+                        // fallback: go to confirmation page
+                        window.location.href = confirmUrl;
+                        return;
+                    }
+                    return response.text().then(t=>{ alert('Booking failed: '+t); });
+                }).catch(err=>{ alert('Booking request failed. Please try again.'); console.error(err); });
+
+                return;
+            }
+            showStep(step);
+        });
+
+        backBtn.addEventListener('click', ()=>{ if(step>1) { step--; showStep(step); } });
+
+        showStep(step);
+    })();
+</script>
 </body>
 </html>
