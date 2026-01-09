@@ -1,92 +1,172 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-
-    <link rel="stylesheet" href="{% static 'core/css/d.css' %}">
-    <style>
-    /* Modal styles matching site theme */
-    .msg-modal {position: fixed; inset: 0; display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:9999;}
-    .msg-box {background:#ffffff;padding:24px 28px;border-radius:10px;max-width:460px;width:90%;box-shadow:0 10px 30px rgba(0,0,0,0.12);border-left:6px solid #722586;display:flex;flex-direction:column;align-items:center;}
-    .msg-content {color:#222;font-size:16px;line-height:1.5;margin:0 0 14px 0;text-align:center;font-weight:500}
-    .msg-close {display:inline-block;padding:10px 20px;border:none;background:#722586;color:#fff;border-radius:6px;cursor:pointer;font-weight:700;margin:0 auto}
-    @media (max-width:480px){ .msg-box{padding:16px 18px;border-left-width:4px;} }
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Login &amp; Register</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3f2965",      // Deep Purple
+                        accent: "#dd1764",       // Vibrant Pink
+                        lavender: "#ebe7f2",     // Pale Lavender
+                        "text-dark": "#3f2965",  // Deep Purple for text
+                        "text-muted": "#6b5b85", // Muted purple-grey
+                        white: "#ffffff"
+                    },
+                    fontFamily: {
+                        display: "Lexend"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }.form-checkbox:checked {
+            background-color: #dd1764 !important;
+            border-color: #dd1764 !important;
+            color: #dd1764 !important;
+        }
+        .form-checkbox:focus {
+            box-shadow: 0 0 0 2px rgba(221, 23, 100, 0.2) !important;
+            border-color: #dd1764 !important;
+        }input:focus {
+            box-shadow: none !important; 
+            border-color: #3f2965 !important;
+            ring: 1px solid #3f2965 !important;
+        }
     </style>
 </head>
-<body>
+<body class="bg-lavender/30 text-text-dark min-h-screen flex flex-col font-display antialiased selection:bg-primary/20 selection:text-primary">
+<header class="w-full px-6 py-4 flex items-center justify-between absolute top-0 left-0 z-10">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-primary text-xl font-bold tracking-tight">MindSettler</h2>
+</div>
+<div>
+<a class="text-sm font-medium text-text-muted hover:text-accent transition-colors" href="#">Need help?</a>
+</div>
+</header>
+<main class="flex-1 flex items-center justify-center p-4 min-h-[800px] lg:min-h-screen">
+<div class="w-full max-w-[1100px] bg-white rounded-2xl overflow-hidden shadow-2xl shadow-primary/10 flex flex-col md:flex-row h-full min-h-[650px]">
+<div class="hidden md:flex md:w-5/12 relative bg-primary flex-col p-12 justify-between overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center opacity-60 mix-blend-overlay" data-alt="Calm green leaves and soft sunlight filtering through nature" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDO-h00CuvIOlbFkaWa6iI2kVrkUeP1C30xWhoDxiozGqa7Ca2nqIdonMPshLlx0sKvsl-hzlZnyxF8NED5W1sTH2wYhit7NQmApXWThgE7dgLbgTrz04dWG1I-V4hwxfPu8Bdwkg9GVXhJxjxq_gMy8ZTMlOhOIzZtq0OFDvjfM3DY5KFj3lAgxcs_6D3pq2UD7ArG08ZLt25swRxT_tMKP-J-m8aQCVkE2Jg1xRZuyf3Kd8XKO9J4PjQbJ_TKPn8XgnKieOIVuq0");'>
+</div>
+<div class="absolute inset-0 bg-primary/80 mix-blend-multiply"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-90"></div>
+</div>
+<div class="relative z-10 mt-auto">
+<h1 class="text-4xl font-bold text-white mb-4 leading-tight">Find your calm.</h1>
+<p class="text-lavender/90 text-lg font-light leading-relaxed">Embrace a journey of emotional well-being and personal growth with a supportive community.</p>
+</div>
+<div class="absolute top-[-50px] right-[-50px] size-40 rounded-full bg-accent blur-[80px] opacity-30 z-0"></div>
+<div class="absolute bottom-20 left-[-20px] size-24 rounded-full bg-lavender blur-[50px] opacity-20 z-0"></div>
+</div>
+<div class="w-full md:w-7/12 p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-white">
+<div class="mb-10 border-b border-lavender flex w-full">
+<button class="relative pb-3 px-4 text-base font-bold text-primary transition-all duration-200">
+                        Sign In
+                        <span class="absolute bottom-0 left-0 w-full h-[3px] bg-accent rounded-t-full"></span>
+</button>
+<a href="{% url 'users:register' %}" class="relative pb-3 px-4 text-base font-medium text-text-muted hover:text-primary transition-all duration-200 ml-4">
+                        Create Account
+                    </a>
+</div>
+<div class="mb-8">
+<h2 class="text-3xl font-bold text-primary mb-2 tracking-tight">Welcome back</h2>
+<p class="text-text-muted">Please enter your details to access your safe space.</p>
+</div>
+<form class="space-y-6" method="post" action="{% url 'users:login' %}">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                        <div class="text-sm text-red-600">{{ form.non_field_errors }}</div>
+                        {% endif %}
+<div class="space-y-2">
+<label class="text-sm font-semibold text-primary block" for="email">Email or Username</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary text-[20px]">mail</span>
+</div>
+<input name="username" class="block w-full pl-11 pr-4 py-3.5 bg-lavender border border-transparent focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary rounded-xl text-primary placeholder-text-muted/70 transition-all duration-200 outline-none" id="email" placeholder="name@example.com" type="email" value="{{ form.username.value|default_if_none:'' }}" />
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="text-sm font-semibold text-primary block" for="password">Password</label>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+</div>
+<input name="password" class="block w-full pl-11 pr-12 py-3.5 bg-lavender border border-transparent focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary rounded-xl text-primary placeholder-text-muted/70 transition-all duration-200 outline-none" id="password" placeholder="••••••••" type="password" />
+<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-primary/60 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center">
+<input class="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent/20 form-checkbox cursor-pointer" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block text-sm text-text-muted cursor-pointer" for="remember-me">Remember me</label>
+</div>
+<a class="text-sm font-medium text-accent hover:text-accent/80 transition-colors" href="#">Forgot Password?</a>
+</div>
+<button class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-primary/20 text-base font-bold text-white bg-primary hover:bg-[#342255] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 mt-2" type="submit">
+                        Sign In
+                    </button>
+</form>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-lavender"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-4 bg-white text-text-muted">Or continue with</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center w-full px-4 py-3 bg-white border border-lavender rounded-xl hover:bg-lavender/50 hover:border-primary/30 transition-all duration-200 group" type="button">
+<img alt="Google logo" class="h-5 w-5 mr-2 opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSAe5EZT116yR_Frp0wwTMRSvczPEA-_eORpIw2sOytgIYovEwjTSWWBk8CyCQVD-bdfUP7pDjDEeR-1y06wWJAIIFKdLZV6kw91bJ1TbDs1e-40x_Kj-ctGIUTeUNIpSOaOsZgaG30sma9gpISMa67VnDxs0xBG4rwc7fEq7B9DjNhUTAntsyAmFXTJf9G0YLvnNZZjqNLCen6DOzFi5DxQCpGh2C7vJ3JqUj1guqnulHDMQn3l7IW-G4hfLBknCU8YFvA-veiDI"/>
+<span class="text-sm font-medium text-primary">Google</span>
+</button>
+<button class="flex items-center justify-center w-full px-4 py-3 bg-white border border-lavender rounded-xl hover:bg-lavender/50 hover:border-primary/30 transition-all duration-200 group" type="button">
+<span class="material-symbols-outlined text-[20px] mr-2 text-primary">smartphone</span>
+<span class="text-sm font-medium text-primary">Phone Number</span>
+</button>
+</div>
+<div class="mt-8 text-center">
+<p class="text-xs text-text-muted flex justify-center items-center">
+<span class="material-symbols-outlined text-sm mr-1 text-primary">lock</span>
+                        Your data is encrypted and secure.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full py-6 text-center z-10 relative">
+<div class="flex justify-center gap-6 text-sm text-text-muted/80">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</footer>
 
-
-
-<section class="page-wrapper">
-    <div class="auth-card">
-
-        <h2 class="auth-title">✨ Login</h2>
-        <p class="auth-subtitle">Welcome back! Please login to continue.</p>
-
-        <form method="post" class="auth-form">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}">
-
-            {% if form.non_field_errors %}
-                <div class="form-errors">
-                    {% for err in form.non_field_errors %}
-                        <div class="error">{{ err }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-            <div class="form-group">
-                <label>Username</label>
-                {{ form.username }}
-                {% if form.username.errors %}
-                    <div class="error">{{ form.username.errors|striptags }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                {{ form.password }}
-                {% if form.password.errors %}
-                    <div class="error">{{ form.password.errors|striptags }}</div>
-                {% endif %}
-            </div>
-
-            <button type="submit" class="auth-btn">
-                Login →
-            </button>
-        </form>
-
-        <p class="auth-link">
-            New user?
-            <a href="{% url 'users:register' %}">Create an account</a>
-        </p>
-
-    </div>
-</section>
-
-{% if messages %}
-    <div id="msgModal" class="msg-modal" style="display:none;">
-        <div class="msg-box">
-            {% for message in messages %}
-                <div class="msg-content">{{ message }}</div>
-            {% endfor %}
-            <div style="text-align:center;margin-top:6px;">
-                <button id="closeMsg" class="msg-close">Close</button>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            var modal = document.getElementById('msgModal');
-            if(modal){ modal.style.display = 'flex'; }
-            var btn = document.getElementById('closeMsg');
-            if(btn){ btn.addEventListener('click', function(){ modal.style.display = 'none'; }); }
-        });
-    </script>
-{% endif %}
-
-</body>
-</html>
+</body></html>

@@ -1,68 +1,353 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health Resources</title>
-    <link rel="stylesheet" href="{% static 'core/css/b.css' %}">
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Resources Hub</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#3f2965", "background-light": "#f7f6f7", "background-dark": "#18151d", "card-light": "#ffffff", "card-dark": "#1a2c26", "text-main": "#111815", "text-muted": "#63887c"}, fontFamily: {display: "Lexend"}, borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}}}};</script>
 </head>
-<body>
-
-<div class="page-wrapper">
-    <div class="resource-container">
-
-        <h2>🧠 Mental Health Resources</h2>
-
-        <!-- Search -->
-        <form method="get" class="search-form">
-            <input type="text" name="q" placeholder="Search articles or videos..." value="{{ query }}">
-            <button type="submit">Search</button>
-        </form>
-
-        <!-- Articles -->
-        <h3>📘 Articles</h3>
-
-        {% for article in articles %}
-        <div class="resource-card">
-            <h4>{{ article.title }}</h4>
-            <p>{{ article.summary|truncatewords:20 }}</p>
-            <a href="{% url 'resources:blog_detail' article.slug %}">Read More →</a>
-        </div>
-        {% empty %}
-        <p class="empty-text">No articles found.</p>
-        {% endfor %}
-
-        <!-- Pagination -->
-        <div class="pagination">
-            {% if articles.has_previous %}
-                <a href="?page={{ articles.previous_page_number }}">← Previous</a>
-            {% endif %}
-
-            <span>Page {{ articles.number }} of {{ articles.paginator.num_pages }}</span>
-
-            {% if articles.has_next %}
-                <a href="?page={{ articles.next_page_number }}">Next →</a>
-            {% endif %}
-        </div>
-
-        <hr>
-
-        <!-- Videos -->
-        <h3>🎥 Videos</h3>
-
-        {% for video in videos %}
-        <div class="resource-card">
-            <h4>{{ video.title }}</h4>
-            <p>{{ video.description|truncatewords:15 }}</p>
-            <a href="{{ video.video_url }}" target="_blank">Watch →</a>
-        </div>
-        {% empty %}
-        <p class="empty-text">No videos available.</p>
-        {% endfor %}
-
-    </div>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+<!-- Crisis Banner -->
+<div class="bg-red-50 dark:bg-red-900/30 w-full px-4 py-3 text-center border-b border-red-100 dark:border-red-900/50">
+<p class="text-sm text-red-800 dark:text-red-200 font-medium">
+<span class="material-symbols-outlined align-bottom text-[18px] mr-1">warning</span>
+            In crisis? Need immediate help? <a class="underline hover:text-red-900 dark:hover:text-white" href="#">Call or text 988</a> for 24/7 support.
+        </p>
 </div>
-
-</body>
-</html>
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full bg-card-light/90 dark:bg-card-dark/90 backdrop-blur-md border-b border-[#f0f4f3] dark:border-white/5">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16 sm:h-20">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-text-main dark:text-white">MindSettler</h1>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-text-main dark:text-white/80 hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-bold text-primary" href="#">Resources</a>
+<a class="text-sm font-medium text-text-main dark:text-white/80 hover:text-primary transition-colors" href="#">Community</a>
+<a class="text-sm font-medium text-text-main dark:text-white/80 hover:text-primary transition-colors" href="#">About Us</a>
+</nav>
+<!-- Auth Buttons -->
+<div class="hidden md:flex gap-3">
+<button class="h-10 px-5 rounded-xl bg-background-light dark:bg-white/10 text-text-main dark:text-white text-sm font-bold hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">
+                        Log In
+                    </button>
+<button class="h-10 px-5 rounded-xl bg-primary text-text-main text-sm font-bold shadow-sm hover:brightness-105 transition-colors">
+                        Sign Up
+                    </button>
+</div>
+<!-- Mobile Menu Button -->
+<button class="md:hidden p-2 text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+<!-- Hero Section -->
+<section class="@container">
+<div class="flex flex-col-reverse lg:flex-row gap-8 lg:gap-16 items-center">
+<div class="flex-1 flex flex-col gap-6 w-full">
+<div class="space-y-4 text-center lg:text-left">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary-dark text-xs font-bold uppercase tracking-wider w-fit mx-auto lg:mx-0">
+<span class="size-2 rounded-full bg-primary"></span>
+                            Resource Hub
+                        </div>
+<h2 class="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-text-main dark:text-white">
+                            Find the tools to <br class="hidden md:block"/>settle your mind
+                        </h2>
+<p class="text-base md:text-lg text-text-muted dark:text-gray-300 max-w-xl mx-auto lg:mx-0">
+                            Access valuable content like blogs, articles, and videos curated by experts for your unique mental well-being journey.
+                        </p>
+</div>
+<!-- Search Bar -->
+<div class="relative w-full max-w-xl mx-auto lg:mx-0 group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text-muted dark:text-gray-400">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="block w-full h-14 pl-12 pr-32 rounded-xl bg-white dark:bg-white/5 border-2 border-transparent focus:border-primary focus:ring-0 shadow-sm text-base text-text-main dark:text-white placeholder:text-text-muted/70 dark:placeholder:text-gray-500 transition-all" placeholder="Search (e.g., Anxiety, Sleep, Meditation)..." type="text"/>
+<div class="absolute inset-y-1 right-1">
+<button class="h-full px-6 rounded-lg bg-primary text-text-main font-bold text-sm hover:brightness-105 transition-all shadow-sm">
+                                Search
+                            </button>
+</div>
+</div>
+<!-- Quick Categories (Chips) -->
+<div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
+<button class="px-4 py-2 rounded-xl bg-primary text-text-main text-sm font-bold shadow-sm">All</button>
+<button class="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-main dark:text-gray-300 text-sm font-medium transition-all">Articles</button>
+<button class="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-main dark:text-gray-300 text-sm font-medium transition-all">Videos</button>
+<button class="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-main dark:text-gray-300 text-sm font-medium transition-all">Podcasts</button>
+<button class="px-4 py-2 rounded-xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-main dark:text-gray-300 text-sm font-medium transition-all">Exercises</button>
+</div>
+</div>
+<!-- Hero Image -->
+<div class="w-full lg:w-[480px] shrink-0">
+<div class="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-blue-50 dark:to-white/5 relative shadow-lg">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Person meditating in a peaceful, sunlit room with plants" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA61z399NKnehyW5npQ4o2NzruOE0l6eMNR3Zcjzu1ioa0BLHyFlrGIBjLM3XVRAfJj1J_zr7Dwt0NDuduqZCokxYW56olJ9rSJ5xOQwJIiObkOpW9wO_NE1HnPrG4j507i7sv2IOzb-YYZlFztRF_NQ2fukPY8tUIhMySc2TZAEI0ZOvV6rfHuRdXLT-V1C9wsf4dK4NLtnEzMMKuQXxUEH10v13UgCBlNLfGgOxyGWxbX8GY5dZmuSXGiJxmx0A5w-h5m9o-5_f8");'></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Topic Clusters -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold text-text-main dark:text-white">Explore by Topic</h3>
+<a class="text-sm font-bold text-primary hover:underline" href="#">View all topics</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Topic 1 -->
+<a class="group flex flex-col items-center justify-center p-6 gap-3 rounded-2xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/30 hover:shadow-md transition-all text-center" href="#">
+<div class="size-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-300 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">self_improvement</span>
+</div>
+<span class="font-bold text-text-main dark:text-white group-hover:text-primary transition-colors">Mindfulness</span>
+</a>
+<!-- Topic 2 -->
+<a class="group flex flex-col items-center justify-center p-6 gap-3 rounded-2xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/30 hover:shadow-md transition-all text-center" href="#">
+<div class="size-12 rounded-full bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-600 dark:text-purple-300 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">bedtime</span>
+</div>
+<span class="font-bold text-text-main dark:text-white group-hover:text-primary transition-colors">Better Sleep</span>
+</a>
+<!-- Topic 3 -->
+<a class="group flex flex-col items-center justify-center p-6 gap-3 rounded-2xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/30 hover:shadow-md transition-all text-center" href="#">
+<div class="size-12 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-300 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">spa</span>
+</div>
+<span class="font-bold text-text-main dark:text-white group-hover:text-primary transition-colors">Anxiety Relief</span>
+</a>
+<!-- Topic 4 -->
+<a class="group flex flex-col items-center justify-center p-6 gap-3 rounded-2xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/30 hover:shadow-md transition-all text-center" href="#">
+<div class="size-12 rounded-full bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-pink-600 dark:text-pink-300 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">favorite</span>
+</div>
+<span class="font-bold text-text-main dark:text-white group-hover:text-primary transition-colors">Relationships</span>
+</a>
+</div>
+</section>
+<!-- Featured Resource -->
+<section>
+<div class="rounded-2xl bg-white dark:bg-white/5 shadow-sm p-4 md:p-6 lg:p-8 flex flex-col md:flex-row gap-8 items-start relative overflow-hidden group">
+<!-- Decorative Gradient Blob -->
+<div class="absolute -top-24 -right-24 size-64 bg-primary/20 blur-[80px] rounded-full pointer-events-none"></div>
+<div class="w-full md:w-1/2 lg:w-5/12 aspect-video rounded-xl bg-gray-200 dark:bg-gray-800 bg-cover bg-center shadow-md" data-alt="Peaceful sunset over calm water with stones balanced in foreground" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDeoBw0Qf5Tf-AudJ75pWviSStMOET_qK-QVf6HwCmuLBCpnAJ8P2xlLDIhdUa3YYzAO5CGrKZCas14dVI3qmX5wdhUW2ljw0yKGkrqydcN1jZrtcqlSlftYtaJYXoql-vKFNDoSZZO40XSGLk66r8RiafUVHxfsfdOvKA6EJc21lCXb0N7NQQrGa-dpcc9SvhTM25-TeuVIlqMtJ7ieIMKE-Oa6CtPNMpJj2maqTg9mdOI4qfTpoT4ysDrU3YIFpA1HmCw5sBeYUY");'>
+</div>
+<div class="flex-1 flex flex-col gap-4 relative z-10">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 rounded-lg bg-primary text-text-main text-xs font-bold uppercase tracking-wider">Staff Pick</span>
+<span class="text-text-muted dark:text-gray-400 text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 5 min read
+                        </span>
+</div>
+<h3 class="text-2xl md:text-3xl font-bold text-text-main dark:text-white leading-tight">
+                        5 Breathing Techniques for Immediate Calm
+                    </h3>
+<p class="text-text-muted dark:text-gray-300 text-base leading-relaxed">
+                        When overwhelmed, our breath becomes shallow. Learn simple, effective ways to ground yourself instantly. Curated by Dr. Sarah Jenkins, this guide walks you through the 4-7-8 technique and box breathing.
+                    </p>
+<div class="pt-2 mt-auto">
+<button class="inline-flex items-center gap-2 text-sm font-bold text-text-main dark:text-white bg-background-light dark:bg-white/10 hover:bg-primary dark:hover:bg-primary px-5 py-2.5 rounded-xl transition-colors">
+                            Read Full Article
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Latest Resources Grid -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold text-text-main dark:text-white">Latest Resources</h3>
+<div class="flex gap-2">
+<button class="size-8 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/5 transition-colors text-text-main dark:text-white">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="size-8 rounded-full border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/5 transition-colors text-text-main dark:text-white">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<article class="flex flex-col bg-white dark:bg-white/5 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow border border-transparent dark:border-white/5 group">
+<div class="aspect-[16/10] w-full bg-gray-200 dark:bg-gray-800 bg-cover bg-center relative" data-alt="Group of friends laughing and talking outdoors" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDTqxJS1u-Lwvb4undxv1ym4gMGmvWQAZEtJm35XpqCgLBcrcZqQaG5wJ_3Cn_XiGAwgCHHMh-RW3PkDxzSOl3qnIogTj8NXmVJMAv2v49zQ2WbNjdVowN-LoffGltOPm3G7pPJy1GlnuBDRZZQ5sU-5zfN3ZV4u9vgayfrc7AtDeJmdDeA_NdStMP8kFbP7BVBcgQyxNmFF2KZ_TB1VkA5obY6zI5D_RttuSoVI2XXgeSGDvnH4lkv5SarBUtE6xGc9pUc1jFa9Nw");'>
+<div class="absolute top-3 left-3 px-2 py-1 bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-lg text-xs font-bold text-text-main dark:text-white uppercase tracking-wider">
+                            Article
+                         </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-3">
+<div class="flex items-center justify-between text-xs text-text-muted dark:text-gray-400">
+<span>Social Connections</span>
+<span>3 min read</span>
+</div>
+<h4 class="text-lg font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors">
+                            Why Community Matters for Mental Health
+                        </h4>
+<p class="text-sm text-text-muted dark:text-gray-400 line-clamp-2">
+                            Building a support network is crucial. Discover how social interactions can boost your mood and resilience.
+                        </p>
+<div class="mt-auto pt-2 flex items-center gap-2">
+<div class="size-6 rounded-full bg-gray-300 bg-cover" data-alt="Author profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBMdglAGhiw9l3mqwJisExXNBbZI72knO3eVClih-w08q6u47PtOCrWmWkvTtZ3gQq-aniNUtaxXBnQvdBBBfBEkwmwI5iiV2dnXOuxMzuUxjUfAtN1NhzzVMrp12RIKwDSUtp8HcOhiyNaTdmYrtLr5_WrNp4agXctlXhQapI4gXh18lu7j8oaBQ0yabxG5mMFz_FVLVDhyHi_niq-PfSlGLeZ9KV4_4lzLK1cj716oAwEul6cLLLoSUgmpKTsPoQIZftFwmFR6oE");'></div>
+<span class="text-xs font-medium text-text-main dark:text-white/80">Mark Thompson</span>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="flex flex-col bg-white dark:bg-white/5 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow border border-transparent dark:border-white/5 group">
+<div class="aspect-[16/10] w-full bg-gray-200 dark:bg-gray-800 bg-cover bg-center relative" data-alt="Woman stretching in yoga pose on a mat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYDFP-EQ0ArsUo-JrX4hJo7IbOWtTbP8NCXNHtZc9HyAdaHyMxEg2m_AP_S4vSK69WUBaKhgsxTFRCfMkg4OLPu0j8vNQ7Rrm47xNm3lLXe0FJy0RBEq-Sa9aRDp4-IOYBwX_f73KXkE_SOu1A0_CqcYdWEMdSTFLXfESRtgAK0iXJtViNFLSxuqx1LjNXEUP9mh2PxSvWbSl9yyOAHMz0Kd1GOIqGzJwNqmVFnmPPhAcyEjJaWhCOrcBypbbbYoy90V-ccjO97So");'>
+<div class="absolute top-3 left-3 px-2 py-1 bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-lg text-xs font-bold text-text-main dark:text-white uppercase tracking-wider">
+                            Video
+                         </div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
+<div class="size-10 rounded-full bg-white/90 flex items-center justify-center text-primary shadow-lg">
+<span class="material-symbols-outlined">play_arrow</span>
+</div>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-3">
+<div class="flex items-center justify-between text-xs text-text-muted dark:text-gray-400">
+<span>Physical Health</span>
+<span>15 min</span>
+</div>
+<h4 class="text-lg font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors">
+                            Morning Yoga for Stress Relief
+                        </h4>
+<p class="text-sm text-text-muted dark:text-gray-400 line-clamp-2">
+                            Start your day with intention. A gentle flow to wake up your body and calm your mind before work.
+                        </p>
+<div class="mt-auto pt-2 flex items-center gap-2">
+<div class="size-6 rounded-full bg-gray-300 bg-cover" data-alt="Author profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCSn5x_cUf5F8Ib--XdT1PDfi7f-zzLu40YaN1ab8ZOFoPPCMRY43Rf9I4Cncwh7U0y-_NYAMqLE45ygzl5kyL9c_qMpz_-BnOtN0uQNZQWQdSL2z2uF6-aoHi9AQXiQUGw8xk7jslPRBTQ5imTHxSUKgCivTawZ55CCAsrfXeSFXqzTzF49KwYMaS7gevi0i0-nuOhJryYRh-G7CrGob4roor-kog1kDcFFk68OCcOApPPzHyi_tHn5Vhlysm1oFdjjnVsCrnKNZY");'></div>
+<span class="text-xs font-medium text-text-main dark:text-white/80">Elena Rodriguez</span>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="flex flex-col bg-white dark:bg-white/5 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow border border-transparent dark:border-white/5 group">
+<div class="aspect-[16/10] w-full bg-gray-200 dark:bg-gray-800 bg-cover bg-center relative" data-alt="Journal and pen on a clean wooden desk" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmHovhnSlqFUWMiUblWVrkPpcNWXnbNRRfhv_adds_dq6bygG69wbyQrzB3xHdBeRpuyXYpKhGfXY7qXBvf8b9KY88eRIPu_ph7JBlCelh5th2OeY6y2wvg23d94Parp2E6TsKpVNGD044LScGcBgYc_VVHKX8OFJXFcCZ3tGSAQpnqWzyvtMlqBCSpTETOpscACEhbL6i_RGyH8J9UjgsU7N3xyNQ01IbBAWJtmT0Is-ACv_c1lsZYRa8vAV6lUiaJ36a9d8UzsM");'>
+<div class="absolute top-3 left-3 px-2 py-1 bg-white/90 dark:bg-black/60 backdrop-blur-sm rounded-lg text-xs font-bold text-text-main dark:text-white uppercase tracking-wider">
+                            Exercise
+                         </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-3">
+<div class="flex items-center justify-between text-xs text-text-muted dark:text-gray-400">
+<span>Self-Reflection</span>
+<span>10 min</span>
+</div>
+<h4 class="text-lg font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors">
+                            Daily Gratitude Journaling Prompt
+                        </h4>
+<p class="text-sm text-text-muted dark:text-gray-400 line-clamp-2">
+                            Shift your focus to the positive. A simple guided writing exercise to help you appreciate the small things.
+                        </p>
+<div class="mt-auto pt-2 flex items-center gap-2">
+<div class="size-6 rounded-full bg-gray-300 bg-cover" data-alt="Author profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIHnSOLOGqWn9x46rlz-xxneUvqUrLh_qQMfwqb5kx9I1WxHls13YM3vfYeeWFGaDbT93GOJCfWAT3tH6M-_mjWyirPeAyMTeOOMW56JgxioTE_JFzT6I8eTFY96wk1RpjIN0wLc9QpPD3CDLtdLKnRIhgjihIGWX02DxWSS0ER7nvS9Jb57gxNYGOv8-kjtOeM9PdwkG1ATbYlYwYb9skGCvXhi-_DevXIpvBwP-Htv5V3MwOiWnlEkVRo6ij8uyjJjbvorCsveA");'></div>
+<span class="text-xs font-medium text-text-main dark:text-white/80">Dr. Alan Grant</span>
+</div>
+</div>
+</article>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="px-6 py-3 rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 text-text-main dark:text-white font-bold text-sm transition-colors">
+                    Load More Resources
+                </button>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="rounded-3xl bg-primary/10 dark:bg-primary/5 px-6 py-12 md:px-12 md:py-16 text-center">
+<div class="max-w-2xl mx-auto space-y-6">
+<div class="size-16 rounded-full bg-white dark:bg-white/10 mx-auto flex items-center justify-center text-primary mb-4 shadow-sm">
+<span class="material-symbols-outlined text-[32px]">mail</span>
+</div>
+<h2 class="text-3xl font-bold text-text-main dark:text-white">Join our wellness journey</h2>
+<p class="text-text-muted dark:text-gray-300 text-lg">
+                    Receive weekly tips, calm visuals, and hand-picked resources directly to your inbox. No spam, just peace.
+                </p>
+<form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2">
+<input class="flex-1 rounded-xl border-none bg-white dark:bg-white/10 px-4 py-3 text-text-main dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary shadow-sm" placeholder="Enter your email address" required="" type="email"/>
+<button class="bg-primary hover:bg-[#2bd49c] text-text-main font-bold py-3 px-6 rounded-xl shadow-md transition-colors whitespace-nowrap" type="submit">
+                        Subscribe
+                    </button>
+</form>
+<p class="text-xs text-text-muted dark:text-gray-500">
+                    By subscribing, you agree to our Terms &amp; Privacy Policy.
+                </p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-card-dark border-t border-gray-100 dark:border-white/5 pt-16 pb-8 mt-auto">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+<div class="col-span-2 lg:col-span-2 space-y-4">
+<div class="flex items-center gap-3">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="text-lg font-bold text-text-main dark:text-white">MindSettler</span>
+</div>
+<p class="text-text-muted dark:text-gray-400 text-sm max-w-xs">
+                        A safe space for your mind. We provide the tools and community to help you navigate life's challenges with resilience.
+                    </p>
+<div class="flex gap-4 pt-2">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">post_add</span></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">videocam</span></a>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-text-main dark:text-white">Platform</h4>
+<ul class="space-y-2 text-sm text-text-muted dark:text-gray-400">
+<li><a class="hover:text-primary transition-colors" href="#">Home</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Resources</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Community</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Experts</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-text-main dark:text-white">Support</h4>
+<ul class="space-y-2 text-sm text-text-muted dark:text-gray-400">
+<li><a class="hover:text-primary transition-colors" href="#">Crisis Support</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Accessibility</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-text-main dark:text-white">Legal</h4>
+<ul class="space-y-2 text-sm text-text-muted dark:text-gray-400">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-gray-400">© 2023 MindSettler Inc. All rights reserved.</p>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-xs font-medium text-text-muted dark:text-gray-400">All systems operational</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,55 +1,167 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Confirmed</title>
-    <link rel="stylesheet" href="{% static 'core/css/x.css' %}">
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking Confirmed - MindSettler</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#3F2965", // Deep Purple
+          accent: "#DD1764", // Vibrant Pink
+          lavender: "#EBE7F2", // Pale Lavender
+          "background-light": "#FFFFFF", // Clean White
+          "background-dark": "#18151d",
+          "text-main": "#111815",
+          "text-muted": "#63887c"
+        },
+        fontFamily: {
+          display: "Lexend",
+          body: ["Noto Sans", "sans-serif"]
+        },
+        borderRadius: {
+          DEFAULT: "0.5rem",
+          lg: "1rem",
+          xl: "1.5rem",
+          full: "9999px"
+        }
+      }
+    }
+  };
+</script>
 </head>
-<body>
-
-<div class="page-wrapper">
-    <div class="confirm-card success-card">
-
-        {% if appointment %}
-            <h2>{% if appointment.status == 'CONFIRMED' %}✅ Booking Confirmed{% else %}🔔 Booking Received{% endif %}</h2>
-
-            <p class="confirm-text">
-                Hi <strong>{{ appointment.full_name }}</strong>, your session is booked for <strong>{{ appointment.slot.date }}</strong> at <strong>{{ appointment.slot.time }}</strong> ({{ appointment.duration_minutes }} minutes).
-                {% if appointment.first_session %}
-                    <br><em>This is marked as your first session.</em>
-                {% endif %}
-            </p>
-
-            <div class="payment-instructions">
-                <h4>Payment Instructions</h4>
-                {% if appointment.payment_mode == 'UPI' %}
-                    <p>Please send the payment via UPI to <strong>{{ appointment.upi_id }}</strong>. After sending, we'll manually confirm and update your appointment.</p>
-                {% else %}
-                    <p>Pay in cash at the studio on arrival. Our team will confirm once payment is received.</p>
-                {% endif %}
-            </div>
-
-            {% if gcal_url %}
-                <p><a href="{{ gcal_url }}" target="_blank" class="btn">Add to Google Calendar</a></p>
-            {% endif %}
-
-            {% if ics_url %}
-                <p><a href="{{ ics_url }}" class="btn">Download .ics (Add to other calendars)</a></p>
-            {% endif %}
-
-            <a href="/appointment/status/" class="btn primary-btn">
-                View Appointment Status
-            </a>
-        {% else %}
-            <h2>✅ Booking Confirmed</h2>
-            <p class="confirm-text">Your session has been successfully booked.<br>We look forward to supporting you 🌿</p>
-            <a href="/appointment/status/" class="btn primary-btn">View Appointment Status</a>
-        {% endif %}
-
-    </div>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display transition-colors duration-200">
+<header class="sticky top-0 z-50 w-full bg-white dark:bg-[#1A2C26] border-b border-[#f0f4f3] dark:border-[#2a4037]">
+<div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-7xl">
+<div class="flex items-center gap-4 text-primary dark:text-white cursor-pointer">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-3xl">spa</span>
 </div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">MindSettler</h2>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Therapists</a>
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">My Journey</a>
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Resources</a>
+</nav>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJFeMdiXartq1qgkpFvqLvmJ5OkdfETBsbUebd226te2Wzf2gIcgjp8QC-jQfHeMLfEWIS66vx4-kMbBUaXXVdy2eDyyOQNZI8nH07pLuwpBzdbcIaUmuYhOS87LHpsaBziq_6XOBqKCF_aM9m1mARwk99Ok4vv7zDVTqdPQZ1EUJRUbr1KZ34vKBUFS8YNdBz6kJcmzYR0gDnaMKOV_kURF-SKv5WRPvDhFALyfsIsR77UkXb_AYfIOgyZ7r8MCYS1XqwC0WQA58");'>
+</div>
+</div>
+<div class="md:hidden text-primary dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-10 px-4 sm:px-6">
+<div class="w-full max-w-[800px] flex flex-col gap-6">
+<div class="bg-white dark:bg-[#1A2C26] rounded-2xl shadow-sm border border-[#e6ece9] dark:border-[#2a4037] overflow-hidden">
+<div class="flex flex-col items-center pt-10 pb-6 px-6 text-center">
+<div class="size-20 rounded-full bg-accent/10 flex items-center justify-center mb-6 animate-pulse">
+<span class="material-symbols-outlined text-accent text-5xl">check_circle</span>
+</div>
+<h1 class="text-3xl font-bold leading-tight text-primary dark:text-white mb-3">Booking Request Received</h1>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 dark:bg-accent/20 text-accent text-sm font-medium mb-4">
+<span class="material-symbols-outlined text-base">hourglass_top</span>
+<span>Pending Payment Confirmation</span>
+</div>
+<p class="text-text-muted dark:text-gray-400 text-base max-w-lg">
+                        Your session is provisionally booked. We are holding your spot for 24 hours. Please complete the manual payment to finalize the appointment.
+                    </p>
+</div>
+<div class="p-6 sm:p-10 grid gap-10 md:grid-cols-[1.5fr_1fr] border-t border-[#f0f4f3] dark:border-[#2a4037]">
+<div class="flex flex-col gap-6">
+<h3 class="text-sm font-bold uppercase tracking-wider text-text-muted dark:text-gray-500">Session Details</h3>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-lavender dark:bg-[#11211c]/50 border border-transparent dark:border-[#2a4037]">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-16 w-16 shrink-0 shadow-sm" data-alt="Headshot of Dr. Sarah Jenkins, Clinical Psychologist" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIsteXQVeocJHRi0PLLTlp9s90mX9Me8utITwE09JtMlnmE9Am_DlI7vSy0MCeFjekiojKX43cy9ZdP8MJ2tdUajGjfy_dLBtvMR_yWqrmVCaVWOmRgutx4HUiYeIuQ09jiK4T_k79wXWo9NZrss6HU8ahPYxwsLxmqku0KcgqQid9XuI41rM7k_NPkaqK07gYDFbPInAIxmCGlv1ZuWowAiw8iB2roNCd0zlMLG8cSYvr0CG_J0VMet5Pw5sGFzyMHTXprimhZl4");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-lg font-bold text-text-main dark:text-white">Dr. Sarah Jenkins</p>
+<p class="text-text-muted dark:text-gray-400 text-sm">Clinical Psychologist</p>
+<p class="text-text-muted dark:text-gray-400 text-xs mt-1">License #12345</p>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3 text-text-main dark:text-white">
+<div class="size-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+<span class="material-symbols-outlined">calendar_month</span>
+</div>
+<div>
+<p class="text-sm font-bold">Wednesday, Oct 24</p>
+<p class="text-sm text-text-muted dark:text-gray-400">10:00 AM - 11:00 AM (EST)</p>
+</div>
+</div>
+<div class="flex items-center gap-3 text-text-main dark:text-white">
+<div class="size-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+<span class="material-symbols-outlined">videocam</span>
+</div>
+<div>
+<p class="text-sm font-bold">Video Session</p>
+<p class="text-sm text-text-muted dark:text-gray-400">Link will be sent after confirmation</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<h3 class="text-sm font-bold uppercase tracking-wider text-text-muted dark:text-gray-500">Status</h3>
+<div class="relative pl-2">
+<div class="flex gap-4 pb-8 relative group">
+<div class="absolute left-[11px] top-8 bottom-0 w-[2px] bg-primary"></div>
+<div class="relative z-10 size-6 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-bold text-primary dark:text-white">Booking Sent</p>
+<p class="text-xs text-text-muted dark:text-gray-400">Request received successfully</p>
+</div>
+</div>
+<div class="flex gap-4 pb-8 relative group">
+<div class="absolute left-[11px] top-8 bottom-0 w-[2px] bg-gray-200 dark:bg-gray-700"></div>
+<div class="relative z-10 size-6 rounded-full bg-white border-2 border-accent flex items-center justify-center text-accent shrink-0 shadow-[0_0_0_4px_rgba(221,23,100,0.2)]">
+<span class="material-symbols-outlined text-[12px] font-bold">priority_high</span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-bold text-accent">Payment Pending</p>
+<p class="text-xs text-text-muted dark:text-gray-400">Awaiting manual transfer</p>
+</div>
+</div>
+<div class="flex gap-4 relative group">
+<div class="relative z-10 size-6 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center text-gray-400 shrink-0">
+</div>
+<div class="flex flex-col pt-0.5">
+<p class="text-sm font-medium text-gray-400 dark:text-gray-500">Confirmed</p>
+<p class="text-xs text-gray-400 dark:text-gray-600">Session finalized</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-[#f6f8f7] dark:bg-[#11211c] p-6 sm:px-10 flex flex-col sm:flex-row gap-4 justify-between items-center border-t border-[#e6ece9] dark:border-[#2a4037]">
+<div class="text-sm text-text-muted dark:text-gray-400 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">mail</span>
+<span>Instructions sent to email</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+<button class="px-6 py-2.5 rounded-lg border border-primary font-medium text-primary dark:text-white hover:bg-primary/5 dark:hover:bg-white/5 transition-colors text-sm w-full sm:w-auto">
+                            View Payment Instructions
+                        </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors shadow-sm text-sm w-full sm:w-auto">
+                            Go to Dashboard
+                        </button>
+</div>
+</div>
+</div>
+<div class="text-center">
+<p class="text-sm text-text-muted dark:text-gray-500">
+                    Need help with your booking? <a class="text-primary font-medium hover:underline" href="#">Contact Support</a>
+</p>
+</div>
+</div>
+</main>
 
-</body>
-</html>
+</body></html>

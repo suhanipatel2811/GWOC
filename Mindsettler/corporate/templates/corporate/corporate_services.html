@@ -1,69 +1,362 @@
-
-{% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Corporate Services</title>
-    <link rel="stylesheet" href="{% static 'core/css/t.css' %}">
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Corporate Services</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3f2965", // Deep Purple
+                        secondary: "#DD1764", // Vibrant Pink
+                        lavender: "#EBE7F2", // Pale Lavender
+                        softpink: "#FADDE6", // Soft Pink
+                        "background-light": "#f7f6f7",
+                        "background-dark": "#18151d",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c26"
+                    },
+                    fontFamily: {
+                        display: "Lexend",
+                        body: ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
 </head>
+<body class="bg-surface-light dark:bg-background-dark text-[#111815] dark:text-[#f0f4f3] font-display antialiased transition-colors duration-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="w-full bg-white dark:bg-background-dark border-b border-[#f0f4f3] dark:border-[#2a3c36] sticky top-0 z-50">
+<div class="px-4 md:px-10 lg:px-40 py-3 flex items-center justify-between">
+<div class="flex items-center gap-4 cursor-pointer">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-primary dark:text-white">MindSettler</h2>
+</div>
+<div class="hidden lg:flex flex-1 justify-end gap-8 items-center">
+<nav class="flex items-center gap-9">
+<a class="text-sm font-medium text-[#111815] dark:text-gray-300 hover:text-primary transition-colors" href="#">Our Approach</a>
+<a class="text-sm font-medium text-[#111815] dark:text-gray-300 hover:text-primary transition-colors" href="#">Services</a>
+<a class="text-sm font-medium text-primary font-bold" href="#">Corporate</a>
+<a class="text-sm font-medium text-[#111815] dark:text-gray-300 hover:text-primary transition-colors" href="#">Resources</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold tracking-wide shadow-sm">
+<span class="truncate">Partner with Us</span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f0f4f3] dark:bg-surface-dark dark:text-white hover:bg-[#e0e4e3] dark:hover:bg-[#253832] transition-colors text-[#111815] text-sm font-bold tracking-wide">
+<span class="truncate">Log In</span>
+</button>
+</div>
+</div>
+<div class="lg:hidden text-[#111815] dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</div>
+</div>
+<div class="relative w-full bg-white dark:bg-background-dark py-12 md:py-20">
+<div class="layout-container px-4 md:px-10 lg:px-40 flex justify-center">
+<div class="max-w-[1200px] w-full">
+<div class="flex flex-col-reverse lg:flex-row gap-12 items-center">
+<div class="flex flex-col gap-6 flex-1 text-center lg:text-left">
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-[#111815] dark:text-white">
+                                Empower Your Workforce: <span class="text-secondary">Mental Health</span> Solutions
+                            </h1>
+<h2 class="text-base md:text-lg text-[#63887c] dark:text-gray-300 max-w-xl mx-auto lg:mx-0">
+                                Evidence-based psycho-education and support designed to boost resilience, productivity, and workplace harmony.
+                            </h2>
+<div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+<button class="h-12 px-8 rounded-xl bg-primary text-white text-base font-bold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                                    Partner with Us
+                                </button>
+<button class="h-12 px-8 rounded-xl bg-white dark:bg-surface-dark border border-[#dce5e2] dark:border-[#2a3c36] text-[#111815] dark:text-white text-base font-bold hover:bg-gray-50 dark:hover:bg-[#253832] transition-all">
+                                    View Service Catalog
+                                </button>
+</div>
+<div class="pt-8 border-t border-[#dce5e2] dark:border-[#2a3c36] mt-4 flex flex-col sm:flex-row gap-6 items-center justify-center lg:justify-start">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-background-dark bg-gray-200 bg-cover bg-center" data-alt="Portrait of a smiling woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBrLiGOFpKoeTcEXpzoq5qx8bAwvzFryO-S7sKh1uJk9HEMu2UMoN9Pa1xw1APZ4lbyfv6Xh8EMyca2POKFZvS8s4339c9BnqihgvhnMfT1RN_bjioL-HDUWyBCVB2kp1oCNV2aSkbu-7TYO5T3SAY5SBadbNwf-rn0PmDMMMelQ-0DvAwiiKtR-VrhKD1EIOqtwaFG15Ine1dfI6t_IB3I8NmOvSTjThOQNAjTZ8pZyNfoiukl9I5i4YPLUKslGzUEMXbeIPBN2_Y')"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-background-dark bg-gray-200 bg-cover bg-center" data-alt="Portrait of a smiling man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCtYmOjkXW0aExGuQ2i7CC1P6Xv-IZFR9oUrJo2cHcS4ljTVhOMu6t06RqAu8vWU4GeprycLnQOVdrCblEOKIQd9g-eqFkOQyxCsyi-GgNYXn0gqHuRjDk9K4R-cD0jgfxuCwqR3OMFlJzgBcsYzwJUzbLoAcCWlG2Eyofm5SF6VCOdlasnB_Lrj8_QeLu575fHumDk-fpxXRK-swBKNFn0CBnFbtNJBbe1L2Q0OifOf5Aw4iWA08jMeMyyjjNJFC2gQAVGGvwxT4c')"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-background-dark bg-gray-200 bg-cover bg-center" data-alt="Portrait of a professional man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBQyfDJMGpYFD1YWkRB1wYI9eEx8IQYxe1ETQLpILsyJwx399anNoAGXyuK7y1bP_1vHcMYONgSB9erGAqaOb43m7k1OOf2l-1Bd-M1dDBkuQG_VEUY7m7-Li5W09casjnPDo2AJECJbEtAydqerxgl3ZwSokfMMCoB8emtJ5fdvw6IohasRHnW_RIq3mDEHGjJNt8LL55mRQvK-e2xDPwSoCOnfbK_QuQBhxUpKa6takWVLdnGlVzQokmWBd7TxubQOe5kTnKGQ3M')"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white dark:border-background-dark bg-primary flex items-center justify-center text-xs font-bold text-white">+2k</div>
+</div>
+<p class="text-sm font-medium text-[#63887c] dark:text-gray-400">
+                                    Trusted by 50+ innovative companies
+                                </p>
+</div>
+</div>
+<div class="w-full lg:w-1/2 flex justify-center">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
+<div class="absolute inset-0 bg-black/10 z-10"></div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Diverse team collaborating in a bright modern office" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALvdw_7XjDPnNI_Kst1aYv_0m83MAkTj5se12zxcdmnzyp8vbA-3cjNGF5o95z16shvZfUdTDTFDFkY6ZaI5TBxq4MLxrigapkEgrTrWW6snCWAljDRHwDxqKzuxwG-JXCS3GuVW3NRI6NGE43LVAMM159KG1dqk2bU9Z7oBKDZzs9Gem_Fwchhsv9SArlqA-y9cyadHkHyTyRTjSxQUTLniWq7Yc9aXEaWCIpvqlxvWLufllcGDU97OuY8K22BSL8UCCoS5niqns');"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full bg-white dark:bg-surface-dark py-16">
+<div class="layout-container px-4 md:px-10 lg:px-40 flex justify-center">
+<div class="max-w-[1200px] w-full flex flex-col gap-10">
+<div class="flex flex-col gap-4 text-center max-w-3xl mx-auto">
+<h2 class="text-3xl md:text-4xl font-bold tracking-tight text-[#111815] dark:text-white">
+                            Why Choose MindSettler?
+                        </h2>
+<p class="text-lg text-[#63887c] dark:text-gray-300">
+                            We combine clinical expertise with corporate strategy to deliver measurable improvements in workplace wellbeing.
+                        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="flex flex-col gap-4 rounded-2xl border border-transparent dark:border-[#2a3c36] bg-lavender dark:bg-background-dark p-6 hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl">psychology</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#111815] dark:text-white mb-2">Evidence-Based</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Methodologies grounded in psychological science and proven clinical research.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-2xl border border-transparent dark:border-[#2a3c36] bg-lavender dark:bg-background-dark p-6 hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl">tune</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#111815] dark:text-white mb-2">Tailored Solutions</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Programs customized to your unique company culture and specific team needs.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-2xl border border-transparent dark:border-[#2a3c36] bg-lavender dark:bg-background-dark p-6 hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl">lock</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#111815] dark:text-white mb-2">Confidential Support</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Safe, private spaces for employees to open up without fear of judgment.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-2xl border border-transparent dark:border-[#2a3c36] bg-lavender dark:bg-background-dark p-6 hover:shadow-md transition-shadow">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl">verified_user</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#111815] dark:text-white mb-2">Expert Facilitators</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Led by licensed psychologists and certified corporate coaches.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full bg-[#fcfbfc] dark:bg-background-dark py-12 border-y border-[#dce5e2] dark:border-[#2a3c36]">
+<div class="layout-container px-4 md:px-10 lg:px-40 flex justify-center">
+<div class="max-w-[960px] w-full flex flex-col items-center gap-8">
+<div class="text-center">
+<h2 class="text-2xl font-bold mb-2 text-[#111815] dark:text-white">Tailored for Your Organization Size</h2>
+<p class="text-[#63887c] dark:text-gray-400">Select your team size to see recommended approach</p>
+</div>
+<div class="flex p-1 bg-white dark:bg-surface-dark rounded-full border border-[#dce5e2] dark:border-[#2a3c36] shadow-sm">
+<button class="px-6 py-2 rounded-full bg-primary text-white font-bold text-sm shadow-sm transition-all">Small Teams</button>
+<button class="px-6 py-2 rounded-full text-[#63887c] dark:text-gray-400 font-medium text-sm hover:text-[#111815] dark:hover:text-white transition-all">Large Enterprise</button>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-center w-full bg-white dark:bg-surface-dark p-6 rounded-2xl border border-[#dce5e2] dark:border-[#2a3c36]">
+<div class="flex-1 space-y-4">
+<h3 class="text-xl font-bold text-[#111815] dark:text-white">Startups &amp; Small Businesses</h3>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-sm text-[#63887c] dark:text-gray-300">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                                    Flexible workshop scheduling
+                                </li>
+<li class="flex items-center gap-3 text-sm text-[#63887c] dark:text-gray-300">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                                    Direct access to mental health coaches
+                                </li>
+<li class="flex items-center gap-3 text-sm text-[#63887c] dark:text-gray-300">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                                    Culture-building focus
+                                </li>
+</ul>
+</div>
+<div class="w-full md:w-1/3 h-40 rounded-xl bg-cover bg-center" data-alt="Small group meeting in casual setting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkXSLwTJHvS8nPpv_xJNOQK_ehycX7kKT0IvXSdqJnhm-7BbZo6qjWAkLrgqYtaJ4tscwiXXamnnVTccGIK3cnlxJ-WaSJVipGejfm5M477WqpeUFMSCH6SB_c5teTsRBsUtQjo127Htg52ZNZl5xhJIW2z34C-iICdUe6jevB_BE_NLcIBIx-w7z0swVepqZHOf4MUjwYMOSBbwYyT5e_v7i699WWLidZ47biPZB89wPxEYY7WUKZhsFtcYfMqYIRVd9gxwXEKnE')"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full bg-white dark:bg-surface-dark py-16">
+<div class="layout-container px-4 md:px-10 lg:px-40 flex justify-center">
+<div class="max-w-[1200px] w-full">
+<div class="mb-10 px-4">
+<h2 class="text-3xl font-bold leading-tight tracking-tight text-[#111815] dark:text-white mb-2">Our Corporate Services</h2>
+<p class="text-[#63887c] dark:text-gray-400">Comprehensive programs designed for modern challenges.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+<div class="group flex flex-col rounded-2xl bg-softpink dark:bg-background-dark border border-transparent dark:border-[#2a3c36] overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Calm workshop setting with natural light" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpwcRl0rhwd_UJf5C35KpoD-hklGIodi5Knc-5rA8l-AfXQ99IaMKPrZ2V03D9EHCAUsl2Xf8kLx8VKy8uzZWYNilaIy8EMSKiwTeq7bpeA_qjddpEfvmUBWwQzWhV441vt4wbTQWJNM6AVd3R4M1nNv1khqIm1VusJ0s1xv7INfJN57wPhvTdBZemJ7ee8zQCf5CYRhelyZEBtm4hzv6F9iawwVvc5LsVrqdka2kOPpC6QxrDmeyhsPaFG4lvPhuwftMqhSvCgvA');"></div>
+<div class="p-6 flex flex-col gap-4 flex-1">
+<div class="flex-1">
+<h3 class="text-xl font-bold text-primary dark:text-white mb-2">Stress Management Workshops</h3>
+<p class="text-gray-700 dark:text-gray-400 text-sm leading-relaxed">Interactive sessions on identifying burnout triggers, managing anxiety, and practical stress-reduction techniques.</p>
+</div>
+<button class="self-start text-sm font-bold text-primary hover:text-secondary flex items-center gap-1 transition-colors">
+                                    Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="group flex flex-col rounded-2xl bg-softpink dark:bg-background-dark border border-transparent dark:border-[#2a3c36] overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Group of people sitting in circle talking" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgmQwZ6IervqQALqvNRNlzoysPrg8t4DqkanvNuCC-MzX5yZMEcyMf7G32NniwhgdEefATxqJt5IMn3Sr6pxvSCSxe0RMHdchrQCPwRVxWK0RzcgnDP60MsYby5NVaw8-GyHqjrM4fZbRAzRxygA7h-CXwjDMGoZSKhar390otg1SmfIoDZZMMVrSIgjtAXqkrp-ykltY1gnl0ZCfOfBPelwnzaJ-jTkotdOmaAIu4jts0TVxrU4BGOuhEGkcgdMPD66KO3DVCNG8');"></div>
+<div class="p-6 flex flex-col gap-4 flex-1">
+<div class="flex-1">
+<h3 class="text-xl font-bold text-primary dark:text-white mb-2">Group Therapy Circles</h3>
+<p class="text-gray-700 dark:text-gray-400 text-sm leading-relaxed">Facilitated, confidential safe spaces for teams to process changes, conflicts, or shared challenges.</p>
+</div>
+<button class="self-start text-sm font-bold text-primary hover:text-secondary flex items-center gap-1 transition-colors">
+                                    Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="group flex flex-col rounded-2xl bg-softpink dark:bg-background-dark border border-transparent dark:border-[#2a3c36] overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Executive mentoring another professional" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAD97tWWQ7lKpe_M2aMkueBfopGdZCUerTRcUTweuFFNTrgbjhWAZlezCp8sDEf_azJXOb2U362sPkVeicY6yo11vijKydhVdoNt6UiK5RL8U4ALa3Jr7X1P9s8Usl_W01eEjP37sROVk70yHNFJkZlqe6Ah0upHyd2pmkXKxER0AvqqctH_TGQ3k0fyM01YuXoT-SZphjl7fPwCpDvXfRgQVSDGteYS4RtCLpC8DIxeyNV166VkcBFweAhaKcmoc7lRW3pSlCbl94');"></div>
+<div class="p-6 flex flex-col gap-4 flex-1">
+<div class="flex-1">
+<h3 class="text-xl font-bold text-primary dark:text-white mb-2">Executive Coaching</h3>
+<p class="text-gray-700 dark:text-gray-400 text-sm leading-relaxed">1-on-1 sessions for leaders to build emotional intelligence, resilience, and empathetic management skills.</p>
+</div>
+<button class="self-start text-sm font-bold text-primary hover:text-secondary flex items-center gap-1 transition-colors">
+                                    Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="group flex flex-col rounded-2xl bg-softpink dark:bg-background-dark border border-transparent dark:border-[#2a3c36] overflow-hidden hover:shadow-lg transition-all duration-300">
+<div class="h-48 w-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Team looking at presentation board" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWQFcjDMqS9Mc8qLALG6VLgdORE7vlZPCysJdNA4owZuvpxaUU_kRJJOLpeX4K6yN3wyvuXkJc_lauTxhXaIKJKblYwpCCL13f-f-z4yYx-R8utE2X8WSVbEjfZUGrlMJhF8v743KF2xGSJXzM3KwlOAMCE3ujpzhOjIhjrJw4wrfl2rUFgtHO8EEBtuhv-8ihhhOVcfEJMsQu0YIj0UOyGz5Be95k0kBnUgvS-YMoeZ_ywv1fygRkc_VYmIvI0q74uXWH2WKN0oc');"></div>
+<div class="p-6 flex flex-col gap-4 flex-1">
+<div class="flex-1">
+<h3 class="text-xl font-bold text-primary dark:text-white mb-2">Crisis Intervention</h3>
+<p class="text-gray-700 dark:text-gray-400 text-sm leading-relaxed">Immediate support and strategy for organizations facing sudden trauma, restructuring, or critical incidents.</p>
+</div>
+<button class="self-start text-sm font-bold text-primary hover:text-secondary flex items-center gap-1 transition-colors">
+                                    Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full bg-[#fcfbfc] dark:bg-[#1a2c26] py-20">
+<div class="layout-container px-4 md:px-10 lg:px-40 flex justify-center">
+<div class="max-w-[1200px] w-full flex flex-col lg:flex-row gap-12 lg:gap-24 items-start">
+<div class="flex-1 space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider">
+                            Contact Us
+                        </div>
+<h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-primary dark:text-white leading-tight">
+                            Ready to transform your workplace culture?
+                        </h2>
+<p class="text-lg text-[#63887c] dark:text-gray-300">
+                            Get a custom proposal tailored to your team's size and needs. We usually respond within 24 hours.
+                        </p>
+<div class="flex flex-col gap-4 pt-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-white dark:bg-surface-dark flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-secondary dark:text-white">mail</span>
+</div>
+<div>
+<p class="text-sm text-[#63887c] dark:text-gray-400">Email us directly</p>
+<p class="font-bold text-[#111815] dark:text-white">corporate@mindsettler.com</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-white dark:bg-surface-dark flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-secondary dark:text-white">call</span>
+</div>
+<div>
+<p class="text-sm text-[#63887c] dark:text-gray-400">Call our support team</p>
+<p class="font-bold text-[#111815] dark:text-white">+1 (555) 123-4567</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-[480px] bg-white dark:bg-background-dark rounded-2xl p-8 shadow-xl border border-[#dce5e2] dark:border-[#2a3c36]">
+<form class="flex flex-col gap-5">
+<div class="flex flex-col gap-1">
+<label class="text-sm font-bold text-[#111815] dark:text-white">Full Name</label>
+<input class="h-12 rounded-lg border border-transparent dark:border-[#2a3c36] px-4 bg-lavender dark:bg-surface-dark text-[#111815] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g. Jane Doe" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-sm font-bold text-[#111815] dark:text-white">Company Name</label>
+<input class="h-12 rounded-lg border border-transparent dark:border-[#2a3c36] px-4 bg-lavender dark:bg-surface-dark text-[#111815] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g. Acme Corp" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-sm font-bold text-[#111815] dark:text-white">Work Email</label>
+<input class="h-12 rounded-lg border border-transparent dark:border-[#2a3c36] px-4 bg-lavender dark:bg-surface-dark text-[#111815] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="jane@acmecorp.com" type="email"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-sm font-bold text-[#111815] dark:text-white">How can we help?</label>
+<textarea class="h-32 rounded-lg border border-transparent dark:border-[#2a3c36] p-4 bg-lavender dark:bg-surface-dark text-[#111815] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Tell us about your team's needs..."></textarea>
+</div>
+<button class="mt-2 h-12 w-full rounded-xl bg-primary text-white font-bold text-base hover:shadow-lg transition-all" type="button">
+                                Request Proposal
+                            </button>
+</form>
+</div>
+</div>
+</div>
+</div>
+<footer class="bg-background-dark text-white py-12 border-t border-[#2a3c36]">
+<div class="layout-container px-4 md:px-10 lg:px-40 flex justify-center">
+<div class="max-w-[1200px] w-full flex flex-col md:flex-row justify-between gap-10">
+<div class="flex flex-col gap-4 max-w-xs">
+<div class="flex items-center gap-2 text-primary">
+<div class="size-6">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="font-bold text-lg">MindSettler</span>
+</div>
+<p class="text-sm text-gray-400">Making mental healthcare accessible, destigmatized, and effective for forward-thinking organizations.</p>
+</div>
+<div class="flex gap-12 flex-wrap">
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-sm text-white">Company</h4>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">Careers</a>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">Press</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-sm text-white">Services</h4>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">Workshops</a>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">Therapy</a>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">Coaching</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-sm text-white">Legal</h4>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-gray-400 hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center text-xs text-gray-600 mt-12 pt-8 border-t border-[#2a3c36] mx-auto max-w-[1200px]">
+                © 2024 MindSettler. All rights reserved.
+            </div>
+</footer>
+</div>
 
-<body>
-<section class="corporate-hero">
-    <h1>Corporate Mental Well-Being Services</h1>
-    <p>
-        At <strong>MindSettler</strong>, we partner with organizations to
-        build emotionally healthy, resilient, and productive workplaces.
-    </p>
-</section>
-
-<section class="corporate-services">
-    <h2>Our Corporate Offerings</h2>
-
-    <div class="service-card">
-        <h3>Mental Health Workshops</h3>
-        <p>
-            Interactive workshops designed to spread awareness about stress,
-            anxiety, burnout, and emotional well-being in the workplace.
-        </p>
-    </div>
-
-    <div class="service-card">
-        <h3>Employee Training Programs</h3>
-        <p>
-            Skill-based training sessions focused on emotional intelligence,
-            communication, leadership well-being, and work-life balance.
-        </p>
-    </div>
-
-    <div class="service-card">
-        <h3>Organizational Consulting</h3>
-        <p>
-            Customized consulting solutions to help organizations create
-            supportive mental health policies and cultures.
-        </p>
-    </div>
-
-    <div class="service-card">
-        <h3>Well-being Sessions</h3>
-        <p>
-            Guided sessions led by mental health professionals to help
-            employees manage stress and improve emotional resilience.
-        </p>
-    </div>
-</section>
-
-<section class="corporate-cta">
-    <h2>Let’s Build a Healthier Workplace Together</h2>
-    <p>
-        Tell us about your organization’s needs and our team will design
-        a solution tailored just for you.
-    </p>
-
-    <a href="{% url 'corporate:request_service' %}" class="btn-primary">
-        Request Corporate Service
-    </a>
-</section>
-</body>
-</html>
+</body></html>

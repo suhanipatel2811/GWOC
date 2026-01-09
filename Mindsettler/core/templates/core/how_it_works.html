@@ -1,122 +1,373 @@
-{% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How It Works | MindSettler</title>
-    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'core/css/how.css' %}">
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>How MindSettler Works</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    primary: "#3F2965", // Deep Purple
+                    "primary-dark": "#2A1B45", // Darker Deep Purple
+                    accent: "#DD1764", // Vibrant Pink
+                    "accent-light": "#FADDE6", // Soft Pink
+                    "soft-lavender": "#EBE7F2", // Soft Lavender
+                    "soft-pink": "#FADDE6", // Soft Pink
+                    "background-light": "#FFFFFF", 
+                    "background-dark": "#18151d",
+                    "text-main": "#111815",
+                    "text-sub": "#618979"
+                },
+                fontFamily: {
+                    display: "Lexend"
+                },
+                borderRadius: {
+                    DEFAULT: "0.5rem",
+                    lg: "1rem",
+                    xl: "1.5rem",
+                    full: "9999px"
+                },
+                backgroundImage: {
+                    "gradient-radial": "radial-gradient(var(--tw-gradient-stops))"
+                },
+                keyframes: {
+                    "fade-in-up": {
+                        "0%": { opacity: "0", transform: "translateY(20px)" },
+                        "100%": { opacity: "1", transform: "translateY(0)" }
+                    },
+                    "fade-in": {
+                        "0%": { opacity: "0" },
+                        "100%": { opacity: "1" }
+                    }
+                },
+                animation: {
+                    "fade-in-up": "fade-in-up 0.8s ease-out forwards",
+                    "fade-in": "fade-in 1s ease-out forwards"
+                }
+            }
+        }
+    };
+</script>
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #f6f8f7; 
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #dbe6e1; 
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #DD1764; 
+    }
+    .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .hover-lift {
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+</style>
 </head>
-<body>
-
-<!-- HERO -->
-<section class="ms-hero how-hero">
-    <div class="ms-container hero-inner">
-        <div class="hero-copy">
-            <span class="badge">YOUR JOURNEY</span>
-            <h1>Your Path to <span class="accent">Clarity</span></h1>
-            <p class="lead">Mental well-being is a journey, not a destination. We've designed a simple, empathetic process to help you find the right support, exactly when you need it.</p>
-
-            <div class="hero-actions">
-                <a href="#" class="btn btn-primary">Start Your Journey</a>
-                <a href="#" class="btn btn-outline">Watch Video</a>
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display antialiased overflow-x-hidden transition-colors duration-300">
+<header class="sticky top-0 z-50 w-full bg-white/90 dark:bg-[#10221a]/90 backdrop-blur-md border-b border-[#f0f4f3] dark:border-white/10 transition-all duration-300">
+<div class="max-w-[1280px] mx-auto px-6 h-20 flex items-center justify-between">
+<a class="flex items-center gap-3 text-primary dark:text-white group" href="#">
+<div class="w-8 h-8 text-primary transition-transform duration-500 ease-in-out group-hover:rotate-12 group-hover:scale-110">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="text-xl font-bold tracking-tight text-primary">MindSettler</span>
+</a>
+<nav class="hidden md:flex items-center gap-10">
+<a href="#" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Home
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a href="{% url 'core:about' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                About Us
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a href="{% url 'core:how_it_works' %}" class="text-sm font-medium text-accent cursor-default relative" href="#">
+                How It Works
+                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-accent"></span>
+</a>
+<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                PsychoEdu
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a href="{% url 'corporate:corporate_services' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                Corporate Services
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+</nav>
+<div class="hidden md:flex gap-3">
+<a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJFeMdiXartq1qgkpFvqLvmJ5OkdfETBsbUebd226te2Wzf2gIcgjp8QC-jQfHeMLfEWIS66vx4-kMbBUaXXVdy2eDyyOQNZI8nH07pLuwpBzdbcIaUmuYhOS87LHpsaBziq_6XOBqKCF_aM9m1mARwk99Ok4vv7zDVTqdPQZ1EUJRUbr1KZ34vKBUFS8YNdBz6kJcmzYR0gDnaMKOV_kURF-SKv5WRPvDhFALyfsIsR77UkXb_AYfIOgyZ7r8MCYS1XqwC0WQA58");'>
+</a>
+</div>
+<button class="md:hidden p-2 text-text-main dark:text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-grow flex flex-col bg-white">
+<section class="relative pt-16 pb-24 md:pt-24 md:pb-32 px-6 overflow-hidden">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 -z-10 animate-pulse" style="animation-duration: 4s;"></div>
+<div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 dark:bg-blue-900/10 rounded-full blur-[80px] translate-y-1/4 -translate-x-1/4 -z-10 animate-pulse" style="animation-duration: 6s; animation-delay: 1s;"></div>
+<div class="max-w-[960px] mx-auto text-center flex flex-col items-center gap-6 animate-fade-in-up">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold uppercase tracking-wider mb-2 hover:bg-accent/20 transition-colors cursor-default">
+<span class="material-symbols-outlined text-sm">spa</span>
+                Your Journey
             </div>
-        </div>
-
-        <div class="hero-media">
-            <div class="media-card">
-                <img src="{% static 'core/images/how-hero.jpg' %}" alt="testimonial">
-                <div class="media-caption"> <strong>Safe Space</strong> — "The first step was the hardest, but MindSettler made it feel natural."</div>
-            </div>
-        </div>
-    </div>
+<h1 class="text-4xl md:text-6xl font-black tracking-tight text-text-main dark:text-white leading-[1.1]">
+                Your Path to <span class="text-accent">Clarity</span>
+</h1>
+<p class="text-lg md:text-xl text-text-sub dark:text-gray-300 max-w-2xl leading-relaxed">
+                Mental well-being is a journey, not a destination. We’ve designed a simple, empathetic process to help you find the right support, exactly when you need it.
+            </p>
+<div class="mt-4 flex flex-col sm:flex-row gap-4 w-full justify-center">
+<a href="{%url 'appointment:booking'%}"class="h-12 px-8 rounded-xl bg-primary hover:bg-primary-dark text-white text-base font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 group">
+                    Start Your Journey
+                    <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+<button class="h-12 px-8 rounded-xl bg-white dark:bg-white/10 border border-[#dbe6e1] dark:border-white/20 hover:border-accent text-text-main dark:text-white text-base font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-md flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined text-lg group-hover:scale-110 transition-transform text-accent">play_circle</span>
+                    Watch Video
+                </button>
+</div>
+</div>
+<div class="mt-16 max-w-[1024px] mx-auto relative group reveal-on-scroll">
+<div class="absolute inset-0 bg-primary/20 blur-3xl rounded-3xl -z-10 transform translate-y-4 scale-95 opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out"></div>
+<div class="rounded-3xl overflow-hidden shadow-2xl border border-white/20 dark:border-white/10 aspect-[16/9] md:aspect-[21/9] bg-cover bg-center relative hover:scale-[1.01] transition-transform duration-700 ease-out" data-alt="Calm person sitting near a window with sunlight streaming in, looking peaceful" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAuAZVlTFDc1qGDQBetsPGhwL5WzzSjc_alO6f30BvFDTtLHtvV5CS5i4HcWvKGPFr88gu_mTpzzfGMumS_UTo5cmNFEJA9eVq-qHZ8_c-xiNtQvPtoWOYg8Q3SkPus5KNx2ocnCx7TcXQJQtH3uTc7aSICj0oxDk2CsRnarOVviYHbalPw8yi02EeCVyEEx71xzcYYrTULLf2qh8wgD91HdfbtPeuMoImzPnXZlRUm1ZvDMBhgFU0okyAcESdCq8OjxYj3e9Xmkvc');">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+<div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 text-white max-w-md">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-accent">verified_user</span>
+<span class="text-sm font-semibold uppercase tracking-wider text-accent">Safe Space</span>
+</div>
+<p class="text-lg md:text-2xl font-bold leading-tight drop-shadow-md">"The first step was the hardest, but MindSettler made it feel natural."</p>
+</div>
+</div>
+</div>
 </section>
-
-<!-- HOW IT WORKS TIMELINE -->
-<section class="ms-timeline">
-    <div class="ms-container">
-        <h3 class="center">How It Works</h3>
-        <p class="muted center">Five simple steps to a healthier mind.</p>
-
-        <div class="timeline-wrap">
-            <div class="timeline-line"></div>
-
-            <div class="timeline-step left">
-                <div class="marker">1</div>
-                <div class="content">
-                    <h4>Explore MindSettler</h4>
-                    <p class="small muted">Browse our library of resources and expert profiles. Filter by specialty, approach, or language to find what resonates with you.</p>
-                </div>
-            </div>
-
-            <div class="timeline-step right">
-                <div class="marker">2</div>
-                <div class="content">
-                    <h4>Choose Session Type</h4>
-                    <p class="small muted">Everyone heals differently. Select from 1-on-1 therapy, group workshops, or self-guided audio modules.</p>
-                </div>
-            </div>
-
-            <div class="timeline-step left">
-                <div class="marker">3</div>
-                <div class="content">
-                    <h4>Book a Slot</h4>
-                    <p class="small muted">Find a time that fits your life with our flexible scheduling calendar. No back-and-forth emails needed.</p>
-                </div>
-            </div>
-
-            <div class="timeline-step right">
-                <div class="marker">4</div>
-                <div class="content">
-                    <h4>Attend Session</h4>
-                    <p class="small muted">Join your secure, encrypted video room or start your module from the comfort and privacy of your home.</p>
-                </div>
-            </div>
-
-            <div class="timeline-step left">
-                <div class="marker">5</div>
-                <div class="content">
-                    <h4>Continue Your Journey</h4>
-                    <p class="small muted">Healing is ongoing. Track your progress, access session notes, and build lasting habits with our tools.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="py-20 bg-white dark:bg-[#152a21] relative" id="how-it-works">
+<div class="max-w-[960px] mx-auto px-6">
+<div class="mb-16 md:mb-24 text-center reveal-on-scroll">
+<h2 class="text-3xl md:text-4xl font-bold text-text-main dark:text-white mb-4">How It Works</h2>
+<p class="text-text-sub dark:text-gray-400 text-lg">Five simple steps to a healthier mind.</p>
+</div>
+<div class="relative">
+<div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary/10 via-primary to-primary/10 -translate-x-1/2 hidden md:block"></div>
+<div class="absolute left-6 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary/10 via-primary to-primary/10 -translate-x-1/2 md:hidden"></div>
+<div class="relative flex flex-col md:flex-row gap-8 md:gap-0 items-start md:items-center mb-16 group reveal-on-scroll" style="transition-delay: 100ms;">
+<div class="absolute left-6 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-[#152a21] border-4 border-primary z-10 shadow-lg group-hover:scale-125 transition-transform duration-500 ease-out">
+<span class="text-primary font-bold text-lg">1</span>
+</div>
+<div class="md:w-1/2 md:pr-16 pl-16 md:pl-0 md:text-right flex flex-col md:items-end">
+<div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent mb-4 md:ml-auto md:mr-0 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform duration-300">manage_search</span>
+</div>
+<h3 class="text-2xl font-bold text-text-main dark:text-white mb-2 group-hover:text-accent transition-colors duration-300">Explore MindSettler</h3>
+<p class="text-text-sub dark:text-gray-400 leading-relaxed group-hover:text-text-main dark:group-hover:text-gray-300 transition-colors duration-300">Browse our library of resources and expert profiles. Filter by specialty, approach, or language to find what resonates with you.</p>
+</div>
+<div class="hidden md:block md:w-1/2"></div>
+</div>
+<div class="relative flex flex-col md:flex-row-reverse gap-8 md:gap-0 items-start md:items-center mb-16 group reveal-on-scroll" style="transition-delay: 200ms;">
+<div class="absolute left-6 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-[#152a21] border-4 border-accent group-hover:border-accent z-10 shadow-lg group-hover:scale-125 transition-all duration-500 ease-out">
+<span class="text-accent font-bold text-lg transition-colors">2</span>
+</div>
+<div class="md:w-1/2 md:pl-16 pl-16 md:pl-0 text-left flex flex-col items-start">
+<div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform duration-300">psychology</span>
+</div>
+<h3 class="text-2xl font-bold text-text-main dark:text-white mb-2 group-hover:text-accent transition-colors duration-300">Choose Session Type</h3>
+<p class="text-text-sub dark:text-gray-400 leading-relaxed group-hover:text-text-main dark:group-hover:text-gray-300 transition-colors duration-300">Everyone heals differently. Select from 1-on-1 therapy, group workshops, or self-guided audio modules.</p>
+</div>
+<div class="hidden md:block md:w-1/2"></div>
+</div>
+<div class="relative flex flex-col md:flex-row gap-8 md:gap-0 items-start md:items-center mb-16 group reveal-on-scroll" style="transition-delay: 100ms;">
+<div class="absolute left-6 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-[#152a21] border-4 border-accent group-hover:border-accent z-10 shadow-lg group-hover:scale-125 transition-all duration-500 ease-out">
+<span class="text-accent font-bold text-lg transition-colors">3</span>
+</div>
+<div class="md:w-1/2 md:pr-16 pl-16 md:pl-0 md:text-right flex flex-col md:items-end">
+<div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent mb-4 md:ml-auto md:mr-0 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform duration-300">calendar_month</span>
+</div>
+<h3 class="text-2xl font-bold text-text-main dark:text-white mb-2 group-hover:text-accent transition-colors duration-300">Book a Slot</h3>
+<p class="text-text-sub dark:text-gray-400 leading-relaxed group-hover:text-text-main dark:group-hover:text-gray-300 transition-colors duration-300">Find a time that fits your life with our flexible scheduling calendar. No back-and-forth emails needed.</p>
+</div>
+<div class="hidden md:block md:w-1/2"></div>
+</div>
+<div class="relative flex flex-col md:flex-row-reverse gap-8 md:gap-0 items-start md:items-center mb-16 group reveal-on-scroll" style="transition-delay: 200ms;">
+<div class="absolute left-6 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-[#152a21] border-4 border-primary group-hover:border-primary z-10 shadow-lg group-hover:scale-125 transition-all duration-500 ease-out">
+<span class="text-primary font-bold text-lg transition-colors">4</span>
+</div>
+<div class="md:w-1/2 md:pl-16 pl-16 md:pl-0 text-left flex flex-col items-start">
+<div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform duration-300">video_camera_front</span>
+</div>
+<h3 class="text-2xl font-bold text-text-main dark:text-white mb-2 group-hover:text-accent transition-colors duration-300">Attend Session</h3>
+<p class="text-text-sub dark:text-gray-400 leading-relaxed group-hover:text-text-main dark:group-hover:text-gray-300 transition-colors duration-300">Join your secure, encrypted video room or start your module from the comfort and privacy of your home.</p>
+</div>
+<div class="hidden md:block md:w-1/2"></div>
+</div>
+<div class="relative flex flex-col md:flex-row gap-8 md:gap-0 items-start md:items-center group reveal-on-scroll" style="transition-delay: 100ms;">
+<div class="absolute left-6 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-[#152a21] border-4 border-accent group-hover:border-accent z-10 shadow-lg group-hover:scale-125 transition-all duration-500 ease-out">
+<span class="text-accent font-bold text-lg transition-colors">5</span>
+</div>
+<div class="md:w-1/2 md:pr-16 pl-16 md:pl-0 md:text-right flex flex-col md:items-end">
+<div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent mb-4 md:ml-auto md:mr-0 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-2xl group-hover:translate-x-1 -translate-y-1 transition-transform duration-300">trending_up</span>
+</div>
+<h3 class="text-2xl font-bold text-text-main dark:text-white mb-2 group-hover:text-accent transition-colors duration-300">Continue Your Journey</h3>
+<p class="text-text-sub dark:text-gray-400 leading-relaxed group-hover:text-text-main dark:group-hover:text-gray-300 transition-colors duration-300">Healing is ongoing. Track your progress, access session notes, and build lasting habits with our tools.</p>
+</div>
+<div class="hidden md:block md:w-1/2"></div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- KEY FEATURES -->
-<section class="ms-features">
-    <div class="ms-container features-grid">
-        <div class="feature-card">
-            <h4>Confidential & Secure</h4>
-            <p class="small muted">Your privacy is our top priority. All sessions are HIPAA-compliant and end-to-end encrypted.</p>
-        </div>
-
-        <div class="feature-card">
-            <h4>Certified Experts</h4>
-            <p class="small muted">All specialists are thoroughly vetted, licensed, and experienced in diverse therapeutic fields.</p>
-        </div>
-
-        <div class="feature-card">
-            <h4>Empathetic Care</h4>
-            <p class="small muted">We prioritize creating a safe, non-judgmental space for your healing and growth.</p>
-        </div>
-    </div>
+<section class="py-20 px-6 bg-white dark:bg-background-dark">
+<div class="max-w-[1100px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-4 p-8 rounded-2xl bg-soft-lavender dark:bg-[#152a21] border border-transparent dark:border-white/5 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-2 reveal-on-scroll" style="transition-delay: 0ms;">
+<div class="w-12 h-12 rounded-full bg-white dark:bg-white/10 flex items-center justify-center text-accent transition-transform duration-300 group-hover:scale-110 shadow-sm">
+<span class="material-symbols-outlined text-2xl">lock</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-1">Confidential &amp; Secure</h3>
+<p class="text-sm text-text-sub dark:text-gray-400">Your privacy is our top priority. All sessions are HIPAA-compliant and end-to-end encrypted.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 p-8 rounded-2xl bg-soft-pink dark:bg-[#152a21] border border-transparent dark:border-white/5 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-2 reveal-on-scroll" style="transition-delay: 150ms;">
+<div class="w-12 h-12 rounded-full bg-white dark:bg-white/10 flex items-center justify-center text-accent transition-transform duration-300 group-hover:scale-110 shadow-sm">
+<span class="material-symbols-outlined text-2xl">verified</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-1">Certified Experts</h3>
+<p class="text-sm text-text-sub dark:text-gray-400">All specialists are thoroughly vetted, licensed, and experienced in diverse therapeutic fields.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 p-8 rounded-2xl bg-soft-lavender dark:bg-[#152a21] border border-transparent dark:border-white/5 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-2 reveal-on-scroll" style="transition-delay: 300ms;">
+<div class="w-12 h-12 rounded-full bg-white dark:bg-white/10 flex items-center justify-center text-accent transition-transform duration-300 group-hover:scale-110 shadow-sm">
+<span class="material-symbols-outlined text-2xl">favorite</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-1">Empathetic Care</h3>
+<p class="text-sm text-text-sub dark:text-gray-400">We prioritize creating a safe, non-judgmental space for your healing and growth.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- CTA BANNER -->
-<section class="ms-cta-banner">
-    <div class="ms-container cta-inner">
-        <h2>Ready to begin?</h2>
-        <p class="muted">Take the first step towards a clearer mind today. Our specialists are ready to listen.</p>
-        <a class="btn btn-primary" href="#">Find a Specialist</a>
-    </div>
+<section class="py-24 px-6 bg-white dark:bg-[#10221a]">
+<div class="max-w-[960px] mx-auto bg-gradient-to-br from-soft-lavender to-soft-pink dark:bg-gradient-to-br dark:from-[#152a21] dark:to-[#0f1d15] rounded-3xl p-10 md:p-16 text-center relative overflow-hidden group hover-lift reveal-on-scroll">
+<div class="absolute top-0 left-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 group-hover:scale-110"></div>
+<div class="absolute bottom-0 right-0 w-64 h-64 bg-white/40 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 transition-transform duration-700 group-hover:scale-125"></div>
+<div class="relative z-10 flex flex-col items-center gap-6">
+<h2 class="text-3xl md:text-5xl font-black text-primary dark:text-white leading-tight">Ready to begin?</h2>
+<p class="text-lg md:text-xl text-text-main dark:text-gray-300 max-w-xl">Take the first step towards a clearer mind today. Our specialists are ready to listen.</p>
+<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4">
+<button class="h-12 px-8 rounded-xl bg-primary hover:bg-primary-dark text-white text-base font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 min-w-[200px]">
+                        Find a Specialist
+                        <span class="material-symbols-outlined text-lg">search</span>
+</button>
+</div>
+</div>
+</div>
 </section>
+</main>
+<footer class="bg-white dark:bg-[#10221a] border-t border-[#f0f4f3] dark:border-white/10 pt-16 pb-10 px-6">
+<div class="max-w-[1280px] mx-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+<div class="col-span-2 md:col-span-1">
+<div class="flex items-center gap-2 mb-6">
+<div class="w-6 h-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h3 class="text-xl font-bold text-primary dark:text-white">MindSettler</h3>
+</div>
+<p class="text-text-sub dark:text-gray-500 text-sm leading-relaxed mb-4">
+                    Compassionate mental health support accessible to everyone. Your clarity is our mission.
+                </p>
+<div class="flex gap-4">
+<a class="text-text-sub hover:text-accent dark:text-gray-500 dark:hover:text-white transition-colors hover:scale-110 transform duration-200" href="#"><span class="material-symbols-outlined">mail</span></a>
+<a class="text-text-sub hover:text-accent dark:text-gray-500 dark:hover:text-white transition-colors hover:scale-110 transform duration-200" href="#"><span class="material-symbols-outlined">call</span></a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-text-main dark:text-white font-bold">Platform</h4>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Browse Specialists</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">How it Works</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Pricing</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">For Employers</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-text-main dark:text-white font-bold">Resources</h4>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Blog</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Self-Help Guides</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Emergency Support</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">FAQ</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-text-main dark:text-white font-bold">Legal</h4>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Privacy Policy</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Terms of Service</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Cookie Policy</a>
+<a class="text-text-sub dark:text-gray-400 hover:text-accent text-sm transition-colors hover:translate-x-1 duration-200" href="#">Accessibility</a>
+</div>
+</div>
+<div class="pt-8 border-t border-[#f0f4f3] dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-xs text-text-sub dark:text-gray-600">© 2024 MindSettler. All rights reserved.</p>
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-text-sub hover:bg-accent/20 hover:text-accent transition-all duration-300 hover:scale-110 cursor-pointer" data-alt="Facebook icon">f</div>
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-text-sub hover:bg-accent/20 hover:text-accent transition-all duration-300 hover:scale-110 cursor-pointer" data-alt="Twitter icon">t</div>
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-text-sub hover:bg-accent/20 hover:text-accent transition-all duration-300 hover:scale-110 cursor-pointer" data-alt="Instagram icon">i</div>
+</div>
+</div>
+</div>
+</footer>
+<script>
+    // Simple Intersection Observer for scroll animations
+    document.addEventListener('DOMContentLoaded', () => {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
 
-</body>
-</html>
-
-</body>
-</html>
+</body></html>
