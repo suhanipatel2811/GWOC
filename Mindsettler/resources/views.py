@@ -29,6 +29,14 @@ def blog_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     article.views += 1
     article.save(update_fields=['views'])
+    
+    # Track activity for logged-in users
+    if request.user.is_authenticated:
+        from users.models import Activity
+        Activity.objects.create(
+            user=request.user,
+            action=f'Read article: {article.title}'
+        )
 
     return render(request, 'resources/blog_detail.html', {
         'article': article
@@ -38,6 +46,15 @@ def like_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
     article.likes += 1
     article.save(update_fields=['likes'])
+    
+    # Track as module completion for logged-in users
+    if request.user.is_authenticated:
+        from users.models import Activity
+        Activity.objects.create(
+            user=request.user,
+            action=f'Completed module: {article.title}'
+        )
+    
     return HttpResponseRedirect(
         reverse('resources:blog_detail', args=[slug])
     )

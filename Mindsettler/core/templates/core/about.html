@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -44,10 +45,9 @@
 <header class="sticky top-0 z-50 w-full border-b border-pale-lavender bg-white/95 backdrop-blur-sm px-4 md:px-10 py-3">
 <div class="layout-content-container mx-auto flex max-w-[1200px] items-center justify-between">
 <div class="flex items-center gap-4">
-<div class="flex items-center justify-center rounded-full bg-pale-lavender p-2 text-accent">
-<span class="material-symbols-outlined">spa</span>
-</div>
-<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] text-primary">MindSettler</h2>
+    <a href="{% url 'core:home' %}">
+        <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+    </a>
 </div>
 <nav class="hidden md:flex items-center gap-10">
 <a href="#" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
@@ -55,7 +55,7 @@
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
 </a>
 <a href="{% url 'core:about' %}" class="text-sm font-medium text-accent cursor-default relative" href="#">
-                About
+                About Us
                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-accent"></span>
 </a>
 <a href="{% url 'core:how_it_works' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">

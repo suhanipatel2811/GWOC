@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -53,19 +54,7 @@
     </style>
 </head>
 <body class="bg-lavender/30 text-text-dark min-h-screen flex flex-col font-display antialiased selection:bg-primary/20 selection:text-primary">
-<header class="w-full px-6 py-4 flex items-center justify-between absolute top-0 left-0 z-10">
-<div class="flex items-center gap-3">
-<div class="size-8 text-primary">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-</svg>
-</div>
-<h2 class="text-primary text-xl font-bold tracking-tight">MindSettler</h2>
-</div>
-<div>
-<a class="text-sm font-medium text-text-muted hover:text-accent transition-colors" href="#">Need help?</a>
-</div>
-</header>
+{% include 'users/auth_header.html' %}
 <main class="flex-1 flex items-center justify-center p-4 min-h-[800px] lg:min-h-screen">
 <div class="w-full max-w-[1100px] bg-white rounded-2xl overflow-hidden shadow-2xl shadow-primary/10 flex flex-col md:flex-row h-full min-h-[650px]">
 <div class="hidden md:flex md:w-5/12 relative bg-primary flex-col p-12 justify-between overflow-hidden">
@@ -96,6 +85,7 @@
 <h2 class="text-3xl font-bold text-primary mb-2 tracking-tight">Welcome back</h2>
 <p class="text-text-muted">Please enter your details to access your safe space.</p>
 </div>
+{# messages intentionally not shown on login page to avoid popups #}
 <form class="space-y-6" method="post" action="{% url 'users:login' %}">
                         {% csrf_token %}
                         {% if form.non_field_errors %}

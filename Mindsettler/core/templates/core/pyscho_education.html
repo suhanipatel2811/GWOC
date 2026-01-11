@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -59,19 +60,33 @@
 <body class="bg-white text-[#1a1a1a] font-display transition-colors duration-300 smooth-scroll">
 <header class="sticky top-0 z-50 flex items-center justify-between border-b border-pale-lavender bg-white/90 backdrop-blur-md px-6 py-4 lg:px-10">
 <div class="flex items-center gap-4">
-<div class="size-8 text-deep-purple">
-<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-</svg>
-</div>
-<h2 class="text-xl font-bold leading-tight tracking-tight text-deep-purple">MindSettler</h2>
+    <a href="{% url 'core:home' %}">
+        <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+    </a>
 </div>
 <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
-<nav class="flex items-center gap-8">
-<a class="text-sm font-medium hover:text-vibrant-pink transition-colors" href="#">Modules</a>
-<a class="text-sm font-medium hover:text-vibrant-pink transition-colors" href="#">Journal</a>
-<a class="text-sm font-medium hover:text-vibrant-pink transition-colors" href="#">Community</a>
-<a class="text-sm font-medium hover:text-vibrant-pink transition-colors" href="#">Profile</a>
+<nav class="hidden md:flex items-center gap-10">
+<a href="{% url 'core:home' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Home
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a href="{% url 'core:about' %}" class="text-sm font-medium text-accent cursor-default relative" href="#">
+                About
+                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-accent"></span>
+</a>
+<a href="{% url 'core:how_it_works' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                How It Works   
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+
+<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                PsychoEdu
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a href="{% url 'corporate:corporate_services' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                Corporate Services
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+</a>
 </nav>
 <button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-deep-purple text-white text-sm font-bold shadow-md hover:bg-deep-purple/90 transition-all hover:scale-105 active:scale-95">
 <span>Get Help</span>
@@ -90,7 +105,7 @@
 <p class="text-gray-500 text-sm">Your Journey</p>
 </div>
 <nav class="flex flex-col gap-2">
-<a class="group flex items-center gap-3 px-4 py-3 rounded-xl bg-pale-lavender text-deep-purple transition-colors" href="#intro">
+<a class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-soft-pink transition-colors text-gray-600" href="#intro">
 <span class="material-symbols-outlined text-vibrant-pink group-hover:scale-110 transition-transform filled">info</span>
 <span class="text-sm font-semibold">Introduction</span>
 </a>

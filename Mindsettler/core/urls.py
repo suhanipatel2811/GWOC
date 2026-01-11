@@ -13,5 +13,7 @@ urlpatterns = [
     path('journey/', views.journey, name='journey'),
     path('what_makes_us_different/', views.what_makes_us_different, name='what_makes_us_different'),
     path('book-session/', views.book_session, name='book_session'),
+    path('privacypolicy/', views.privacypolicy, name='privacypolicy'),
+
 ]
 

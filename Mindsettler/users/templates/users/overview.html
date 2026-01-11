@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Overview Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class", 
+    theme: {
+        extend: {
+            colors: {
+                primary: "#3f2965", // Deep Purple
+                highlight: "#DD1764", // Vibrant Pink
+                "card-lavender": "#EBE7F2", // Pale Lavender
+                "primary-dark": "#2a1b45", 
+                "background-light": "#f7f6f7", 
+                "background-dark": "#18151d", 
+                "surface-light": "#ffffff", 
+                "surface-dark": "#1a2c26", 
+                "text-main": "#111815", 
+                "text-muted": "#63887c"
+            }, 
+            fontFamily: {
+                display: "Lexend"
+            }, 
+            borderRadius: {
+                DEFAULT: "0.5rem", 
+                lg: "1rem", 
+                xl: "1.5rem", 
+                full: "9999px"
+            }
+        }
+    }
+};
+</script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dce5e2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #63887c;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex w-72 flex-col bg-surface-light dark:bg-surface-dark border-r border-[#f0f4f3] dark:border-[#2a3c36] h-full transition-colors duration-200">
+<div class="p-6">
+<div class="flex items-center gap-3 text-text-main dark:text-white mb-8">
+<div class="size-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-tight">MindSettler</h2>
+</div>
+<div class="flex gap-4 items-center mb-8 p-3 rounded-xl bg-background-light dark:bg-[#11211c]">
+{% if user.profile.avatar_type == 'masculine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></div>
+{% elif user.profile.avatar_type == 'feminine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></div>
+{% elif user.profile.avatar_type == 'neutral' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></div>
+{% else %}
+<div class="bg-primary text-white rounded-full size-12 flex items-center justify-center text-lg font-bold">
+{{ user.first_name.0|default:user.username.0|upper }}{{ user.last_name.0|default:""|upper }}
+</div>
+{% endif %}
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-bold truncate text-text-main dark:text-white">{{ user.first_name|default:user.username }} {{ user.last_name }}</h3>
+<p class="text-xs text-text-muted dark:text-gray-400 truncate">Member since {{ member_since }}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary transition-colors" href="{% url 'users:overview' %}">
+<span class="material-symbols-outlined filled">dashboard</span>
+<span class="font-medium text-sm">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:profile' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">person</span>
+<span class="font-medium text-sm">Personal Info</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:sessionhistory' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">history</span>
+<span class="font-medium text-sm">Session History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:myprogress' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">bar_chart</span>
+<span class="font-medium text-sm">My Progress</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:settings' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-[#f0f4f3] dark:border-[#2a3c36]">
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-text-muted dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors" href="{% url 'users:logout' %}">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-medium text-sm">Log Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto relative bg-background-light dark:bg-background-dark">
+<header class="md:hidden flex items-center justify-between px-4 py-3 bg-surface-light dark:bg-surface-dark border-b border-[#f0f4f3] dark:border-[#2a3c36] sticky top-0 z-20">
+<div class="flex items-center gap-3 text-text-main dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="font-bold text-lg">MindSettler</span>
+</div>
+<button class="text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<header class="hidden md:flex items-center justify-between px-8 py-4 bg-background-light dark:bg-background-dark/50 backdrop-blur-sm sticky top-0 z-10 border-b border-transparent">
+<div class="flex flex-col">
+<h1 class="text-xl font-bold text-text-main dark:text-white">Overview</h1>
+<p class="text-xs text-text-muted">Welcome back to your safe space</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors relative">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-2.5 right-2.5 size-2 bg-highlight rounded-full border-2 border-white dark:border-[#2a3c36]"></span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors">
+<span class="material-symbols-outlined text-primary">help</span>
+</button>
+</div>
+</header>
+<div class="px-4 md:px-8 py-6 w-full max-w-7xl mx-auto space-y-6 md:space-y-8 pb-20">
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-[#2a3c36] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+<div class="flex flex-col md:flex-row items-center md:items-start gap-6 relative z-10">
+<div class="relative group">
+{% if user.profile.avatar_type == 'masculine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-20 md:size-24 ring-4 ring-card-lavender dark:ring-[#2a3c36]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></div>
+{% elif user.profile.avatar_type == 'feminine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-20 md:size-24 ring-4 ring-card-lavender dark:ring-[#2a3c36]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></div>
+{% elif user.profile.avatar_type == 'neutral' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-20 md:size-24 ring-4 ring-card-lavender dark:ring-[#2a3c36]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></div>
+{% else %}
+<div class="bg-primary text-white rounded-full size-20 md:size-24 ring-4 ring-card-lavender dark:ring-[#2a3c36] flex items-center justify-center text-3xl font-bold">
+{{ user.first_name.0|default:user.username.0|upper }}{{ user.last_name.0|default:""|upper }}
+</div>
+{% endif %}
+</div>
+<div class="flex flex-col items-center md:items-start text-center md:text-left pt-1 flex-1">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-highlight uppercase tracking-wider mb-1">Daily Mindfulness</span>
+<h2 class="text-xl md:text-2xl font-serif italic text-text-main dark:text-white leading-tight">"Breath is the bridge which connects life to consciousness, which unites your body to your thoughts."</h2>
+<p class="text-sm text-text-muted dark:text-gray-400 mt-2">— Thich Nhat Hanh</p>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="bg-card-lavender dark:bg-surface-dark rounded-xl p-6 border border-gray-100 dark:border-[#2a3c36] shadow-sm flex flex-col justify-between h-36 hover:shadow-md transition-shadow group relative overflow-hidden">
+<div class="absolute -right-4 -top-4 text-primary/5">
+<span class="material-symbols-outlined text-9xl">calendar_today</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<div class="p-1.5 bg-white dark:bg-surface-light rounded-lg text-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">calendar_clock</span>
+</div>
+<h3 class="text-sm font-bold text-primary dark:text-white uppercase tracking-wide">Upcoming Sessions</h3>
+</div>
+<p class="text-3xl font-bold text-text-main dark:text-white mt-2">{{ appointments_this_week }} <span class="text-sm font-normal text-text-muted">this week</span></p>
+</div>
+<div class="relative z-10 mt-auto">
+{% if next_appointment %}
+<p class="text-xs text-text-muted font-medium">Next: {{ next_appointment.slot.date|date:"M d" }} at {{ next_appointment.slot.time|time:"g:i A" }}</p>
+{% else %}
+<p class="text-xs text-text-muted font-medium">No upcoming sessions</p>
+{% endif %}
+</div>
+</div>
+<div class="bg-card-lavender dark:bg-surface-dark rounded-xl p-6 border border-gray-100 dark:border-[#2a3c36] shadow-sm flex flex-col justify-between h-36 hover:shadow-md transition-shadow group relative overflow-hidden">
+<div class="absolute -right-4 -top-4 text-primary/5">
+<span class="material-symbols-outlined text-9xl">menu_book</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<div class="p-1.5 bg-white dark:bg-surface-light rounded-lg text-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">book_2</span>
+</div>
+<h3 class="text-sm font-bold text-primary dark:text-white uppercase tracking-wide">Recommended Reading</h3>
+</div>
+<p class="text-3xl font-bold text-text-main dark:text-white mt-2">{{ articles_count }} <span class="text-sm font-normal text-text-muted">new articles</span></p>
+</div>
+<div class="relative z-10 mt-auto">
+{% if recommended_articles.0 %}
+<p class="text-xs text-text-muted font-medium">Latest: {{ recommended_articles.0.title|truncatewords:5 }}</p>
+{% else %}
+<p class="text-xs text-text-muted font-medium">Check back soon for new content</p>
+{% endif %}
+</div>
+</div>
+<div class="bg-card-lavender dark:bg-surface-dark rounded-xl p-6 border border-gray-100 dark:border-[#2a3c36] shadow-sm flex flex-col justify-between h-36 hover:shadow-md transition-shadow group relative overflow-hidden">
+<div class="absolute -right-4 -top-4 text-primary/5">
+<span class="material-symbols-outlined text-9xl">mood</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<div class="p-1.5 bg-white dark:bg-surface-light rounded-lg text-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<h3 class="text-sm font-bold text-primary dark:text-white uppercase tracking-wide">Mood Summary</h3>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<span class="text-2xl font-bold text-text-main dark:text-white">{{ mood_status }}</span>
+</div>
+</div>
+<div class="relative z-10 mt-auto flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-white rounded-full overflow-hidden">
+<div class="h-full bg-highlight rounded-full" style="width: {{ mood_percentage }}%;"></div>
+</div>
+<p class="text-xs text-text-muted font-medium">{{ avg_mood }}/10</p>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] p-6">
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-4">Quick Actions</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<a href="{% url 'core:psycho_education' %}" class="flex items-center justify-center gap-3 px-6 py-4 bg-primary hover:bg-primary-dark text-white rounded-xl shadow-md transition-all duration-200 transform hover:-translate-y-0.5">
+<span class="material-symbols-outlined">self_improvement</span>
+<span class="font-bold">Start Breathing Exercise</span>
+</a>
+<a href="{% url 'appointment:booking' %}" class="flex items-center justify-center gap-3 px-6 py-4 bg-white dark:bg-surface-dark border-2 border-primary/20 text-primary hover:border-primary hover:bg-primary/5 rounded-xl transition-all duration-200">
+<span class="material-symbols-outlined">calendar_add_on</span>
+<span class="font-bold">Book a Session</span>
+</a>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] p-6">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-white">Weekly Progress</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Tracking your emotional well-being trends</p>
+</div>
+</div>
+<div class="relative w-full h-64">
+<canvas id="weeklyMoodChart"></canvas>
+</div>
+</div>
+<script>
+const weeklyCtx = document.getElementById('weeklyMoodChart').getContext('2d');
+const weeklyMoodChart = new Chart(weeklyCtx, {
+    type: 'line',
+    data: {
+        labels: {{ mood_labels_week|safe }},
+        datasets: [{
+            label: 'Mood Score',
+            data: {{ mood_data_week|safe }},
+            borderColor: '#DD1764',
+            backgroundColor: 'rgba(221, 23, 100, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: '#DD1764',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: 'rgba(63, 41, 101, 0.9)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                padding: 12,
+                displayColors: false,
+                callbacks: {
+                    label: function(context) {
+                        return 'Mood: ' + context.parsed.y + '/10';
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 10,
+                ticks: {
+                    stepSize: 2,
+                    color: '#9ca3af'
+                },
+                grid: {
+                    color: 'rgba(156, 163, 175, 0.1)'
+                }
+            },
+            x: {
+                ticks: { color: '#9ca3af' },
+                grid: { display: false }
+            }
+        }
+    }
+});
+</script>
+</div>
+<div class="space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] p-6 h-full">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-text-main dark:text-white">Today's Schedule</h3>
+<span class="text-xs font-medium px-2 py-1 bg-card-lavender text-primary rounded-md">{{ today|date:"M d" }}</span>
+</div>
+<div class="space-y-4">
+{% for appointment in upcoming_appointments %}
+{% if appointment.slot.date == today %}
+<div class="flex gap-4 items-start pb-4 border-b border-gray-50 dark:border-[#2a3c36] last:border-0 last:pb-0">
+<div class="flex flex-col items-center min-w-[3rem]">
+<span class="text-sm font-bold text-text-main dark:text-white">{{ appointment.slot.time|time:"g:i" }}</span>
+<span class="text-xs text-text-muted">{{ appointment.slot.time|time:"A" }}</span>
+</div>
+<div class="flex-1">
+<div class="p-3 bg-card-lavender dark:bg-background-dark rounded-lg border-l-4 border-highlight">
+<h4 class="text-sm font-bold text-text-main dark:text-white">{{ appointment.session_type }} Session</h4>
+<p class="text-xs text-text-muted mt-1">{{ appointment.duration_minutes }} mins • {{ appointment.get_status_display }}</p>
+{% if appointment.status == 'CONFIRMED' %}
+<a href="{% url 'appointment:booking' %}" class="mt-2 inline-block text-xs bg-primary text-white px-3 py-1.5 rounded-md hover:bg-primary-dark transition-colors">View Details</a>
+{% endif %}
+</div>
+</div>
+</div>
+{% endif %}
+{% empty %}
+<div class="text-center py-8">
+<span class="material-symbols-outlined text-5xl text-text-muted dark:text-gray-500 mb-3">event_available</span>
+<p class="text-sm text-text-muted dark:text-gray-400">No appointments scheduled for today</p>
+<a href="{% url 'appointment:booking' %}" class="mt-4 inline-block text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">Book a Session</a>
+</div>
+{% endfor %}
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] p-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-text-main dark:text-white">Latest Resources</h3>
+<a class="text-xs font-bold text-highlight hover:underline" href="{% url 'resources:blog_list' %}">View All</a>
+</div>
+<div class="space-y-4">
+{% for article in recommended_articles|slice:":3" %}
+<a class="flex gap-3 items-center group hover:bg-gray-50 dark:hover:bg-[#1a2c26] p-2 -mx-2 rounded-lg transition-colors" href="{% url 'resources:blog_detail' article.slug %}">
+<div class="size-10 rounded-lg bg-card-lavender flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">article</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-bold text-text-main dark:text-white truncate">{{ article.title }}</h4>
+<p class="text-xs text-text-muted">{{ article.views }} views • {{ article.likes }} likes</p>
+</div>
+</a>
+{% empty %}
+<div class="text-center py-4">
+<p class="text-sm text-text-muted dark:text-gray-400">No articles available yet</p>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="mt-8 text-center border-t border-gray-100 dark:border-[#2a3c36] pt-6 pb-2">
+<p class="text-xs text-text-muted dark:text-gray-500">
+                        © 2024 MindSettler. Prioritizing your mental wellness.
+                    </p>
+</footer>
+</main>
+</div>
+
+</body></html>

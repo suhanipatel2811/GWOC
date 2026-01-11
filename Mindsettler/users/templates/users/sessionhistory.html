@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Session History</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3f2965",
+                        "primary-dark": "#25b685",
+                        "background-light": "#f7f6f7",
+                        "background-dark": "#18151d",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c26",
+                        "text-main": "#111815",
+                        "text-muted": "#63887c",
+                        "lavender-pale": "#EBE7F2",
+                        "accent-pink": "#DD1764"
+                    },
+                    fontFamily: {
+                        display: "Lexend"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dce5e2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #63887c;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex w-72 flex-col bg-surface-light dark:bg-surface-dark border-r border-[#f0f4f3] dark:border-[#2a3c36] h-full transition-colors duration-200">
+<div class="p-6">
+<div class="flex items-center gap-3 text-text-main dark:text-white mb-8">
+<div class="size-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-tight">MindSettler</h2>
+</div>
+<div class="flex gap-4 items-center mb-8 p-3 rounded-xl bg-background-light dark:bg-[#11211c]">
+{% if user.profile.avatar_type == 'masculine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></div>
+{% elif user.profile.avatar_type == 'feminine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></div>
+{% elif user.profile.avatar_type == 'neutral' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></div>
+{% else %}
+<div class="bg-primary text-white rounded-full size-12 flex items-center justify-center text-lg font-bold">
+{{ user.first_name.0|default:user.username.0|upper }}{{ user.last_name.0|default:""|upper }}
+</div>
+{% endif %}
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-bold truncate text-text-main dark:text-white">{{ user.first_name|default:user.username }} {{ user.last_name }}</h3>
+<p class="text-xs text-text-muted dark:text-gray-400 truncate">Member since {{ member_since }}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:overview' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">dashboard</span>
+<span class="font-medium text-sm">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:profile' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">person</span>
+<span class="font-medium text-sm">Personal Info</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary transition-colors" href="{% url 'users:sessionhistory' %}">
+<span class="material-symbols-outlined filled">history</span>
+<span class="font-medium text-sm">Session History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:myprogress' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">bar_chart</span>
+<span class="font-medium text-sm">My Progress</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-background-light dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:settings' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-[#f0f4f3] dark:border-[#2a3c36]">
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-text-muted dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors" href="{% url 'users:logout' %}">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-medium text-sm">Log Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto relative bg-background-light dark:bg-background-dark">
+<header class="md:hidden flex items-center justify-between px-4 py-3 bg-surface-light dark:bg-surface-dark border-b border-[#f0f4f3] dark:border-[#2a3c36] sticky top-0 z-20">
+<div class="flex items-center gap-3 text-text-main dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="font-bold text-lg">MindSettler</span>
+</div>
+<button class="text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<header class="hidden md:flex items-center justify-between px-8 py-4 bg-background-light dark:bg-background-dark/50 backdrop-blur-sm sticky top-0 z-10 border-b border-transparent">
+<div>
+<nav class="flex text-sm text-text-muted dark:text-gray-400">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="mx-2">/</span>
+<span class="text-text-main dark:text-white font-medium">Session History</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2.5 right-2.5 size-2 bg-accent-pink rounded-full border-2 border-white dark:border-[#2a3c36]"></span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</header>
+<div class="px-4 md:px-8 py-6 w-full max-w-6xl mx-auto space-y-8 pb-20">
+<div class="flex flex-col lg:flex-row gap-8 items-start lg:items-end justify-between">
+<div>
+<h1 class="text-3xl font-bold text-text-main dark:text-white tracking-tight">My Session History</h1>
+<p class="text-text-muted dark:text-gray-400 mt-2 max-w-lg">Track your therapy journey, manage upcoming appointments, and access your session notes all in one place.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-auto">
+<div class="bg-lavender-pale dark:bg-surface-dark p-4 pr-8 rounded-xl border border-primary/5 dark:border-[#2a3c36] flex items-center gap-4 shadow-sm">
+<div class="p-3 bg-white dark:bg-[#11211c] rounded-full text-primary shadow-sm">
+<span class="material-symbols-outlined filled">hourglass_top</span>
+</div>
+<div>
+<p class="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Total Therapy Hours</p>
+<p class="text-xl font-bold text-primary dark:text-white">{{ total_hours }} <span class="text-sm font-medium text-text-muted">hrs</span></p>
+</div>
+</div>
+<div class="bg-lavender-pale dark:bg-surface-dark p-4 pr-8 rounded-xl border border-primary/5 dark:border-[#2a3c36] flex items-center gap-4 shadow-sm">
+<div class="p-3 bg-white dark:bg-[#11211c] rounded-full text-primary shadow-sm">
+<span class="material-symbols-outlined filled">calendar_clock</span>
+</div>
+<div>
+<p class="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Next Scheduled</p>
+{% if next_appointment %}
+<p class="text-xl font-bold text-primary dark:text-white">{{ next_appointment.slot.date|date:"M d" }} <span class="text-sm font-medium text-text-muted">{{ next_appointment.slot.time|time:"g:i A" }}</span></p>
+{% else %}
+<p class="text-sm font-medium text-text-muted">No upcoming sessions</p>
+{% endif %}
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] flex flex-col md:flex-row gap-4 justify-between items-center sticky top-0 md:relative z-10">
+<div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto flex-1">
+<div class="relative w-full sm:max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 w-full rounded-lg bg-background-light dark:bg-[#11211c] border-transparent focus:border-primary focus:ring-0 text-sm text-text-main dark:text-white placeholder-text-muted transition-colors" placeholder="Search by therapist..." type="text"/>
+</div>
+<div class="relative min-w-[140px]">
+<select class="w-full rounded-lg bg-background-light dark:bg-[#11211c] border-transparent focus:border-primary focus:ring-0 text-sm text-text-main dark:text-white py-2 pl-3 pr-8 cursor-pointer">
+<option>All Types</option>
+<option>Online Video</option>
+<option>In-Person</option>
+</select>
+</div>
+</div>
+<div class="flex p-1 bg-background-light dark:bg-[#11211c] rounded-lg w-full md:w-auto overflow-x-auto">
+<button class="flex-1 md:flex-none px-4 py-1.5 rounded-md bg-white dark:bg-[#2a3c36] shadow-sm text-xs font-bold text-primary dark:text-white transition-all">All</button>
+<button class="flex-1 md:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-text-muted hover:text-text-main dark:hover:text-white transition-colors">Completed</button>
+<button class="flex-1 md:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-text-muted hover:text-text-main dark:hover:text-white transition-colors">Cancelled</button>
+</div>
+</div>
+<div class="space-y-4">
+{% for appointment in appointments %}
+<div class="bg-surface-light dark:bg-surface-dark p-5 md:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-primary/20 transition-all group {% if appointment.status == 'CANCELLED' %}opacity-90 hover:opacity-100{% endif %}">
+<div class="flex-shrink-0 flex flex-row md:flex-col items-center justify-center gap-2 md:gap-0 w-full md:w-20 md:h-20 {% if appointment.status == 'CANCELLED' %}bg-gray-50 dark:bg-[#11211c] text-gray-400{% else %}bg-lavender-pale dark:bg-[#11211c] text-primary{% endif %} rounded-xl md:border border-transparent group-hover:border-primary/10 transition-colors p-3 md:p-0">
+<span class="text-xs font-bold uppercase tracking-wider">{{ appointment.slot.date|date:"M" }}</span>
+<span class="text-xl md:text-3xl font-bold">{{ appointment.slot.date|date:"d" }}</span>
+<span class="md:hidden ml-auto text-sm font-medium text-text-muted">{{ appointment.slot.date|date:"l" }}, {{ appointment.slot.time|time:"g:i A" }}</span>
+</div>
+<div class="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
+<div class="space-y-1">
+<h3 class="font-bold text-lg {% if appointment.status == 'CANCELLED' %}text-text-muted dark:text-gray-400{% else %}text-text-main dark:text-white{% endif %}">{{ appointment.get_session_type_display }} Session</h3>
+<div class="flex items-center gap-2 text-sm text-text-muted">
+{% if appointment.session_type == 'ONLINE' %}
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+<span>Online Session</span>
+{% else %}
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>In-Person{% if appointment.location_details %} • {{ appointment.location_details }}{% endif %}</span>
+{% endif %}
+<span class="hidden md:inline">• {{ appointment.slot.time|time:"g:i A" }}</span>
+</div>
+</div>
+<div class="flex items-center gap-3 {% if appointment.status == 'CANCELLED' %}opacity-75{% endif %}">
+{% if user.profile.avatar_type == 'masculine' %}
+<div class="size-10 rounded-full bg-cover ring-2 ring-white dark:ring-[#2a3c36] {% if appointment.status == 'CANCELLED' %}grayscale{% endif %}" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></div>
+{% elif user.profile.avatar_type == 'feminine' %}
+<div class="size-10 rounded-full bg-cover ring-2 ring-white dark:ring-[#2a3c36] {% if appointment.status == 'CANCELLED' %}grayscale{% endif %}" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></div>
+{% elif user.profile.avatar_type == 'neutral' %}
+<div class="size-10 rounded-full bg-cover ring-2 ring-white dark:ring-[#2a3c36] {% if appointment.status == 'CANCELLED' %}grayscale{% endif %}" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></div>
+{% else %}
+<div class="size-10 rounded-full bg-primary text-white ring-2 ring-white dark:ring-[#2a3c36] flex items-center justify-center text-sm font-bold {% if appointment.status == 'CANCELLED' %}grayscale{% endif %}">
+{{ user.first_name.0|default:user.username.0|upper }}{{ user.last_name.0|default:""|upper }}
+</div>
+{% endif %}
+<div>
+<p class="text-sm font-bold {% if appointment.status == 'CANCELLED' %}text-text-muted dark:text-gray-400{% else %}text-text-main dark:text-white{% endif %}">{{ appointment.full_name }}</p>
+<p class="text-xs text-text-muted">{{ appointment.duration_minutes }} mins session</p>
+</div>
+</div>
+<div class="flex items-center lg:justify-end">
+{% if appointment.status == 'CONFIRMED' and appointment.slot.date < today or appointment.slot.date == today and appointment.slot.time < now.time %}
+<span class="px-3 py-1 rounded-full bg-accent-pink/10 text-accent-pink border border-accent-pink/20 text-xs font-bold uppercase tracking-wide">Completed</span>
+{% elif appointment.status == 'CONFIRMED' %}
+<span class="px-3 py-1 rounded-full bg-green-100 text-green-700 border border-green-200 text-xs font-bold uppercase tracking-wide">Confirmed</span>
+{% elif appointment.status == 'PENDING' %}
+<span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 border border-yellow-200 text-xs font-bold uppercase tracking-wide">Pending</span>
+{% elif appointment.status == 'CANCELLED' %}
+<span class="px-3 py-1 rounded-full bg-accent-pink/20 text-accent-pink border border-accent-pink/30 text-xs font-bold uppercase tracking-wide flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">block</span> Cancelled
+</span>
+{% endif %}
+</div>
+</div>
+<div class="w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-gray-100 dark:border-[#2a3c36] mt-2 md:mt-0">
+{% if appointment.status == 'CONFIRMED' and appointment.slot.date < today or appointment.slot.date == today and appointment.slot.time < now.time %}
+<a href="{% url 'appointment:booking' %}" class="w-full md:w-auto px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-lg shadow-md hover:bg-primary/90 focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+Download Receipt
+</a>
+{% elif appointment.status == 'CANCELLED' or appointment.status == 'PENDING' %}
+<a href="{% url 'appointment:booking' %}" class="w-full md:w-auto px-5 py-2.5 bg-white dark:bg-[#1a2c26] text-primary border border-primary/20 text-sm font-bold rounded-lg shadow-sm hover:bg-primary/5 transition-all">
+Reschedule
+</a>
+{% else %}
+<a href="{% url 'appointment:booking' %}" class="w-full md:w-auto px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-lg shadow-md hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+View Details
+</a>
+{% endif %}
+</div>
+</div>
+{% empty %}
+<div class="bg-surface-light dark:bg-surface-dark p-12 rounded-xl shadow-sm border border-gray-100 dark:border-[#2a3c36] text-center">
+<span class="material-symbols-outlined text-6xl text-text-muted dark:text-gray-500 mb-4">event_busy</span>
+<h3 class="text-xl font-bold text-text-main dark:text-white mb-2">No Sessions Yet</h3>
+<p class="text-text-muted dark:text-gray-400 mb-6">Start your wellness journey by booking your first session</p>
+<a href="{% url 'appointment:booking' %}" class="inline-block px-6 py-3 bg-primary text-white text-sm font-bold rounded-lg shadow-md hover:bg-primary/90 transition-all">
+Book Your First Session
+</a>
+</div>
+{% endfor %}
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

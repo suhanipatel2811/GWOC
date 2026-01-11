@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Session History - MindSettler</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary: #3F2965;
+            --accent: #DD1764;
+            --secondary-bg: #EBE7F2;
+            --card-bg: #FADDE6;
+            --main-bg: #FFFFFF;
+        }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--main-bg);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3F2965",
+                        accent: "#DD1764",
+                        lavender: "#EBE7F2",
+                        softpink: "#FADDE6",
+                        "text-main": "#1F1A24",
+                        "text-muted": "#6B5E7D"
+                    },
+                    fontFamily: {
+                        display: "Lexend",
+                        body: ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="text-text-main transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 bg-white border-b border-lavender px-4 py-3 lg:px-10 shadow-sm">
+<div class="mx-auto flex max-w-[1280px] items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-primary">MindSettler</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-text-muted hover:text-accent transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-text-muted hover:text-accent transition-colors" href="#">Therapists</a>
+<a class="text-sm font-medium text-accent" href="#">My Journey</a>
+<a class="text-sm font-medium text-text-muted hover:text-accent transition-colors" href="#">Resources</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex h-10 cursor-pointer items-center justify-center rounded-xl bg-primary px-6 text-sm font-bold text-white hover:bg-[#2D1D4A] transition-colors">
+                    Book Session
+                </button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-softpink" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCXo-BK1hiwgcuU5N3V2NRL58TLbCiFVyXIpz0vAocJ_N6Kw47frcToDmmgQ6Y7GyEUY76KuLBc-IcZvG_CcOfiaZUdw_7hM7p0uqp21NrVXxoo3QISzvQ15LGZRdCyeMkOWzVinR8P2ValA1Yr2Gzv5ifULpNi9eAzYtgVPcjU-oYxOKXw4e40_v5fC36JQru0xxgJ91tYvOvdsXIOOQuUFLTFMEduVANGcvUc8IsGCAyRfDqK8tad3OJVGBBFYx2T6CEKDBsg5vg");'>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-8 px-4 sm:px-6 md:px-8">
+<div class="flex flex-col max-w-[960px] w-full gap-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black tracking-[-0.033em] text-primary">Session History</h1>
+<p class="text-text-muted text-base md:text-lg">Review your past appointments and track your wellness journey.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 rounded-xl bg-lavender p-6 shadow-sm border border-lavender/50">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-accent">history</span>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">Total Sessions</p>
+</div>
+<p class="text-3xl font-bold text-primary">24</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-softpink p-6 shadow-sm border border-softpink/50">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-accent">check_circle</span>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">Completed</p>
+</div>
+<p class="text-3xl font-bold text-primary">21</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-lavender p-6 shadow-sm border border-lavender/50">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-accent">calendar_month</span>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">Upcoming</p>
+</div>
+<p class="text-3xl font-bold text-primary">3</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div class="flex flex-wrap gap-3">
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-lg bg-primary text-white pl-4 pr-3 transition-colors hover:bg-accent">
+<span class="text-sm font-medium">All Sessions</span>
+</button>
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-lg bg-white border border-lavender hover:border-accent pl-4 pr-2 transition-all">
+<span class="text-text-main text-sm font-medium">Status</span>
+<span class="material-symbols-outlined text-text-muted text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-lg bg-white border border-lavender hover:border-accent pl-4 pr-2 transition-all">
+<span class="text-text-main text-sm font-medium">Session Type</span>
+<span class="material-symbols-outlined text-text-muted text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-lg bg-white border border-lavender hover:border-accent pl-4 pr-2 transition-all">
+<span class="text-text-main text-sm font-medium">Date Range</span>
+<span class="material-symbols-outlined text-text-muted text-[20px]">date_range</span>
+</button>
+</div>
+<div class="relative w-full sm:w-auto">
+<span class="absolute inset-y-0 left-3 flex items-center text-text-muted">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="h-9 w-full sm:w-64 rounded-lg border border-lavender bg-white pl-10 pr-4 text-sm focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all" placeholder="Search therapist..." type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col sm:flex-row gap-4 bg-white p-4 rounded-xl shadow-sm border border-lavender hover:shadow-md hover:border-softpink transition-all">
+<div class="flex items-center sm:items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat bg-cover rounded-xl h-16 w-16" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDpiiiwakraA1uVtnE-ZamLyWrCQRO0y80-HL7eUY1ZdKlYWw-P8vhXu36Cs6hlNk_Fa7kzmnPcG-JbVepSiwGWtMaxNfIB7fp2-mIDaqUgvmsAbJCBiW9-7uPAg7P31PnAX4zWK6hUcQiDdi65jF8CVAPDQrQEUndGgA6S56rtg-dIzNU6eAdkGWh3LD_fgebkdj22kYq9qox65Um1WWNZfBgCpYKmQpyDGXgPcRxMjz32aDZaobePDBk9MEBykxhIFx--FHGnkAY");'>
+</div>
+<div class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-softpink shadow-sm border border-white">
+<span class="material-symbols-outlined text-[14px] text-accent">videocam</span>
+</div>
+</div>
+<div class="flex flex-col justify-center gap-1">
+<h3 class="text-primary text-lg font-bold leading-tight">Dr. Michael Chen</h3>
+<div class="flex flex-wrap items-center gap-2 text-sm text-text-muted">
+<span class="font-medium text-primary">Nov 02, 10:00 AM</span>
+<span class="hidden sm:inline">•</span>
+<span>Online Video Call</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto mt-2 sm:mt-0 border-t sm:border-t-0 border-lavender pt-3 sm:pt-0">
+<span class="inline-flex items-center rounded-full bg-softpink px-3 py-1 text-xs font-bold text-accent">
+                            Upcoming
+                        </span>
+<div class="flex gap-2">
+<button class="h-9 px-4 rounded-lg border border-primary text-primary hover:bg-lavender text-sm font-medium transition-colors">
+                                Reschedule
+                            </button>
+<button class="h-9 px-4 rounded-lg bg-primary text-white hover:bg-accent text-sm font-medium transition-colors flex items-center gap-2">
+                                Join
+                                <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 bg-lavender/30 p-4 rounded-xl shadow-sm border border-lavender/50 hover:shadow-md transition-shadow">
+<div class="flex items-center sm:items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat bg-cover rounded-xl h-16 w-16 grayscale-[30%]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGwp6xtxCUijbUQERWgWsOD6qmViIwqoUfMh10QQlDzTblu7LVpJGbtNca-fHKS4FrHcfKkcQ6ZtILbqTeEuZVaF8YHAyLkEO0ei-UrjMC3qMlU5D61GyM9ExHSkVttLzXYxlsMftTtFhBiG-e_YR2rApNBD9HYzzlmLg9nghEEKwKuzcgzaspou10XZs0g2WqaucIL2sbkv-OG8jjQPmKc2NfOYmxCu3Y-GjH02EIhixk5kqBIg3qRfpUxMBxYXl-aefrhjFiZbM");'>
+</div>
+<div class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm border border-lavender">
+<span class="material-symbols-outlined text-[14px] text-primary">person</span>
+</div>
+</div>
+<div class="flex flex-col justify-center gap-1">
+<h3 class="text-primary text-lg font-bold leading-tight">Dr. Sarah Jenkins</h3>
+<div class="flex flex-wrap items-center gap-2 text-sm text-text-muted">
+<span class="font-medium text-primary">Oct 24, 2:00 PM</span>
+<span class="hidden sm:inline">•</span>
+<span>In-Person Visit</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto mt-2 sm:mt-0 border-t sm:border-t-0 border-lavender pt-3 sm:pt-0">
+<span class="inline-flex items-center rounded-full bg-lavender px-3 py-1 text-xs font-bold text-primary">
+                            Completed
+                        </span>
+<button class="h-9 px-4 rounded-lg bg-softpink text-accent hover:bg-accent hover:text-white text-sm font-medium transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                            View Notes
+                        </button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 bg-lavender/30 p-4 rounded-xl shadow-sm border border-lavender/50 hover:shadow-md transition-shadow">
+<div class="flex items-center sm:items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat bg-cover rounded-xl h-16 w-16 grayscale-[30%]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDj1uoM0GdJudDBnwle1dKIDApT2UnQRe7xPdReXFnCnsP2S9WDrUoMWynBlH8x5R_dy2_mkxi0mUWKqWS-qKq67Y6BSEHr__TsXzfVb0szk0XFS_SkU6DGkXANhcmaU_hrrU_BHHrXj16g8_RW48T0P8ktVsugchcDDVGYTFY-1_oibSLDEsXsIC3JSm0kcX9Ys_zsSX4eSEhWhTEv3VzBH8V5lrGeKlPq8oi72FiUm2hItEYqT-IqWuW4jpOK8H3v6FoM7UrE53Q");'>
+</div>
+<div class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm border border-lavender">
+<span class="material-symbols-outlined text-[14px] text-primary">videocam</span>
+</div>
+</div>
+<div class="flex flex-col justify-center gap-1">
+<h3 class="text-primary text-lg font-bold leading-tight">Dr. David Miller</h3>
+<div class="flex flex-wrap items-center gap-2 text-sm text-text-muted">
+<span class="font-medium text-primary">Oct 10, 4:30 PM</span>
+<span class="hidden sm:inline">•</span>
+<span>Online Video Call</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto mt-2 sm:mt-0 border-t sm:border-t-0 border-lavender pt-3 sm:pt-0">
+<span class="inline-flex items-center rounded-full bg-lavender px-3 py-1 text-xs font-bold text-primary">
+                            Completed
+                        </span>
+<button class="h-9 px-4 rounded-lg bg-softpink text-accent hover:bg-accent hover:text-white text-sm font-medium transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                            View Notes
+                        </button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 bg-white p-4 rounded-xl shadow-sm border border-lavender opacity-80 hover:shadow-md transition-all">
+<div class="flex items-center sm:items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat bg-cover rounded-xl h-16 w-16 grayscale" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbRlbUZ6KRNDLzdkUpJNW1ucmN5gyxnz1veV5l2o0549k-YjnySdXiIxUZP4MYIDIOwzwd1D2hKl2UR0WPvvzS36wFV8IOVhf7WwpKySwc1c4bPVJbMI-WZ5JaLNYdV9e4wyutoEqH8UxA7uYK_XF20U5Gh-gcj1BQbZdLAjZh9Zh6Yblt_ojHGgy5BYwpbzn_mweb8k3fcebtKY4XwXvrvLwVkOzA6-Ez0fBJA6Wh2aUSb_r3dxoJ5gK1QI1OKUIw_NcgoLLt8f0");'>
+</div>
+<div class="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm border border-lavender">
+<span class="material-symbols-outlined text-[14px] text-text-muted">videocam_off</span>
+</div>
+</div>
+<div class="flex flex-col justify-center gap-1">
+<h3 class="text-primary text-lg font-bold leading-tight">Dr. Emily White</h3>
+<div class="flex flex-wrap items-center gap-2 text-sm text-text-muted">
+<span class="font-medium text-primary line-through">Sep 15, 11:00 AM</span>
+<span class="hidden sm:inline">•</span>
+<span>Online Video Call</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto mt-2 sm:mt-0 border-t sm:border-t-0 border-lavender pt-3 sm:pt-0">
+<span class="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-bold text-text-muted border border-lavender">
+                            Cancelled
+                        </span>
+<button class="h-9 px-4 rounded-lg border border-transparent hover:bg-softpink text-accent text-sm font-bold transition-colors">
+                            Book Again
+                        </button>
+</div>
+</div>
+</div>
+<div class="flex justify-center pt-4 pb-12">
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-primary bg-lavender border border-lavender hover:bg-softpink hover:text-accent transition-all">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+                    Load Previous Sessions
+                </button>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
