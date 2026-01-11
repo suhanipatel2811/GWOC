@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Account Settings</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3F2965", // Deep Purple
+                        "primary-dark": "#2a1b46",
+                        "vibrant-pink": "#DD1764", // Vibrant Pink
+                        "pale-lavender": "#EBE7F2", // Soft Pale Lavender
+                        "soft-pink": "#FADDE6", // Soft Pink
+                        "background-light": "#FFFFFF", // White as requested
+                        "background-dark": "#18151d", 
+                        "surface-light": "#ffffff", 
+                        "surface-dark": "#1a2c26", 
+                        "text-main": "#111815", 
+                        "text-muted": "#63887c"
+                    }, 
+                    fontFamily: {
+                        display: "Lexend"
+                    }, 
+                    borderRadius: {
+                        DEFAULT: "0.5rem", 
+                        lg: "1rem", 
+                        xl: "1.5rem", 
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dce5e2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #63887c;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden md:flex w-72 flex-col bg-primary h-full transition-colors duration-200 shadow-xl z-20">
+<div class="p-6">
+<div class="flex items-center gap-3 text-white mb-8">
+<div class="size-8 text-white">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-tight text-white">MindSettler</h2>
+</div>
+<div class="flex gap-4 items-center mb-8 p-3 rounded-xl bg-white/10 border border-white/5">
+{% if user.profile.avatar_type == 'masculine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></div>
+{% elif user.profile.avatar_type == 'feminine' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></div>
+{% elif user.profile.avatar_type == 'neutral' %}
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></div>
+{% else %}
+<div class="bg-white text-primary rounded-full size-12 flex items-center justify-center text-lg font-bold">
+{{ user.first_name.0|default:user.username.0|upper }}{{ user.last_name.0|default:""|upper }}
+</div>
+{% endif %}
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-bold truncate text-white">{{ user.first_name|default:user.username }} {{ user.last_name }}</h3>
+<p class="text-xs text-white/70 truncate">Member since {{ member_since }}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:overview' %}">
+<span class="material-symbols-outlined text-white/70">dashboard</span>
+<span class="font-medium text-sm">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:profile' %}">
+<span class="material-symbols-outlined text-white/70">person</span>
+<span class="font-medium text-sm">Personal Info</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:sessionhistory' %}">
+<span class="material-symbols-outlined text-white/70">history</span>
+<span class="font-medium text-sm">Session History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:myprogress' %}">
+<span class="material-symbols-outlined text-white/70">bar_chart</span>
+<span class="font-medium text-sm">My Progress</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-pale-lavender text-primary shadow-md transition-colors" href="{% url 'users:settings' %}">
+<span class="material-symbols-outlined filled">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-white/10">
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-colors" href="{% url 'users:logout' %}">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-medium text-sm">Log Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto relative bg-background-light dark:bg-background-dark">
+<header class="md:hidden flex items-center justify-between px-4 py-3 bg-surface-light dark:bg-surface-dark border-b border-[#f0f4f3] dark:border-[#2a3c36] sticky top-0 z-20">
+<div class="flex items-center gap-3 text-text-main dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="font-bold text-lg text-primary">MindSettler</span>
+</div>
+<button class="text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<header class="hidden md:flex items-center justify-between px-8 py-4 bg-background-light dark:bg-background-dark/50 backdrop-blur-sm sticky top-0 z-10 border-b border-transparent">
+<div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors relative border border-gray-100 dark:border-transparent">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2.5 right-2.5 size-2 bg-vibrant-pink rounded-full border-2 border-white dark:border-[#2a3c36]"></span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-xl bg-white dark:bg-[#2a3c36] text-text-main dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#344a43] transition-colors border border-gray-100 dark:border-transparent">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</header>
+<div class="px-4 md:px-8 py-6 w-full max-w-6xl mx-auto pb-20">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h1 class="text-3xl font-bold text-primary dark:text-white">Account Settings</h1>
+<p class="text-text-muted dark:text-gray-400 mt-2">Manage your profile, security preferences, and privacy settings.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm">
+<h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">badge</span> Profile Details
+            </h2>
+<div class="space-y-5">
+<div class="group">
+<label class="block text-sm font-semibold text-primary dark:text-gray-300 mb-2">Full Name</label>
+<div class="relative">
+<input class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="text" value="Sarah Jenkins"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-text-muted pointer-events-none text-sm">edit</span>
+</div>
+</div>
+<div class="group">
+<label class="block text-sm font-semibold text-primary dark:text-gray-300 mb-2">Email Address</label>
+<div class="relative">
+<input class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="email" value="sarah.jenkins@example.com"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-text-muted pointer-events-none text-sm">edit</span>
+</div>
+</div>
+<button class="mt-2 px-6 py-2 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-primary/90 transition-colors text-sm">
+                    Save Changes
+                </button>
+</div>
+</section>
+<section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm flex flex-col">
+<h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">shield_lock</span> Security
+            </h2>
+<div class="space-y-4 flex-1">
+<div class="bg-white dark:bg-white/10 p-5 rounded-xl flex items-center justify-between shadow-sm">
+<div>
+<h3 class="font-bold text-primary dark:text-white text-sm md:text-base">Password</h3>
+<p class="text-xs text-text-muted mt-1">Last changed 30 days ago</p>
+</div>
+<button class="px-4 py-2 bg-primary text-white text-xs md:text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap">
+                        Change Password
+                    </button>
+</div>
+<div class="bg-white dark:bg-white/10 p-5 rounded-xl flex items-center justify-between shadow-sm">
+<div>
+<h3 class="font-bold text-primary dark:text-white text-sm md:text-base">Two-Factor Auth</h3>
+<p class="text-xs text-text-muted mt-1">Currently inactive</p>
+</div>
+<button class="px-4 py-2 border border-primary text-primary dark:text-pale-lavender dark:border-pale-lavender text-xs md:text-sm font-medium rounded-lg hover:bg-primary/5 dark:hover:bg-white/5 transition-colors whitespace-nowrap">
+                        Enable 2FA
+                    </button>
+</div>
+</div>
+</section>
+<section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm">
+<h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">notifications_active</span> Notification Preferences
+            </h2>
+<div class="bg-white dark:bg-white/10 rounded-xl p-1 shadow-sm divide-y divide-gray-100 dark:divide-white/5">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-2 rounded-full text-primary">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-sm">Email Alerts</h3>
+<p class="text-xs text-text-muted">Session reminders and updates</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-vibrant-pink rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vibrant-pink">
+<span class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300"></span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-2 rounded-full text-primary">
+<span class="material-symbols-outlined text-[20px]">sms</span>
+</div>
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-sm">SMS Alerts</h3>
+<p class="text-xs text-text-muted">Urgent schedule changes</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-vibrant-pink rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vibrant-pink">
+<span class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300"></span>
+</button>
+</div>
+</div>
+</section>
+<section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm">
+<h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">lock_person</span> Privacy &amp; Data
+            </h2>
+<div class="space-y-3">
+<a class="flex items-center justify-between p-4 bg-white dark:bg-white/10 rounded-xl hover:shadow-md transition-all group border border-transparent hover:border-primary/20" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-muted">cookie</span>
+<span class="font-medium text-text-main dark:text-white">Manage Cookies</span>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 bg-white dark:bg-white/10 rounded-xl hover:shadow-md transition-all group border border-transparent hover:border-primary/20" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-muted">download</span>
+<span class="font-medium text-text-main dark:text-white">Data Export</span>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<div class="pt-2">
+<p class="text-xs text-text-muted text-center">
+                        Need help with your data? <a class="text-vibrant-pink hover:underline" href="#">Contact Support</a>
+</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+<footer class="mt-8 text-center border-t border-gray-100 dark:border-[#2a3c36] pt-6 pb-2">
+<p class="text-xs text-text-muted dark:text-gray-500">
+                    © 2024 MindSettler. Prioritizing your mental wellness.
+                </p>
+</footer>
+</main>
+</div>
+</body></html>

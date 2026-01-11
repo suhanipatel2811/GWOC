@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Choose Avatar</title>
+<!-- Google Fonts: Lexend -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3f2965",
+                        "primary-dark": "#2d1b4e",
+                        "accent": "#DD1764",
+                        "lavender-light": "#EBE7F2",
+                        "soft-pink": "#FADDE6",
+                        "background-light": "#f7f6f7",
+                        "background-dark": "#18151d",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "2xl": "4rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "soft": "0 20px 40px -15px rgba(63, 41, 101, 0.1)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom styles for smooth transitions and focus rings */
+        .avatar-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .avatar-btn:hover {
+            transform: translateY(-4px);
+        }
+        .avatar-btn.selected {
+            box-shadow: 0 0 0 4px #DD1764; 
+        }
+    </style>
+<script>
+        // Avatar selection handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const avatarButtons = document.querySelectorAll('.avatar-btn');
+            const hiddenInput = document.getElementById('avatar_choice');
+            
+            avatarButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    avatarButtons.forEach(btn => {
+                        btn.classList.remove('selected');
+                        const checkmark = btn.querySelector('.avatar-check');
+                        if (checkmark) checkmark.remove();
+                    });
+                    
+                    // Add selected class to clicked button
+                    this.classList.add('selected');
+                    
+                    // Add checkmark if not initials button
+                    if (!this.dataset.avatar.includes('initials')) {
+                        const checkmark = document.createElement('div');
+                        checkmark.className = 'absolute inset-0 bg-primary/20 flex items-center justify-center avatar-check';
+                        checkmark.innerHTML = '<span class="material-symbols-outlined text-white text-4xl drop-shadow-md">check</span>';
+                        this.appendChild(checkmark);
+                    }
+                    
+                    // Update hidden input
+                    hiddenInput.value = this.dataset.avatar;
+                });
+            });
+        });
+    </script>
+</head>
+<body class="bg-gradient-to-br from-white via-[#fcfbfd] to-lavender-light min-h-screen flex flex-col font-display text-primary overflow-x-hidden selection:bg-accent selection:text-white">
+<!-- Top Navigation -->
+<header class="w-full px-6 py-4 md:px-10 lg:px-20">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-primary group cursor-pointer">
+<span class="material-symbols-outlined text-4xl fill-1">self_improvement</span>
+<h2 class="text-xl font-bold tracking-tight">MindSettler</h2>
+</div>
+<button class="flex items-center justify-center rounded-full h-10 px-6 bg-primary/5 hover:bg-primary/10 text-primary text-sm font-bold transition-colors duration-200">
+<span class="truncate">Log Out</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center p-4 md:p-8">
+<div class="w-full max-w-[960px] flex flex-col items-center">
+<!-- Central Card -->
+<div class="bg-white rounded-[2.5rem] shadow-soft w-full p-8 md:p-16 flex flex-col items-center border border-white/60 relative overflow-hidden">
+<!-- Decorative background blob -->
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-lavender-light rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+<div class="absolute -bottom-20 -right-20 w-64 h-64 bg-soft-pink rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+<!-- Headline -->
+<div class="relative z-10 flex flex-col items-center max-w-lg text-center mb-10">
+<h1 class="text-primary text-3xl md:text-4xl font-bold leading-tight mb-3">
+                        Choose Your Presence
+                    </h1>
+<p class="text-primary/70 text-base md:text-lg font-normal leading-relaxed">
+                        Personalize your MindSettler experience. You can always change this later in settings.
+                    </p>
+</div>
+<!-- Avatar Selection Form -->
+<form method="post" action="{% url 'users:profileimage' %}">
+{% csrf_token %}
+<!-- Avatar Selection Grid -->
+<div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 w-full max-w-3xl mb-12">
+<!-- Avatar 1: Male -->
+<div class="flex flex-col items-center gap-3">
+<button type="button" aria-label="Select Male Avatar" class="avatar-btn group relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-background-light ring-offset-4 ring-offset-white cursor-pointer" data-avatar="masculine">
+<div class="w-full h-full bg-cover bg-center" data-alt="Stylized illustration of a male avatar with calm expression" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'>
+</div>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+</button>
+<span class="text-sm font-medium text-primary/60">Masculine</span>
+</div>
+<!-- Avatar 2: Female -->
+<div class="flex flex-col items-center gap-3">
+<button type="button" aria-label="Select Female Avatar" class="avatar-btn selected group relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-background-light ring-offset-4 ring-offset-white cursor-pointer" data-avatar="feminine">
+<div class="w-full h-full bg-cover bg-center" data-alt="Stylized illustration of a female avatar with serene look" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'>
+</div>
+<!-- Selection Checkmark Indicator -->
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center avatar-check">
+<span class="material-symbols-outlined text-white text-4xl drop-shadow-md">check</span>
+</div>
+</button>
+<span class="text-sm font-medium text-primary font-bold">Feminine</span>
+</div>
+<!-- Avatar 3: Neutral -->
+<div class="flex flex-col items-center gap-3">
+<button type="button" aria-label="Select Neutral Avatar" class="avatar-btn group relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-background-light ring-offset-4 ring-offset-white cursor-pointer" data-avatar="neutral">
+<div class="w-full h-full bg-cover bg-center" data-alt="Abstract gradient sphere representing neutral avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'>
+</div>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+</button>
+<span class="text-sm font-medium text-primary/60">Neutral</span>
+</div>
+<!-- Avatar 4: Initials -->
+<div class="flex flex-col items-center gap-3">
+<button type="button" aria-label="Select Initial Avatar" class="avatar-btn group relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-soft-pink ring-offset-4 ring-offset-white cursor-pointer flex items-center justify-center" data-avatar="initials">
+<span class="text-4xl md:text-5xl font-bold text-primary">M</span>
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+</button>
+<span class="text-sm font-medium text-primary/60">Initials</span>
+</div>
+</div>
+<!-- Hidden input to store avatar selection -->
+<input type="hidden" name="avatar_choice" id="avatar_choice" value="feminine">
+<!-- Actions -->
+<div class="relative z-10 flex flex-col items-center gap-4 w-full">
+<button type="submit" class="flex min-w-[200px] w-full max-w-[320px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-8 bg-primary hover:bg-primary-dark shadow-lg shadow-primary/25 text-white text-lg font-bold leading-normal tracking-[0.015em] transition-all duration-200 hover:scale-[1.02]">
+                        Continue
+                    </button>
+<a class="text-primary/60 text-sm font-medium hover:text-primary hover:underline transition-colors py-2" href="{% url 'users:profile' %}">
+                        Skip for now
+                    </a>
+</div>
+</form>
+</div>
+</div>
+</main>
+</body></html>

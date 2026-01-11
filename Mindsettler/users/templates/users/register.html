@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -53,19 +54,7 @@
     </style>
 </head>
 <body class="bg-background-page text-text-dark min-h-screen flex flex-col font-display antialiased selection:bg-accent/20">
-<header class="w-full px-6 py-4 flex items-center justify-between absolute top-0 left-0 z-20">
-<div class="flex items-center gap-3">
-<div class="size-8 text-primary">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-</svg>
-</div>
-<h2 class="text-primary text-xl font-bold tracking-tight">MindSettler</h2>
-</div>
-<div>
-<a class="text-sm font-medium text-text-muted hover:text-accent transition-colors" href="#">Need help?</a>
-</div>
-</header>
+{% include 'users/auth_header.html' %}
 <main class="flex-1 flex items-center justify-center p-4 min-h-[800px] lg:min-h-screen">
 <div class="w-full max-w-[1100px] bg-white rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(63,41,101,0.1)] flex flex-col md:flex-row h-full min-h-[650px] border border-lavender">
 <div class="hidden md:flex md:w-5/12 relative bg-lavender flex-col p-12 justify-between">
@@ -96,23 +85,73 @@
 <h2 class="text-3xl font-bold text-primary mb-2 tracking-tight">Register New Account</h2>
 <p class="text-text-muted">Fill in your details to create your secure profile.</p>
 </div>
-<form class="space-y-4" onsubmit="event.preventDefault();">
+{# show Django messages (info/errors) #}
+{% if messages %}
+  <div class="mb-4">
+    {% for message in messages %}
+      <div class="px-4 py-2 rounded-lg mb-2 {% if message.tags %}text-sm text-white bg-accent{% else %}text-sm text-text-muted bg-lavender{% endif %}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{# show non-field form errors #}
+{% if form.non_field_errors %}
+  <div class="mb-4">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+
+{# show per-field errors for easier debugging #}
+{% if form.errors %}
+  <div class="mb-4 p-3 rounded bg-red-50 border border-red-200 text-sm text-red-800">
+    <strong>There were problems with your submission:</strong>
+    <ul class="mt-2 list-disc list-inside">
+    {% for field, errors in form.errors.items %}
+      <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+<form method="post" class="space-y-4">
+  {% csrf_token %}
+
+  <!-- Username -->
+  <div class="space-y-1.5">
+    <label class="text-sm font-semibold text-primary block" for="username">Username</label>
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <span class="material-symbols-outlined text-text-muted text-[20px]">person</span>
+      </div>
+      <input name="username" id="username" class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" placeholder="choose a username" type="text" required/>
+    </div>
+  </div>
 <div class="space-y-1.5">
 <label class="text-sm font-semibold text-primary block" for="email">Email Address</label>
 <div class="relative">
 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
 <span class="material-symbols-outlined text-text-muted text-[20px]">mail</span>
 </div>
-<input class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="email" placeholder="name@example.com" type="email"/>
+<input name="email" class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="email" placeholder="name@example.com" type="email" required/>
 </div>
+</div>
+
+<!-- Phone -->
+<div class="space-y-1.5">
+  <label class="text-sm font-semibold text-primary block" for="phone">Phone Number</label>
+  <div class="relative">
+    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+      <span class="material-symbols-outlined text-text-muted text-[20px]">phone</span>
+    </div>
+    <input name="phone" id="phone" class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" placeholder="e.g. +1234567890" type="tel" required/>
+  </div>
 </div>
 <div class="space-y-1.5">
-<label class="text-sm font-semibold text-primary block" for="password">Password</label>
+<label class="text-sm font-semibold text-primary block" for="password1">Password</label>
 <div class="relative">
 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
 <span class="material-symbols-outlined text-text-muted text-[20px]">lock</span>
 </div>
-<input class="block w-full pl-11 pr-12 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="password" placeholder="••••••••" type="password"/>
+<input name="password1" class="block w-full pl-11 pr-12 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="password1" placeholder="••••••••" type="password" required/>
 <button class="absolute inset-y-0 right-0 pr-4 flex items-center text-text-muted hover:text-accent transition-colors" type="button">
 <span class="material-symbols-outlined text-[20px]">visibility_off</span>
 </button>
@@ -124,7 +163,7 @@
 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
 <span class="material-symbols-outlined text-text-muted text-[20px]">verified_user</span>
 </div>
-<input class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="confirm-password" placeholder="••••••••" type="password"/>
+<input name="password2" class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" id="confirm-password" placeholder="••••••••" type="password" required/>
 </div>
 </div>
 <div class="flex items-start pt-1">
@@ -135,9 +174,9 @@
                             I agree to the <a class="text-accent font-semibold hover:underline" href="#">Terms of Service</a> and <a class="text-accent font-semibold hover:underline" href="#">Privacy Policy</a>.
                         </label>
 </div>
-<a href="{% url 'core:about' %}" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-all duration-200 mt-6" type="submit">
-                        Register Account
-                    </a>
+<button class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-all duration-200 mt-6" type="submit">
+            Register Account
+          </button>
 </form>
 <div class="relative my-8">
 <div class="absolute inset-0 flex items-center">

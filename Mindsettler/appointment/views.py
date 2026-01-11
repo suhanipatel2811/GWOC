@@ -133,6 +133,14 @@ def payment_success(request, appointment_id):
     appointment.payment_confirmed = True
     appointment.status = 'CONFIRMED'
     appointment.save()
+    
+    # Track activity
+    from users.models import Activity
+    Activity.objects.create(
+        user=appointment.user,
+        action=f'Booked session: {appointment.session_type} on {appointment.slot.start_time.strftime("%B %d, %Y")}'
+    )
+    
     return redirect("appointment:confirmation")
 
 def payment_cancel(request, appointment_id):
