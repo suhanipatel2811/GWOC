@@ -310,9 +310,10 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
 <div class="col-span-2 lg:col-span-2">
-<div class="flex items-center gap-2 mb-4">
-<span class="material-symbols-outlined text-primary text-3xl">spa</span>
-<span class="text-xl font-bold text-primary">MindSettler</span>
+<div class="flex items-center gap-3">
+    <a href="{% url 'core:home' %}" class="flex items-center">
+        <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+    </a>
 </div>
 <p class="text-text-sub text-sm leading-relaxed max-w-xs mb-6">
                     Empowering individuals to understand their minds and reclaim their peace through education and connection.
@@ -343,7 +344,7 @@
 <li><a class="hover:text-secondary transition-colors" href="#">About Us</a></li>
 <li><a class="hover:text-secondary transition-colors" href="#">Careers</a></li>
 <li><a class="hover:text-secondary transition-colors" href="#">Contact</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+<li><a href="{% url 'core:privacypolicy' %}" class="hover:text-secondary transition-colors" >Privacy Policy</a></li>
 </ul>
 </div>
 <div>
@@ -366,7 +367,7 @@
 <p>© 2024 MindSettler Inc. All rights reserved.</p>
 <div class="flex gap-6 mt-4 md:mt-0">
 <a class="hover:text-primary transition-colors" href="#">Terms</a>
-<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a href="{% url 'core:privacypolicy' %}" class="hover:text-primary transition-colors" >Privacy</a>
 <a class="hover:text-primary transition-colors" href="#">Cookies</a>
 </div>
 </div>

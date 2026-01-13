@@ -158,6 +158,17 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("The OPENAI_API_KEY environment variable is not set. Add it to the .env file or export it in your environment.")
 
+# Twilio SMS Configuration
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID', '')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN', '')
+TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER', '')  # Your Twilio phone number
+# Optional: prefer using a Twilio Messaging Service SID (recommended)
+TWILIO_MESSAGING_SERVICE_SID = os.getenv('TWILIO_MESSAGING_SERVICE_SID', '')
+# Optional: carrier email-to-SMS gateway domain. If set, the app will send OTPs
+# by emailing `<phone>@SMS_GATEWAY_EMAIL_DOMAIN` (useful if you have carrier gateway).
+# Example values (US): 'txt.att.net', 'vtext.com', 'tmomail.net'
+SMS_GATEWAY_EMAIL_DOMAIN = os.getenv('SMS_GATEWAY_EMAIL_DOMAIN', '')
+
 LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "profile"
 LOGOUT_REDIRECT_URL = "core:home"

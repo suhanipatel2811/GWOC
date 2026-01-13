@@ -2,11 +2,15 @@ from django.urls import path
 from .views import register_view, login_view, logout_view, profile_view, update_profile, upload_avatar, change_password, profileimage_view, update_preferences
 from .views import google_connect, google_callback, google_disconnect
 from .views import overview_view, myprogress_view, sessionhistory_view, settings_view
+from .views import loginph_view, verify_otp_view, send_otp_view
 
 app_name = 'users' 
 urlpatterns = [
     path("register/", register_view, name="register"),
     path("login/", login_view, name="login"),
+    path("loginph/", loginph_view, name="loginph"),
+    path("send-otp/", send_otp_view, name="send_otp"),
+    path("verify-otp/", verify_otp_view, name="verify_otp"),
     path("logout/", logout_view, name="logout"),
     path("profile/", profile_view, name="profile"),
     path("profile/update/", update_profile, name="update_profile"),

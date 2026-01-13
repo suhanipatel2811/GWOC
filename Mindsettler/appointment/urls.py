@@ -5,6 +5,9 @@ app_name = 'appointment'
 
 urlpatterns = [
     path('booking/', views.booking, name='booking'),
+    path('available-slots/', views.available_slots, name='available_slots'),
+    path('payment/<int:appointment_id>/', views.payment, name='payment'),
+    path('confirm-payment/<int:appointment_id>/', views.confirm_payment, name='confirm_payment'),
     path('payment-success/<int:appointment_id>/', views.payment_success, name='payment_success'),
     path('payment-cancel/<int:appointment_id>/', views.payment_cancel, name='payment_cancel'),
     path('confirmation/', views.confirmation, name='confirmation'),

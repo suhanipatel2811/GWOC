@@ -137,13 +137,14 @@
 
 <!-- Phone -->
 <div class="space-y-1.5">
-  <label class="text-sm font-semibold text-primary block" for="phone">Phone Number</label>
+  <label class="text-sm font-semibold text-primary block" for="phone">Phone Number (with country code)</label>
   <div class="relative">
     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
       <span class="material-symbols-outlined text-text-muted text-[20px]">phone</span>
     </div>
-    <input name="phone" id="phone" class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" placeholder="e.g. +1234567890" type="tel" required/>
+    <input name="phone" id="phone" class="block w-full pl-11 pr-4 py-3 bg-lavender/40 border-transparent focus:border-accent focus:bg-white focus:ring-0 rounded-xl text-primary placeholder-text-muted/60 transition-all" placeholder="e.g. +911234567890" type="tel" required/>
   </div>
+  <p class="text-xs text-text-muted mt-1">Required for OTP login. Include country code (e.g., +91 for India)</p>
 </div>
 <div class="space-y-1.5">
 <label class="text-sm font-semibold text-primary block" for="password1">Password</label>

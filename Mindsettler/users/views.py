@@ -15,6 +15,8 @@ from django.conf import settings
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from .models import GoogleCalendarCredential
+from django.core.mail import send_mail
+from .utils import send_otp_sms, generate_otp, validate_phone_format
 
 # Google OAuth libraries are optional; guard imports
 try:
@@ -49,6 +51,53 @@ def register_view(request):
 
 def login_view(request):
     if request.method == "POST":
+        username_or_phone = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+        
+        # Check if input is a phone number (contains only digits and maybe +)
+        is_phone = username_or_phone.replace('+', '').replace(' ', '').replace('-', '').isdigit()
+        
+        # If it's a phone number and no password provided, initiate OTP login
+        if is_phone and username_or_phone and not password:
+            # Phone login - generate OTP and send via Twilio
+            try:
+                profile = Profile.objects.get(phone=username_or_phone)
+                # Generate 6-digit OTP
+                otp = generate_otp()
+                
+                # Delete old OTPs for this phone
+                from .models import OTPVerification
+                OTPVerification.objects.filter(phone=username_or_phone).delete()
+                
+                # Save new OTP
+                OTPVerification.objects.create(phone=username_or_phone, otp=otp)
+                
+                # Send OTP via Twilio SMS
+                success, message = send_otp_sms(username_or_phone, otp)
+                
+                if success:
+                    messages.success(request, f'OTP sent to {username_or_phone}. Please check your phone.')
+                else:
+                    # Show warning with OTP for testing if Twilio fails
+                    messages.warning(request, message)
+                
+                # Store phone in session for verification
+                request.session['otp_phone'] = username_or_phone
+                return redirect('users:loginph')
+            except Profile.DoesNotExist:
+                messages.error(request, 'Phone number not registered. Please create an account first.')
+                return render(request, "users/login.html", {"form": AuthenticationForm()})
+        
+        # If phone number with password, show error - phone login requires OTP only
+        if is_phone and username_or_phone and password:
+            messages.error(request, 'Phone login uses OTP verification. Please leave password blank or use the Phone Number button.')
+            return render(request, "users/login.html", {"form": AuthenticationForm()})
+        
+        # Regular email/username login (requires password)
+        if not password:
+            messages.error(request, 'Please enter your password.')
+            return render(request, "users/login.html", {"form": AuthenticationForm()})
+            
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
@@ -58,11 +107,8 @@ def login_view(request):
                 return redirect(next_url)
             return redirect('users:profileimage')
         else:
-            # Allow login using phone number or email: if the form failed, try authenticating
-            # by looking up the user with the provided email or Profile.phone and authenticating
-            username_or_phone = request.POST.get('username', '').strip()
-            password = request.POST.get('password', '')
-            found = False
+            # Allow login using email: if the form failed, try authenticating
+            # by looking up the user with the provided email
             if username_or_phone and password:
                 # try find user by email first
                 # there may be multiple users with the same email; try each one
@@ -73,18 +119,8 @@ def login_view(request):
                         login(request, user)
                         return redirect('users:profileimage')
 
-                # try find profile by phone
-                try:
-                    profile = Profile.objects.get(phone=username_or_phone)
-                    user = authenticate(request, username=profile.user.username, password=password)
-                    if user:
-                        login(request, user)
-                        return redirect('users:profileimage')
-                except Profile.DoesNotExist:
-                    pass
-
             # If we reach here, no user was found/authenticated
-            messages.error(request, 'Please create account first then try again')
+            messages.error(request, 'Invalid credentials. Please try again.')
     else:
         form = AuthenticationForm()
 
@@ -94,6 +130,116 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('core:home')
+
+
+def loginph_view(request):
+    """Display phone login page."""
+    return render(request, "users/loginph.html")
+
+
+def send_otp_view(request):
+    """Send OTP to any valid phone number via SMS using Twilio."""
+    if request.method == "POST":
+        phone = request.POST.get('phone', '').strip()
+        
+        if not phone:
+            messages.error(request, 'Please enter a phone number.')
+            return redirect('users:loginph')
+        
+        # Validate phone number format
+        if not validate_phone_format(phone):
+            messages.error(request, 'Please enter a valid phone number with country code (e.g., +911234567890)')
+            return redirect('users:loginph')
+        
+        # Ensure phone belongs to a registered user
+        if not Profile.objects.filter(phone=phone).exists():
+            messages.error(request, 'Phone number not registered. Please create an account first.')
+            return redirect('users:register')
+
+        # Generate 6-digit OTP
+        otp = generate_otp()
+
+        # Delete old OTPs for this phone
+        from .models import OTPVerification
+        OTPVerification.objects.filter(phone=phone).delete()
+
+        # Save new OTP
+        OTPVerification.objects.create(phone=phone, otp=otp)
+
+        # Send OTP via Twilio SMS
+        success, message = send_otp_sms(phone, otp)
+        
+        if success:
+            messages.success(request, 'OTP sent successfully to your phone!')
+        else:
+            # Show warning with OTP for testing if Twilio fails
+            messages.warning(request, message)
+
+        # Store phone in session for verification
+        request.session['otp_phone'] = phone
+
+        # Redirect back to loginph with OTP sent flag
+        return redirect(f"{reverse('users:loginph')}?otp_sent=true&phone={phone}")
+    
+    return redirect('users:loginph')
+
+
+def verify_otp_view(request):
+    """Verify OTP and log user in."""
+    if request.method == "POST":
+        entered_otp = request.POST.get('otp', '').strip()
+        phone = request.session.get('otp_phone', '')
+        
+        if not phone:
+            messages.error(request, 'Session expired. Please try again.')
+            return redirect('users:loginph')
+        
+        # Check OTP
+        from .models import OTPVerification
+        from django.utils import timezone
+        from datetime import timedelta
+        
+        # Get OTP created in last 10 minutes
+        cutoff = timezone.now() - timedelta(minutes=10)
+        otp_record = OTPVerification.objects.filter(
+            phone=phone,
+            created_at__gte=cutoff,
+            is_verified=False
+        ).order_by('-created_at').first()
+        
+        if otp_record and otp_record.otp == entered_otp:
+            # OTP is correct - now check if user is registered
+            try:
+                profile = Profile.objects.get(phone=phone)
+                user = profile.user
+                
+                # Mark OTP as verified
+                otp_record.is_verified = True
+                otp_record.save()
+                
+                # Log user in
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                
+                # Clear session
+                if 'otp_phone' in request.session:
+                    del request.session['otp_phone']
+                
+                messages.success(request, 'Login successful!')
+                return redirect('core:about')  # Redirect to about page
+            except Profile.DoesNotExist:
+                # OTP was correct but user not registered
+                messages.error(request, f'Phone number {phone} is not registered. Please create an account first.')
+                # Clear session
+                if 'otp_phone' in request.session:
+                    del request.session['otp_phone']
+                return redirect('users:register')  # Redirect to registration
+        else:
+            messages.error(request, 'Invalid or expired OTP. Please try again.')
+            # Redirect with phone parameter to show OTP form
+            phone_param = request.session.get('otp_phone', '')
+            return redirect(f"{reverse('users:loginph')}?otp_sent=true&phone={phone_param}")
+    
+    return redirect('users:loginph')
 
 
 @login_required
@@ -645,10 +791,18 @@ def google_disconnect(request):
 @login_required
 def settings_view(request):
     """Display user settings page."""
+    from django.utils import timezone
+    from datetime import timedelta
+    
     member_since = request.user.date_joined.year
+    
+    # Calculate last password change (days ago)
+    password_changed = request.user.date_joined  # Default to registration date
+    days_since_password = (timezone.now().date() - password_changed.date()).days
     
     context = {
         'member_since': member_since,
+        'days_since_password': days_since_password,
     }
     
     return render(request, "users/settings.html", context)

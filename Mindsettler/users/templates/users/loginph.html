@@ -81,75 +81,86 @@
                         Create Account
                     </a>
 </div>
-<div class="mb-8">
-<h2 class="text-3xl font-bold text-primary mb-2 tracking-tight">Welcome back</h2>
-<p class="text-text-muted">Please enter your details to access your safe space.</p>
+<div class="mb-8" id="phone-section">
+<h2 class="text-3xl font-bold text-primary mb-2 tracking-tight">Sign In with Phone</h2>
+<p class="text-text-muted">Enter your phone number to receive an OTP</p>
 </div>
-{# messages intentionally not shown on login page to avoid popups #}
-<form class="space-y-6" method="post" action="{% url 'users:login' %}">
+<div class="mb-8" id="otp-section" style="display:none;">
+<h2 class="text-3xl font-bold text-primary mb-2 tracking-tight">Verify Your Phone</h2>
+<p class="text-text-muted">We've sent a 6-digit OTP to <span id="display-phone"></span></p>
+</div>
+{% if messages %}
+<div class="mb-4">
+{% for message in messages %}
+<div class="{% if message.tags == 'error' %}bg-red-50 text-red-600{% else %}bg-green-50 text-green-600{% endif %} p-3 rounded-lg text-sm">
+{{ message }}
+</div>
+{% endfor %}
+</div>
+{% endif %}
+<form class="space-y-6" id="phone-form" method="post" action="{% url 'users:send_otp' %}">
                         {% csrf_token %}
-                        {% if form.non_field_errors %}
-                        <div class="text-sm text-red-600">{{ form.non_field_errors }}</div>
-                        {% endif %}
 <div class="space-y-2">
-<label class="text-sm font-semibold text-primary block" for="email">Email, Username, or Phone Number</label>
+<label class="text-sm font-semibold text-primary block" for="phone">Phone Number</label>
 <div class="relative">
 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-primary text-[20px]">mail</span>
+<span class="material-symbols-outlined text-primary text-[20px]">smartphone</span>
 </div>
-<input name="username" class="block w-full pl-11 pr-4 py-3.5 bg-lavender border border-transparent focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary rounded-xl text-primary placeholder-text-muted/70 transition-all duration-200 outline-none" id="email" placeholder="name@example.com or +911234567890" type="text" value="{{ form.username.value|default_if_none:'' }}" />
-</div>
-<p class="text-xs text-text-muted mt-1">Enter phone with country code (e.g., +911234567890) for OTP login</p>
-</div>
-<div class="space-y-2">
-<div class="flex items-center justify-between">
-<label class="text-sm font-semibold text-primary block" for="password">Password</label>
-</div>
-<div class="relative">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
-</div>
-<input name="password" class="block w-full pl-11 pr-12 py-3.5 bg-lavender border border-transparent focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary rounded-xl text-primary placeholder-text-muted/70 transition-all duration-200 outline-none" id="password" placeholder="••••••••" type="password" />
-<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-primary/60 hover:text-primary transition-colors" type="button">
-<span class="material-symbols-outlined text-[20px]">visibility_off</span>
-</button>
+<input name="phone" class="block w-full pl-11 pr-4 py-3.5 bg-lavender border border-transparent focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary rounded-xl text-primary placeholder-text-muted/70 transition-all duration-200 outline-none" id="phone" placeholder="Enter phone number" type="tel" required autofocus />
 </div>
 </div>
-<div class="flex items-center justify-between pt-1">
-<div class="flex items-center">
-<input class="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent/20 form-checkbox cursor-pointer" id="remember-me" name="remember-me" type="checkbox"/>
-<label class="ml-2 block text-sm text-text-muted cursor-pointer" for="remember-me">Remember me</label>
-</div>
-<a class="text-sm font-medium text-accent hover:text-accent/80 transition-colors" href="#">Forgot Password?</a>
-</div>
-<button class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-primary/20 text-base font-bold text-white bg-primary hover:bg-[#342255] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 mt-2" type="submit">
-                        Sign In
+<button class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-primary/20 text-base font-bold text-white bg-primary hover:bg-[#342255] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 mt-6" type="submit">
+                        Send OTP
                     </button>
 </form>
-<div class="relative my-8">
-<div class="absolute inset-0 flex items-center">
-<div class="w-full border-t border-lavender"></div>
+<form class="space-y-6" id="otp-form" method="post" action="{% url 'users:verify_otp' %}" style="display:none;">
+                        {% csrf_token %}
+<div class="space-y-2">
+<label class="text-sm font-semibold text-primary block" for="otp">Enter OTP</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary text-[20px]">dialpad</span>
 </div>
-<div class="relative flex justify-center text-sm">
-<span class="px-4 bg-white text-text-muted">Or continue with</span>
+<input name="otp" class="block w-full pl-11 pr-4 py-3.5 bg-lavender border border-transparent focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary rounded-xl text-primary placeholder-text-muted/70 transition-all duration-200 outline-none text-center text-2xl tracking-widest font-bold" id="otp" placeholder="000000" type="text" maxlength="6" pattern="[0-9]{6}" required />
 </div>
 </div>
-<div class="grid grid-cols-2 gap-4">
-<button class="flex items-center justify-center w-full px-4 py-3 bg-white border border-lavender rounded-xl hover:bg-lavender/50 hover:border-primary/30 transition-all duration-200 group" type="button">
-<img alt="Google logo" class="h-5 w-5 mr-2 opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSAe5EZT116yR_Frp0wwTMRSvczPEA-_eORpIw2sOytgIYovEwjTSWWBk8CyCQVD-bdfUP7pDjDEeR-1y06wWJAIIFKdLZV6kw91bJ1TbDs1e-40x_Kj-ctGIUTeUNIpSOaOsZgaG30sma9gpISMa67VnDxs0xBG4rwc7fEq7B9DjNhUTAntsyAmFXTJf9G0YLvnNZZjqNLCen6DOzFi5DxQCpGh2C7vJ3JqUj1guqnulHDMQn3l7IW-G4hfLBknCU8YFvA-veiDI"/>
-<span class="text-sm font-medium text-primary">Google</span>
+<div class="text-sm text-center text-text-muted mt-4">
+<p>Didn't receive the code?</p>
+<button type="button" onclick="resendOTP()" class="text-accent hover:text-accent/80 font-medium transition-colors">
+Resend OTP
 </button>
-<button onclick="window.location.href='{% url 'users:loginph' %}'" class="flex items-center justify-center w-full px-4 py-3 bg-white border border-lavender rounded-xl hover:bg-lavender/50 hover:border-primary/30 transition-all duration-200 group" type="button">
-<span class="material-symbols-outlined text-[20px] mr-2 text-primary">smartphone</span>
-<span href="{% url 'users:loginph' %}" class="text-sm font-medium text-primary">Phone Number</span>
-</button>
 </div>
+<button class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-primary/20 text-base font-bold text-white bg-primary hover:bg-[#342255] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 mt-6" type="submit">
+                        Verify & Sign In
+                    </button>
+</form>
 <div class="mt-8 text-center">
-<p class="text-xs text-text-muted flex justify-center items-center">
-<span class="material-symbols-outlined text-sm mr-1 text-primary">lock</span>
-                        Your data is encrypted and secure.
-                    </p>
+<a href="{% url 'users:login' %}" class="text-sm text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm mr-1">arrow_back</span>
+Back to Login
+</a>
 </div>
+<script>
+// Check if OTP was sent (from URL parameter or session)
+const urlParams = new URLSearchParams(window.location.search);
+const otpSent = urlParams.get('otp_sent');
+const phone = urlParams.get('phone');
+
+if (otpSent === 'true' && phone) {
+    // Show OTP form, hide phone form
+    document.getElementById('phone-section').style.display = 'none';
+    document.getElementById('phone-form').style.display = 'none';
+    document.getElementById('otp-section').style.display = 'block';
+    document.getElementById('otp-form').style.display = 'block';
+    document.getElementById('display-phone').textContent = phone;
+    document.getElementById('otp').focus();
+}
+
+function resendOTP() {
+    // Go back to phone input
+    window.location.href = '{% url "users:loginph" %}';
+}
+</script>
 </div>
 </div>
 </main>

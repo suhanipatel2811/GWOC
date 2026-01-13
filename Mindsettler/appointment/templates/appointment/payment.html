@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UPI Payment &amp; Verification - MindSettler</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class", 
+        theme: {
+            extend: {
+                colors: {
+                    primary: "#3f2965", // Deep Purple
+                    accent: "#DD1764",  // Vibrant Pink
+                    "background-light": "#f7f6f7", 
+                    "background-dark": "#18151d", 
+                    "text-main": "#111815", 
+                    "text-muted": "#63887c"
+                }, 
+                fontFamily: {
+                    display: "Lexend", 
+                    body: ["Noto Sans", "sans-serif"]
+                }, 
+                borderRadius: {
+                    DEFAULT: "0.5rem", 
+                    lg: "1rem", 
+                    xl: "1.5rem", 
+                    full: "9999px"
+                }
+            }
+        }
+    };
+</script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display transition-colors duration-200">
+<header class="sticky top-0 z-50 w-full bg-white dark:bg-[#1A2C26] border-b border-[#f0f4f3] dark:border-[#2a4037]">
+<div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-7xl">
+<div class="flex items-center gap-4 text-primary cursor-pointer">
+<div class="size-8">
+<span class="material-symbols-outlined text-3xl">spa</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-main dark:text-white">MindSettler</h2>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Therapists</a>
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">My Journey</a>
+<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Resources</a>
+</nav>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJFeMdiXartq1qgkpFvqLvmJ5OkdfETBsbUebd226te2Wzf2gIcgjp8QC-jQfHeMLfEWIS66vx4-kMbBUaXXVdy2eDyyOQNZI8nH07pLuwpBzdbcIaUmuYhOS87LHpsaBziq_6XOBqKCF_aM9m1mARwk99Ok4vv7zDVTqdPQZ1EUJRUbr1KZ34vKBUFS8YNdBz6kJcmzYR0gDnaMKOV_kURF-SKv5WRPvDhFALyfsIsR77UkXb_AYfIOgyZ7r8MCYS1XqwC0WQA58");'>
+</div>
+</div>
+<div class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-10 px-4 sm:px-6">
+<div class="w-full max-w-[850px] flex flex-col gap-6">
+<div class="bg-white dark:bg-[#1A2C26] rounded-2xl shadow-sm border border-[#e6ece9] dark:border-[#2a4037] overflow-hidden">
+<div class="flex flex-col items-center pt-10 pb-6 px-6 text-center">
+<div class="size-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-5xl">payments</span>
+</div>
+<h1 class="text-3xl font-bold leading-tight text-primary dark:text-white mb-3">Complete Your Payment</h1>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-bold mb-4">
+<span class="material-symbols-outlined text-base">error</span>
+<span>Action Required</span>
+</div>
+<p class="text-text-muted dark:text-gray-400 text-base max-w-lg">
+                        To confirm your session, please scan the QR code or use the UPI ID below. Once paid, upload a screenshot for verification.
+                    </p>
+</div>
+<div class="p-6 sm:p-10 grid gap-10 md:grid-cols-2 border-t border-[#f0f4f3] dark:border-[#2a4037]">
+<div class="flex flex-col gap-6">
+<h3 class="text-sm font-bold uppercase tracking-wider text-text-muted dark:text-gray-500">Payment Summary</h3>
+<div class="p-6 rounded-xl bg-primary/5 dark:bg-[#11211c] border border-primary/10 dark:border-[#2a4037] text-center">
+<p class="text-sm text-text-muted dark:text-gray-400 font-medium mb-1">Total Amount</p>
+<p class="text-4xl font-bold text-primary dark:text-white">₹1000</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-sm font-semibold text-text-main dark:text-white">Session Details</h4>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-gray-100 dark:border-[#2a4037]">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-12 w-12 shrink-0 shadow-sm" data-alt="Headshot of Dr. Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIsteXQVeocJHRi0PLLTlp9s90mX9Me8utITwE09JtMlnmE9Am_DlI7vSy0MCeFjekiojKX43cy9ZdP8MJ2tdUajGjfy_dLBtvMR_yWqrmVCaVWOmRgutx4HUiYeIuQ09jiK4T_k79wXWo9NZrss6HU8ahPYxwsLxmqku0KcgqQid9XuI41rM7k_NPkaqK07gYDFbPInAIxmCGlv1ZuWowAiw8iB2roNCd0zlMLG8cSYvr0CG_J0VMet5Pw5sGFzyMHTXprimhZl4");'></div>
+<div>
+<p class="text-sm font-bold text-text-main dark:text-white">Dr. Sarah Jenkins</p>
+<p class="text-xs text-text-muted dark:text-gray-400">Clinical Psychologist</p>
+</div>
+</div>
+<div class="flex items-center gap-3 text-text-main dark:text-white">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+<div>
+<p class="text-sm font-bold">Wed, Oct 24</p>
+<p class="text-xs text-text-muted dark:text-gray-400">10:00 AM - 11:00 AM</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6 h-full">
+<h3 class="text-sm font-bold uppercase tracking-wider text-text-muted dark:text-gray-500">UPI Details</h3>
+<div class="flex-1 flex flex-col items-center justify-center p-6 bg-white dark:bg-[#11211c] border border-gray-200 dark:border-[#2a4037] rounded-xl shadow-sm">
+<div class="bg-white p-2 rounded-lg border border-gray-100 mb-4 shadow-sm">
+<div class="size-40 bg-gray-900 flex items-center justify-center rounded text-white relative overflow-hidden">
+<span class="material-symbols-outlined text-8xl opacity-80">qr_code_2</span>
+<div class="absolute inset-0 border-4 border-white rounded opacity-20"></div>
+</div>
+</div>
+<p class="text-xs text-text-muted dark:text-gray-400 mb-4">Scan with any UPI App</p>
+<div class="w-full flex items-center gap-2 p-2 bg-gray-50 dark:bg-[#1A2C26] border border-gray-200 dark:border-[#2a4037] rounded-lg">
+<div class="flex-1 px-2 font-mono text-sm text-text-main dark:text-white truncate">mindsettler@upi</div>
+<button class="text-xs font-bold text-primary hover:text-primary/80 uppercase px-3 py-1.5 bg-primary/10 rounded-md transition-colors">
+                                        Copy
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<div class="px-6 sm:px-10 pb-10">
+<h3 class="text-sm font-bold uppercase tracking-wider text-text-muted dark:text-gray-500 mb-4">Payment Verification</h3>
+<div class="group relative w-full border-2 border-dashed border-gray-300 dark:border-[#2a4037] rounded-xl p-8 transition-colors hover:bg-primary/5 hover:border-primary/40 cursor-pointer">
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
+<div class="flex flex-col items-center justify-center text-center gap-3">
+<div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">cloud_upload</span>
+</div>
+<div>
+<p class="text-sm font-bold text-text-main dark:text-white">Upload Payment Screenshot</p>
+<p class="text-xs text-text-muted dark:text-gray-400 mt-1">Supports JPG, PNG (Max 5MB)</p>
+</div>
+<span class="text-xs font-medium text-primary mt-2 group-hover:underline">Browse Files</span>
+</div>
+</div>
+</div>
+<div class="bg-[#f6f8f7] dark:bg-[#11211c] p-6 sm:px-10 flex flex-col sm:flex-row gap-4 justify-between items-center border-t border-[#e6ece9] dark:border-[#2a4037]">
+<div class="text-sm text-text-muted dark:text-gray-400 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">security</span>
+<span>Secure 256-bit encrypted payment</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+<button class="px-6 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 font-medium text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-sm w-full sm:w-auto">
+                            View Booking Details
+                        </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors shadow-sm text-sm w-full sm:w-auto flex items-center justify-center gap-2">
+<span>Submit for Verification</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="text-center">
+<p class="text-sm text-text-muted dark:text-gray-500">
+                    Having trouble with payment? <a class="text-primary font-medium hover:underline" href="#">Contact Support</a>
+</p>
+</div>
+</div>
+</main>
+</body></html>

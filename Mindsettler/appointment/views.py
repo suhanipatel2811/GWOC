@@ -3,7 +3,8 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
-from datetime import datetime, timedelta, timezone as dt_timezone
+from datetime import datetime, timedelta, timezone as dt_timezone, date as date_class
+from django.db import transaction
 from django.http import HttpResponse
 try:
     import stripe
@@ -32,22 +33,81 @@ def booking(request):
         login_url = reverse('users:login')
         return redirect(f"{login_url}?next={request.path}")
     if request.method == "POST":
-        form = AppointmentForm(request.POST)
-        if form.is_valid():
-            appointment = form.save(commit=False)
-            slot = appointment.slot
+        # Keep existing form handling when client posts a slot id
+        if 'slot' in request.POST:
+            form = AppointmentForm(request.POST)
+            if form.is_valid():
+                appointment = form.save(commit=False)
+                slot = appointment.slot
 
-            if not slot.is_available:
-                messages.error(request, "This slot is already booked")
-                return redirect('appointment:booking')
+                if not slot.is_available:
+                    messages.error(request, "This slot is already booked")
+                    return redirect('appointment:booking')
 
-            # mark appointment pending confirmation
-            appointment.status = 'PENDING'
-            appointment.save()
+                # mark appointment pending confirmation
+                appointment.status = 'PENDING'
+                appointment.save()
 
-            # lock the slot
-            slot.is_available = False
-            slot.save()
+                # lock the slot
+                slot.is_available = False
+                slot.save()
+            else:
+                print("Form errors:", form.errors)
+        else:
+            # Support AJAX/simple POSTs that supply date & time strings instead of a slot id
+            date_str = request.POST.get('date')
+            time_str = request.POST.get('time')
+            session_type = request.POST.get('session_type', 'ONLINE')
+
+            if not date_str or not time_str:
+                return HttpResponse('Missing date or time', status=400)
+
+            try:
+                slot_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+            except Exception:
+                return HttpResponse('Invalid date format', status=400)
+
+            try:
+                # expect times like '09:00 AM'
+                slot_time = datetime.strptime(time_str, '%I:%M %p').time()
+            except Exception:
+                # fallback to 24h like '09:00'
+                try:
+                    slot_time = datetime.strptime(time_str, '%H:%M').time()
+                except Exception:
+                    return HttpResponse('Invalid time format', status=400)
+
+            # don't allow booking past dates
+            if slot_date < date_class.today():
+                return HttpResponse('Cannot book past dates', status=400)
+
+            # create or obtain the slot and atomically check availability
+            try:
+                with transaction.atomic():
+                    slot, created = SessionSlot.objects.select_for_update().get_or_create(date=slot_date, time=slot_time, defaults={'is_available': True})
+                    if not slot.is_available:
+                        return HttpResponse('Selected slot is no longer available', status=400)
+
+                    # create appointment with minimal required fields
+                    # attempt to fill from logged-in user where possible
+                    full_name = request.POST.get('full_name') or getattr(request.user, 'get_full_name', lambda: '')() or request.user.username
+                    email = request.POST.get('email') or getattr(request.user, 'email', '')
+                    phone = request.POST.get('phone') or ''
+
+                    appointment = Appointment.objects.create(
+                        full_name=full_name,
+                        email=email,
+                        phone=phone,
+                        slot=slot,
+                        session_type=(session_type.upper() if session_type else 'ONLINE')
+                    )
+
+                    # lock the slot
+                    slot.is_available = False
+                    slot.save()
+
+            except Exception as e:
+                return HttpResponse('Booking failed', status=500)
 
             # If the booking user has linked Google Calendar credentials, create the event server-side
             if request.user.is_authenticated and GoogleCredentials is not None:
@@ -116,16 +176,55 @@ def booking(request):
                 appointment.google_calendar_link = gcal_url
                 appointment.save()
 
-            # No payment gateway: show confirmation with manual payment instructions
-            return redirect(reverse('appointment:confirmation') + f"?id={appointment.id}")
+            # Redirect to payment page
+            return redirect(reverse('appointment:payment', kwargs={'appointment_id': appointment.id}))
 
-        else:
-            print("Form errors:", form.errors)
 
     else:
         form = AppointmentForm()
 
-    return render(request, "appointment/booking.html", {"form": form})
+    today_iso = date_class.today().isoformat()
+    return render(request, "appointment/booking.html", {"form": form, 'today': today_iso})
+
+
+def available_slots(request):
+    """Return JSON availability for standard hourly slots for a given date.
+
+    Query param: ?date=YYYY-MM-DD
+    Response: {"09:00 AM": true, "10:00 AM": false, ...}
+    """
+    from django.http import JsonResponse
+
+    date_str = request.GET.get('date')
+    if not date_str:
+        return JsonResponse({'error': 'date required'}, status=400)
+
+    try:
+        query_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+    except Exception:
+        return JsonResponse({'error': 'invalid date'}, status=400)
+
+    # Do not expose past dates
+    if query_date < date_class.today():
+        return JsonResponse({'error': 'date in past'}, status=400)
+
+    availability = {}
+    def fmt(h):
+        ampm = 'AM' if h < 12 else 'PM'
+        h12 = ((h + 11) % 12) + 1
+        return f"{str(h12).zfill(2)}:00 {ampm}"
+
+    for h in range(9, 18):
+        time_obj = datetime.strptime(f"{str(h).zfill(2)}:00", '%H:%M').time()
+        # if there's a slot and it's not available, mark false
+        slot_qs = SessionSlot.objects.filter(date=query_date, time=time_obj)
+        if slot_qs.exists():
+            availability[fmt(h)] = slot_qs.filter(is_available=True).exists()
+        else:
+            # slot not created yet -> available
+            availability[fmt(h)] = True
+
+    return JsonResponse(availability)
 
 def payment_success(request, appointment_id):
     # kept for backward compatibility if stripe ever used
@@ -141,7 +240,29 @@ def payment_success(request, appointment_id):
         action=f'Booked session: {appointment.session_type} on {appointment.slot.start_time.strftime("%B %d, %Y")}'
     )
     
-    return redirect("appointment:confirmation")
+    return redirect(reverse('appointment:payment', kwargs={'appointment_id': appointment.id}))
+
+def payment(request, appointment_id):
+    """Display payment page for the appointment."""
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    return render(request, "appointment/payment.html", {"appointment": appointment})
+
+def confirm_payment(request, appointment_id):
+    """Confirm payment and mark appointment as confirmed."""
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment.status = 'CONFIRMED'
+    appointment.payment_confirmed = True
+    appointment.payment_mode = 'UPI'
+    appointment.save()
+    
+    # Log activity
+    if request.user.is_authenticated:
+        Activity.objects.create(
+            user=request.user,
+            action=f'Payment completed for session on {appointment.slot.date.strftime("%B %d, %Y")}'
+        )
+    
+    return redirect(f"{reverse('appointment:confirmation')}?id={appointment.id}")
 
 def payment_cancel(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)

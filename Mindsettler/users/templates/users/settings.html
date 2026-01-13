@@ -158,56 +158,71 @@
 <section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm">
 <h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
 <span class="material-symbols-outlined">badge</span> Profile Details
-            </h2>
-<div class="space-y-5">
+</h2>
+<form method="POST" action="{% url 'users:update_profile' %}" class="space-y-5">
+{% csrf_token %}
 <div class="group">
-<label class="block text-sm font-semibold text-primary dark:text-gray-300 mb-2">Full Name</label>
+<label class="block text-sm font-semibold text-primary dark:text-gray-300 mb-2">First Name</label>
 <div class="relative">
-<input class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="text" value="Sarah Jenkins"/>
+<input name="first_name" class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="text" value="{{ user.first_name|default:'' }}"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-text-muted pointer-events-none text-sm">edit</span>
+</div>
+</div>
+<div class="group">
+<label class="block text-sm font-semibold text-primary dark:text-gray-300 mb-2">Last Name</label>
+<div class="relative">
+<input name="last_name" class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="text" value="{{ user.last_name|default:'' }}"/>
 <span class="material-symbols-outlined absolute right-4 top-3 text-text-muted pointer-events-none text-sm">edit</span>
 </div>
 </div>
 <div class="group">
 <label class="block text-sm font-semibold text-primary dark:text-gray-300 mb-2">Email Address</label>
 <div class="relative">
-<input class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="email" value="sarah.jenkins@example.com"/>
-<span class="material-symbols-outlined absolute right-4 top-3 text-text-muted pointer-events-none text-sm">edit</span>
+<input name="email" class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="email" value="{{ user.email }}"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-text-muted pointer-events-none text-sm">mail</span>
 </div>
 </div>
-<button class="mt-2 px-6 py-2 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-primary/90 transition-colors text-sm">
-                    Save Changes
-                </button>
+<div class="group">
+<label class="block text-sm font-semibold text-primary dark:text-gray-300 mb-2">Phone Number</label>
+<div class="relative">
+<input name="phone" class="w-full px-4 py-3 rounded-lg border-0 bg-white dark:bg-white/10 text-text-main dark:text-white focus:ring-2 focus:ring-primary shadow-sm transition-all" type="tel" value="{{ user.profile.phone|default:'' }}"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-text-muted pointer-events-none text-sm">phone</span>
 </div>
+</div>
+<button type="submit" class="mt-2 px-6 py-2 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-primary/90 transition-colors text-sm">
+Save Changes
+</button>
+</form>
 </section>
 <section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm flex flex-col">
 <h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
 <span class="material-symbols-outlined">shield_lock</span> Security
-            </h2>
+</h2>
 <div class="space-y-4 flex-1">
 <div class="bg-white dark:bg-white/10 p-5 rounded-xl flex items-center justify-between shadow-sm">
 <div>
 <h3 class="font-bold text-primary dark:text-white text-sm md:text-base">Password</h3>
-<p class="text-xs text-text-muted mt-1">Last changed 30 days ago</p>
+<p class="text-xs text-text-muted mt-1">Last changed {{ days_since_password }} days ago</p>
 </div>
-<button class="px-4 py-2 bg-primary text-white text-xs md:text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap">
-                        Change Password
-                    </button>
+<a href="{% url 'users:profile' %}#change-password" class="px-4 py-2 bg-primary text-white text-xs md:text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap">
+Change Password
+</a>
 </div>
 <div class="bg-white dark:bg-white/10 p-5 rounded-xl flex items-center justify-between shadow-sm">
 <div>
-<h3 class="font-bold text-primary dark:text-white text-sm md:text-base">Two-Factor Auth</h3>
-<p class="text-xs text-text-muted mt-1">Currently inactive</p>
+<h3 class="font-bold text-primary dark:text-white text-sm md:text-base">Delete Account</h3>
+<p class="text-xs text-text-muted mt-1">Permanently delete your account and data</p>
 </div>
-<button class="px-4 py-2 border border-primary text-primary dark:text-pale-lavender dark:border-pale-lavender text-xs md:text-sm font-medium rounded-lg hover:bg-primary/5 dark:hover:bg-white/5 transition-colors whitespace-nowrap">
-                        Enable 2FA
-                    </button>
+<button onclick="if(confirm('Are you sure you want to delete your account? This action cannot be undone.')) { window.location.href='#'; }" class="px-4 py-2 border border-red-500 text-red-500 text-xs md:text-sm font-medium rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors whitespace-nowrap">
+Delete Account
+</button>
 </div>
 </div>
 </section>
 <section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm">
 <h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
 <span class="material-symbols-outlined">notifications_active</span> Notification Preferences
-            </h2>
+</h2>
 <div class="bg-white dark:bg-white/10 rounded-xl p-1 shadow-sm divide-y divide-gray-100 dark:divide-white/5">
 <div class="flex items-center justify-between p-4">
 <div class="flex items-center gap-3">
@@ -215,30 +230,103 @@
 <span class="material-symbols-outlined text-[20px]">mail</span>
 </div>
 <div>
-<h3 class="font-bold text-text-main dark:text-white text-sm">Email Alerts</h3>
+<h3 class="font-bold text-text-main dark:text-white text-sm">Email Notifications</h3>
 <p class="text-xs text-text-muted">Session reminders and updates</p>
 </div>
 </div>
-<button class="w-12 h-6 bg-vibrant-pink rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vibrant-pink">
-<span class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300"></span>
+<button onclick="togglePreference(this, 'email_notifications')" class="w-12 h-6 {% if user.profile.email_notifications %}bg-vibrant-pink{% else %}bg-gray-300 dark:bg-gray-600{% endif %} rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vibrant-pink" data-enabled="{{ user.profile.email_notifications|yesno:'true,false' }}">
+<span class="absolute {% if user.profile.email_notifications %}right-1{% else %}left-1{% endif %} top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300"></span>
 </button>
 </div>
 <div class="flex items-center justify-between p-4">
 <div class="flex items-center gap-3">
 <div class="bg-primary/10 p-2 rounded-full text-primary">
-<span class="material-symbols-outlined text-[20px]">sms</span>
+<span class="material-symbols-outlined text-[20px]">schedule</span>
 </div>
 <div>
-<h3 class="font-bold text-text-main dark:text-white text-sm">SMS Alerts</h3>
-<p class="text-xs text-text-muted">Urgent schedule changes</p>
+<h3 class="font-bold text-text-main dark:text-white text-sm">Daily Reminder</h3>
+<p class="text-xs text-text-muted">Daily mindfulness reminders</p>
 </div>
 </div>
-<button class="w-12 h-6 bg-vibrant-pink rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vibrant-pink">
-<span class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300"></span>
+<button onclick="togglePreference(this, 'daily_reminder')" class="w-12 h-6 {% if user.profile.daily_reminder %}bg-vibrant-pink{% else %}bg-gray-300 dark:bg-gray-600{% endif %} rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vibrant-pink" data-enabled="{{ user.profile.daily_reminder|yesno:'true,false' }}">
+<span class="absolute {% if user.profile.daily_reminder %}right-1{% else %}left-1{% endif %} top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300"></span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-2 rounded-full text-primary">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</div>
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-sm">Public Profile</h3>
+<p class="text-xs text-text-muted">Allow others to view your profile</p>
+</div>
+</div>
+<button onclick="togglePreference(this, 'public_profile')" class="w-12 h-6 {% if user.profile.public_profile %}bg-vibrant-pink{% else %}bg-gray-300 dark:bg-gray-600{% endif %} rounded-full relative transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vibrant-pink" data-enabled="{{ user.profile.public_profile|yesno:'true,false' }}">
+<span class="absolute {% if user.profile.public_profile %}right-1{% else %}left-1{% endif %} top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300"></span>
 </button>
 </div>
 </div>
 </section>
+
+<script>
+function togglePreference(button, preference) {
+const enabled = button.dataset.enabled === 'true';
+const newValue = !enabled;
+const toggle = button.querySelector('span');
+
+// Update UI immediately
+if (newValue) {
+button.classList.remove('bg-gray-300', 'dark:bg-gray-600');
+button.classList.add('bg-vibrant-pink');
+toggle.classList.remove('left-1');
+toggle.classList.add('right-1');
+} else {
+button.classList.remove('bg-vibrant-pink');
+button.classList.add('bg-gray-300', 'dark:bg-gray-600');
+toggle.classList.remove('right-1');
+toggle.classList.add('left-1');
+}
+
+// Update data attribute
+button.dataset.enabled = newValue.toString();
+
+// Send to server
+fetch('{% url "users:update_preferences" %}', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'X-CSRFToken': '{{ csrf_token }}'
+},
+body: JSON.stringify({
+preference: preference,
+value: newValue
+})
+})
+.then(response => response.json())
+.then(data => {
+if (!data.success) {
+// Revert on error
+if (!newValue) {
+button.classList.remove('bg-gray-300', 'dark:bg-gray-600');
+button.classList.add('bg-vibrant-pink');
+toggle.classList.remove('left-1');
+toggle.classList.add('right-1');
+} else {
+button.classList.remove('bg-vibrant-pink');
+button.classList.add('bg-gray-300', 'dark:bg-gray-600');
+toggle.classList.remove('right-1');
+toggle.classList.add('left-1');
+}
+button.dataset.enabled = enabled.toString();
+alert('Failed to update preference');
+}
+})
+.catch(error => {
+console.error('Error:', error);
+});
+}
+</script>
 <section class="bg-pale-lavender dark:bg-[#231a33] rounded-xl p-6 md:p-8 shadow-sm">
 <h2 class="text-xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
 <span class="material-symbols-outlined">lock_person</span> Privacy &amp; Data
