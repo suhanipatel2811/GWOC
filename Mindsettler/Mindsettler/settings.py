@@ -182,9 +182,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import os
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise ValueError("The OPENAI_API_KEY environment variable is not set. Add it to the .env file or export it in your environment.")
+# OpenAI API Key - Optional, only needed for AI-powered features
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 # Twilio SMS Configuration
 TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID', '')
