@@ -1,0 +1,46 @@
+# Python
+*.py[cod]
+*$py.class
+*.so
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large files / installers
+*.exe
+*.msi
+*.dmg
+*.pkg
+*.MOV
+*.mov
+*.mp4
+*.avi
+
+# Backup files
+*.bak
+*.backup
