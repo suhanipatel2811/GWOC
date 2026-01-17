@@ -3,8 +3,43 @@
 ## Prerequisites
 - GitHub account with your project repository
 - Render account (sign up at https://render.com)
+- All deployment files committed to your repository
 
-## Step-by-Step Deployment
+## Quick Start (Automated Deployment)
+
+### Option 1: Using render.yaml (Recommended)
+This method automatically creates both database and web service.
+
+1. **Commit and Push All Files**
+   ```bash
+   cd D:\projects\GWOC-1
+   git add .
+   git commit -m "Add Render deployment configuration"
+   git push origin main
+   ```
+
+2. **Deploy to Render**
+   - Go to https://render.com/dashboard
+   - Click **"New +"** → **"Blueprint"**
+   - Connect your GitHub repository
+   - Render will detect `render.yaml` and create all services automatically
+   - Wait 5-10 minutes for deployment
+
+3. **Configure Environment Variables**
+   After deployment, go to your web service and add:
+   ```
+   ALLOWED_HOSTS=your-app-name.onrender.com
+   EMAIL_HOST_USER=your-email@gmail.com
+   EMAIL_HOST_PASSWORD=your-app-password
+   STRIPE_PUBLIC_KEY=pk_test_your_key
+   STRIPE_SECRET_KEY=sk_test_your_key
+   TWILIO_ACCOUNT_SID=your_sid
+   TWILIO_AUTH_TOKEN=your_token
+   TWILIO_PHONE_NUMBER=+1234567890
+   OPENAI_API_KEY=sk-your_key
+   ```
+
+## Manual Deployment
 
 ### 1. Commit and Push Changes
 ```bash
@@ -25,7 +60,7 @@ git push origin main
    - **Name**: `mindsettler-db`
    - **Database**: `mindsettler`
    - **User**: `mindsettler`
-   - **Region**: Choose closest to you
+   - **Region**: Choose closest to you (e.g., Oregon)
    - **Plan**: Free
 3. Click **"Create Database"**
 4. Wait for database to be created (takes ~2 minutes)
@@ -33,7 +68,7 @@ git push origin main
 
 ### 4. Create Web Service
 1. Click **"New +"** → **"Web Service"**
-2. Connect your GitHub repository: `suhanipatel2811/GWOC`
+2. Connect your GitHub repository
 3. Fill in details:
    - **Name**: `mindsettler`
    - **Region**: Same as database
@@ -71,10 +106,10 @@ OPENAI_API_KEY=sk-your_key
 1. Click **"Create Web Service"**
 2. Render will automatically:
    - Clone your repository
-   - Install dependencies
-   - Run migrations
+   - Install dependencies from requirements.txt
+   - Run database migrations
    - Collect static files
-   - Start your application
+   - Start your application with Gunicorn
 3. Wait 5-10 minutes for first deployment
 
 ### 7. Access Your App
