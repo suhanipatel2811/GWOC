@@ -2,13 +2,11 @@ services:
   # PostgreSQL Database
   - type: pserv
     name: mindsettler-db
-    env: docker
     plan: free
     region: oregon
+    databaseName: mindsettler
+    databaseUser: mindsettler
     ipAllowList: []
-    databases:
-      - name: mindsettler
-        user: mindsettler
 
   # Web Service
   - type: web
@@ -28,7 +26,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: False
+        value: "False"
       - key: ALLOWED_HOSTS
-        sync: false
+        value: .onrender.com
     autoDeploy: true
