@@ -14,7 +14,7 @@ services:
     runtime: python
     plan: free
     region: oregon
-    buildCommand: "./build.sh"
+    buildCommand: "bash build.sh"
     startCommand: "cd Mindsettler && gunicorn Mindsettler.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
