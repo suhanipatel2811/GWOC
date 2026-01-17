@@ -29,4 +29,20 @@ services:
         value: "False"
       - key: ALLOWED_HOSTS
         value: .onrender.com
+      - key: OPENAI_API_KEY
+        value: ""
+      - key: EMAIL_HOST_USER
+        value: ""
+      - key: EMAIL_HOST_PASSWORD
+        value: ""
+      - key: STRIPE_PUBLIC_KEY
+        value: ""
+      - key: STRIPE_SECRET_KEY
+        value: ""
+      - key: TWILIO_ACCOUNT_SID
+        value: ""
+      - key: TWILIO_AUTH_TOKEN
+        value: ""
+      - key: TWILIO_PHONE_NUMBER
+        value: ""
     autoDeploy: true
