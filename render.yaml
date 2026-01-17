@@ -1,12 +1,12 @@
-services:
-  # PostgreSQL Database
-  - type: pserv
-    name: mindsettler-db
+databases:
+  - name: mindsettler-db
+    databaseName: mindsettler
+    user: mindsettler
     plan: free
     region: oregon
-    databaseName: mindsettler
-    databaseUser: mindsettler
     ipAllowList: []
+
+services:
 
   # Web Service
   - type: web
@@ -30,19 +30,19 @@ services:
       - key: ALLOWED_HOSTS
         value: .onrender.com
       - key: OPENAI_API_KEY
-        value: ""
+        sync: false  # Set this in Render dashboard
       - key: EMAIL_HOST_USER
-        value: ""
+        sync: false  # Set this in Render dashboard
       - key: EMAIL_HOST_PASSWORD
-        value: ""
+        sync: false  # Set this in Render dashboard
       - key: STRIPE_PUBLIC_KEY
-        value: ""
+        sync: false  # Set this in Render dashboard
       - key: STRIPE_SECRET_KEY
-        value: ""
+        sync: false  # Set this in Render dashboard
       - key: TWILIO_ACCOUNT_SID
-        value: ""
+        sync: false  # Set this in Render dashboard
       - key: TWILIO_AUTH_TOKEN
-        value: ""
+        sync: false  # Set this in Render dashboard
       - key: TWILIO_PHONE_NUMBER
-        value: ""
+        sync: false  # Set this in Render dashboard
     autoDeploy: true
