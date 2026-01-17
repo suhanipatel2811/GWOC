@@ -79,13 +79,17 @@ class GoogleCalendarCredential(models.Model):
 
 class OTPVerification(models.Model):
     """Store temporary OTP for phone login."""
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, db_index=True)
     otp = models.CharField(max_length=6)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     is_verified = models.BooleanField(default=False)
     
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['phone', '-created_at']),
+            models.Index(fields=['phone', 'is_verified']),
+        ]
     
     def __str__(self):
         return f"OTP for {self.phone} - {self.otp}"

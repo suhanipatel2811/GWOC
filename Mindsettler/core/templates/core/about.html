@@ -50,7 +50,7 @@
     </a>
 </div>
 <nav class="hidden md:flex items-center gap-10">
-<a href="#" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+<a href="{% url 'core:home' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
                 Home
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
 </a>
@@ -72,9 +72,27 @@
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
 </a>
 </nav>
+<div class="flex items-center gap-3 pl-2 border-l border-lavender-mid">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-primary">{{ user.get_full_name|default:user.username }}</p>
+<p class="text-[10px] text-[#6e5f86]">Free Spirit</p>
+</div>
 <div class="hidden md:flex gap-3">
-<a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJFeMdiXartq1qgkpFvqLvmJ5OkdfETBsbUebd226te2Wzf2gIcgjp8QC-jQfHeMLfEWIS66vx4-kMbBUaXXVdy2eDyyOQNZI8nH07pLuwpBzdbcIaUmuYhOS87LHpsaBziq_6XOBqKCF_aM9m1mARwk99Ok4vv7zDVTqdPQZ1EUJRUbr1KZ34vKBUFS8YNdBz6kJcmzYR0gDnaMKOV_kURF-SKv5WRPvDhFALyfsIsR77UkXb_AYfIOgyZ7r8MCYS1XqwC0WQA58");'>
-</a>
+{% if user.is_authenticated %}
+    {% if user.profile.avatar_type == 'masculine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></a>
+    {% elif user.profile.avatar_type == 'feminine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+    {% elif user.profile.avatar_type == 'neutral' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></a>
+    {% else %}
+    <a href="{%url 'users:profile' %}" class="bg-soft-pink rounded-full size-10 border-2 border-primary/20 flex items-center justify-center">
+        <span class="text-sm font-bold text-primary">{{ user.first_name.0|default:user.username.0|upper }}</span>
+    </a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'users:login' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+{% endif %}
 </div>
 
 <button class="md:hidden flex items-center justify-center p-2 text-primary">
@@ -101,7 +119,7 @@
                                 </h2>
 </div>
 <div class="flex gap-4 flex-wrap">
-<a href="{% url 'appointment:booking' %}" class="flex h-12 items-center justify-center rounded-xl bg-primary px-6 text-base font-bold text-white shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<a href="{% url 'appointment:specialists' %}" class="flex h-12 items-center justify-center rounded-xl border border-pale-lavender bg-white px-6 text-base font-bold text-primary hover:bg-pale-lavender/30 transition-colors">
 <span>Start Your Journey</span>
 </a>
 <button class="flex h-12 items-center justify-center rounded-xl border border-pale-lavender bg-white px-6 text-base font-bold text-primary hover:bg-pale-lavender/30 transition-colors">
@@ -250,73 +268,97 @@
                     </p>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+<a href="{% url 'appointment:specialists' %}" class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink hover:shadow-lg hover:border-accent transition-all cursor-pointer">
 <div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQhJL_EMQVKyCeTWPsPEoPpOTkMtiW8zWN6THeDGC5gQ2ZU3PTS1WuQx4ODOxMty1qXClJLT6WJz3dJxz7KLiUfL_V-S3w33QrrM24TTsfcpZUtzfghIQewOyI3rHui_6by--HfF2Casm-pg1uuOnsps1gZVLg-BCAkq7xM5SKDKPbTVzvkt7u-8p77JVLCQw9XNueITNW69eGJKrcQstIZM-18QNNkW_KmTuQtSejFCA1r41W1Wz1QJU4ShyoKhiX7jg_R-PnbvA');"></div>
 <h3 class="font-bold text-lg">Dr. Sarah Chen</h3>
 <p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Clinical Director</p>
 <p class="text-sm text-text-muted font-body">PhD in Clinical Psychology with 15 years specializing in CBT and anxiety disorders.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+</a>
+<a href="{% url 'appointment:specialists' %}" class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink hover:shadow-lg hover:border-accent transition-all cursor-pointer">
 <div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxxvj5jZF3T0VVB6zKWStWSVk2O0zpD8W75Qhm79w868vgXOezGan5LPzvhjcVJoA3gxMyPZoT1rjBMSAIN9K4LyuE-fHiCEreFuPZ4spFVML9xkoA63NQ9S1TPhYGndr3ZG_y_R9mc4q9r4heaM57m1Nqsc6TxIZ-9MgOtX04dcafhc3cMZN4FF5kEsO8LGdYRE6EoGgBmyzBilwdFXRD_J-tSRBQk-LXz6Rm3Z7dI6q2NdhUZKwlNmAQPVDKx8DAwTOfg3c02Ng');"></div>
 <h3 class="font-bold text-lg">Marcus Johnson</h3>
 <p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Lead Therapist</p>
 <p class="text-sm text-text-muted font-body">Licensed MFT focused on accessible community care and trauma-informed practices.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+</a>
+<a href="{% url 'appointment:specialists' %}" class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink hover:shadow-lg hover:border-accent transition-all cursor-pointer">
 <div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4YLq11QGaU3Ipe_mgTwtEe8h0D25Xi5JHM_k_PMieEdjZHurICfvj1tzSJjGqZb4Y1zVtBD75Fa9YVXqpBZMph3mQilKtdReP_u7Ivxeb1MAvQID5QDfvLdS-UWoeIY-at9CwQrlDQWOHr1nfDjxOB2LpRVg3LGTY55zLzYG85HDWQqrK3z18od1Vod6xTkwtUphL_VLogBIaGTlnmlRzboDCLub6qPwCSTtuQM0r0tTdkWziXEe98DqwlmMYBGFqK9zOtL907E');"></div>
 <h3 class="font-bold text-lg">Dr. Elena Rodriguez</h3>
 <p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Research Lead</p>
 <p class="text-sm text-text-muted font-body">Published author on mindfulness-based stress reduction and emotional regulation.</p>
-</div>
-<div class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink">
+</a>
+<a href="{% url 'appointment:specialists' %}" class="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm border border-soft-pink hover:shadow-lg hover:border-accent transition-all cursor-pointer">
 <div class="w-24 h-24 rounded-full mb-4 bg-cover bg-center border-2 border-accent/20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuhEbfHaqhRUOPlHNZvPzacffq7Fr5WfZ30AaZFs075XP_VunuG32bXOVE2K8XULfwXSQE96rUjGAld6snBwhOmEhfxWZx04XWYcxot5CwlbFSuTbg2mxU4ewsayuyU1gTAi-SlegDgGqheJvdlwdk8mtJcB7v4VU3s_JZhjgfOwory40VqOcjwIGH8PHLRymXpr8UIJOCi7Jv5PEudw-cpF7UymdiL9gHM7-gs_PPBeqXA5r0uYF4BCegXuORFtUFz1SLOkzM3_0');"></div>
 <h3 class="font-bold text-lg">James Alistair</h3>
 <p class="text-xs font-bold text-accent uppercase tracking-wider mb-2">Education Advisor</p>
 <p class="text-sm text-text-muted font-body">Pedagogical expert ensuring our complex concepts are easy to learn and retain.</p>
-</div>
+</a>
 </div>
 </div>
 </section>
 </main>
-<footer class="w-full border-t border-pale-lavender bg-white px-4 md:px-10 py-12">
-<div class="mx-auto max-w-[1200px] flex flex-col md:flex-row justify-between gap-10">
-<div class="flex flex-col gap-4 max-w-sm">
-<div class="flex items-center gap-2">
-<div class="flex items-center justify-center rounded-full bg-soft-pink p-1.5 text-accent">
-<span class="material-symbols-outlined text-lg">spa</span>
+<footer class="bg-white border-t border-lavender pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+<div class="col-span-2 lg:col-span-2">
+<div class="flex items-center gap-3">
+    <a href="{% url 'core:home' %}" class="flex items-center">
+        <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+    </a>
 </div>
-<h2 class="text-lg font-bold text-primary">MindSettler</h2>
-</div>
-<p class="text-sm text-text-muted font-body">
-                    Empowering you to find balance through education, reflection, and secure self-discovery.
+<p class="text-text-sub text-sm leading-relaxed max-w-xs mb-6">
+                    Empowering individuals to understand their minds and reclaim their peace through education and connection.
                 </p>
-<div class="flex gap-4 mt-2">
-<a class="text-text-muted hover:text-accent transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
-<a class="text-text-muted hover:text-accent transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<div class="flex gap-4">
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Facebook</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+</a>
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Twitter</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>
+</a>
 </div>
 </div>
-<div class="flex gap-12 flex-wrap">
-<div class="flex flex-col gap-3">
-<h4 class="font-bold text-sm uppercase tracking-wide text-primary">Platform</h4>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Library</a>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Journaling</a>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Pricing</a>
+<div>
+<h3 class="font-bold text-primary mb-4">Platform</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:how_it_works' %}">Our Approach</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Specialists</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'resources:blog_list' %}">Resources</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Pricing</a></li>
+</ul>
 </div>
-<div class="flex flex-col gap-3">
-<h4 class="font-bold text-sm uppercase tracking-wide text-primary">Company</h4>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">About Us</a>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Careers</a>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Contact</a>
+<div>
+<h3 class="font-bold text-primary mb-4">Company</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:about' %}">About Us</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'corporate:corporate_services' %}">Careers</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:contact' %}">Contact</a></li>
+<li><a href="{% url 'core:privacypolicy' %}" class="hover:text-secondary transition-colors" >Privacy Policy</a></li>
+</ul>
 </div>
-<div class="flex flex-col gap-3">
-<h4 class="font-bold text-sm uppercase tracking-wide text-primary">Legal</h4>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Privacy Policy</a>
-<a class="text-sm text-text-muted hover:text-accent font-body" href="#">Terms of Service</a>
+<div>
+<h3 class="font-bold text-primary mb-4">Support</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:chatbot' %}">Help Center</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-lavender pt-8 mt-8 text-center md:text-left">
+<div class="bg-soft-pink/30 border border-soft-pink rounded-lg p-4 mb-6">
+<p class="text-secondary text-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-lg shrink-0">warning</span>
+<strong>In Crisis?</strong> If you or someone you know is in immediate danger, please call 911 or your local emergency number immediately. MindSettler is not an emergency service.
+                </p>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center text-sm text-text-sub">
+<p>© 2024 MindSettler Inc. All rights reserved.</p>
+<div class="flex gap-6 mt-4 md:mt-0">
+<a class="hover:text-primary transition-colors" href="{% url 'core:privacypolicy' %}">Terms</a>
+<a href="{% url 'core:privacypolicy' %}" class="hover:text-primary transition-colors" >Privacy</a>
 </div>
 </div>
 </div>
-<div class="mx-auto max-w-[1200px] mt-12 pt-8 border-t border-pale-lavender text-center md:text-left">
-<p class="text-xs text-text-muted font-body">© 2024 MindSettler Inc. All rights reserved.</p>
 </div>
 </footer>
 </div>

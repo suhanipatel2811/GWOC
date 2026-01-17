@@ -3,7 +3,9 @@ from .models import Article, Video
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def blog_list(request):
     query = request.GET.get('q')
 
@@ -25,6 +27,7 @@ def blog_list(request):
     })
 
 
+@login_required
 def blog_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     article.views += 1
@@ -42,6 +45,7 @@ def blog_detail(request, slug):
         'article': article
     })
 
+@login_required
 def like_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
     article.likes += 1

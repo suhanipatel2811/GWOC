@@ -3,12 +3,14 @@ from django.contrib import messages
 from .forms import ContactForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 import json
 from django.conf import settings
 from openai import OpenAI
 from .models import ChatMessage
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
+@login_required
 def contact_view(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
@@ -25,10 +27,12 @@ def contact_view(request):
     return render(request, 'contact/contact.html', {'form': form})
 
 
+@login_required
 def chatbot_view(request):
     return render(request, 'contact/chatbot.html')
 
 
+@login_required
 def chatbot_api(request):
     print("🔥 chatbot_api CALLED")
 

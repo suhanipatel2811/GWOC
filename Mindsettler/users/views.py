@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from .models import GoogleCalendarCredential
 from django.core.mail import send_mail
-from .utils import send_otp_sms, generate_otp, validate_phone_format
+from .utils import send_otp_sms, generate_otp, validate_phone_format, check_otp_rate_limit
 
 # Google OAuth libraries are optional; guard imports
 try:
@@ -62,6 +62,13 @@ def login_view(request):
             # Phone login - generate OTP and send via Twilio
             try:
                 profile = Profile.objects.get(phone=username_or_phone)
+                
+                # Check rate limit
+                is_allowed, limit_message, wait_time = check_otp_rate_limit(username_or_phone)
+                if not is_allowed:
+                    messages.error(request, limit_message)
+                    return render(request, "users/login.html", {"form": AuthenticationForm()})
+                
                 # Generate 6-digit OTP
                 otp = generate_otp()
                 
@@ -155,6 +162,12 @@ def send_otp_view(request):
         if not Profile.objects.filter(phone=phone).exists():
             messages.error(request, 'Phone number not registered. Please create an account first.')
             return redirect('users:register')
+
+        # Check rate limit
+        is_allowed, limit_message, wait_time = check_otp_rate_limit(phone)
+        if not is_allowed:
+            messages.error(request, limit_message)
+            return redirect('users:loginph')
 
         # Generate 6-digit OTP
         otp = generate_otp()

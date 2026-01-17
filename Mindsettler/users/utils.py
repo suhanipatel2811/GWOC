@@ -2,7 +2,10 @@
 Utility functions for user authentication and OTP handling.
 """
 import os
+import logging
 from django.conf import settings
+
+logger = logging.getLogger('users')
 
 
 def send_otp_sms(phone_number, otp_code):
@@ -26,10 +29,8 @@ def send_otp_sms(phone_number, otp_code):
     # At minimum we need account SID and auth token. We can use either a
     # `TWILIO_MESSAGING_SERVICE_SID` (preferred) or a `TWILIO_PHONE_NUMBER`.
     if not all([account_sid, auth_token]) or not (messaging_service_sid or twilio_phone):
-        # Fallback: print to console for development
-        print(f"\n{'='*60}")
-        print(f"🔐 OTP for {phone_number}: {otp_code}")
-        print(f"{'='*60}\n")
+        # Fallback: log to console for development
+        logger.warning(f"Twilio not configured. OTP for {phone_number}: {otp_code}")
         return (False, f"Twilio not configured. OTP for testing: {otp_code}")
 
     # Prevent sending where From and To are identical (Twilio error 21266)
@@ -40,10 +41,7 @@ def send_otp_sms(phone_number, otp_code):
             "Set `TWILIO_PHONE_NUMBER` to a valid Twilio number (or use a Messaging Service SID). "
             "See: https://www.twilio.com/docs/errors/21266"
         )
-        print(f"\n{'='*60}")
-        print(f"❌ SMS configuration error: {msg}")
-        print(f"🔐 OTP for {phone_number}: {otp_code}")
-        print(f"{'='*60}\n")
+        logger.error(f"SMS configuration error: {msg}. OTP for {phone_number}: {otp_code}")
         return (False, f"{msg}. OTP for testing: {otp_code}")
     
     try:
@@ -72,17 +70,15 @@ def send_otp_sms(phone_number, otp_code):
         
         # Check if message was sent successfully
         if message.sid:
-            print(f"✅ SMS sent successfully to {phone_number}. SID: {message.sid}")
+            logger.info(f"SMS sent successfully to {phone_number}. SID: {message.sid}")
             return (True, f"OTP sent successfully to {phone_number}")
         else:
+            logger.error(f"Failed to send SMS to {phone_number}")
             return (False, "Failed to send SMS")
             
     except ImportError:
         # Twilio library not installed
-        print(f"\n{'='*60}")
-        print(f"⚠️ Twilio library not installed")
-        print(f"🔐 OTP for {phone_number}: {otp_code}")
-        print(f"{'='*60}\n")
+        logger.warning(f"Twilio library not installed. OTP for {phone_number}: {otp_code}")
         return (False, f"Twilio library not installed. OTP for testing: {otp_code}")
         
     except Exception as e:
@@ -109,10 +105,7 @@ def send_otp_sms(phone_number, otp_code):
                 "See: https://www.twilio.com/docs/errors/21266"
             )
 
-        print(f"\n{'='*60}")
-        print(f"❌ Error sending SMS: {error_msg}")
-        print(f"🔐 OTP for {phone_number}: {otp_code}")
-        print(f"{'='*60}\n")
+        logger.error(f"Error sending SMS to {phone_number}: {error_msg}. OTP: {otp_code}")
 
         if user_msg:
             return (False, f"{user_msg} OTP for testing: {otp_code}")
@@ -129,6 +122,65 @@ def generate_otp():
     """
     import random
     return str(random.randint(100000, 999999))
+
+
+def check_otp_rate_limit(phone_number):
+    """
+    Check if phone number has exceeded OTP request rate limit.
+    
+    Args:
+        phone_number (str): Phone number to check
+        
+    Returns:
+        tuple: (is_allowed: bool, message: str, wait_time: int)
+    """
+    from django.utils import timezone
+    from datetime import timedelta
+    from users.models import OTPVerification
+    
+    # Check OTPs created in last 10 minutes
+    cutoff = timezone.now() - timedelta(minutes=10)
+    recent_otps = OTPVerification.objects.filter(
+        phone=phone_number,
+        created_at__gte=cutoff
+    ).count()
+    
+    # Allow max 3 OTP requests per 10 minutes
+    MAX_ATTEMPTS = 3
+    if recent_otps >= MAX_ATTEMPTS:
+        # Calculate wait time
+        oldest_otp = OTPVerification.objects.filter(
+            phone=phone_number,
+            created_at__gte=cutoff
+        ).order_by('created_at').first()
+        
+        if oldest_otp:
+            wait_until = oldest_otp.created_at + timedelta(minutes=10)
+            wait_seconds = int((wait_until - timezone.now()).total_seconds())
+            wait_minutes = max(1, wait_seconds // 60)
+            return (False, f"Too many OTP requests. Please wait {wait_minutes} minute(s) and try again.", wait_seconds)
+    
+    return (True, "OK", 0)
+
+
+def cleanup_old_otps():
+    """
+    Delete OTP records older than 24 hours.
+    This should be called periodically (e.g., via cron job or Celery task).
+    
+    Returns:
+        int: Number of deleted records
+    """
+    from django.utils import timezone
+    from datetime import timedelta
+    from users.models import OTPVerification
+    
+    cutoff = timezone.now() - timedelta(hours=24)
+    deleted_count, _ = OTPVerification.objects.filter(
+        created_at__lt=cutoff
+    ).delete()
+    
+    return deleted_count
 
 
 def validate_phone_format(phone_number):

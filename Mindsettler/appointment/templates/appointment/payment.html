@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -33,30 +34,62 @@
         }
     };
 </script>
+<style>
+    * { font-family: 'Lexend', sans-serif; }
+    
+    /* Header Styles */
+    .main-header { background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 50; }
+    .header-content { max-width: 1400px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo-section { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-img { height: 2.5rem; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #3F2965; text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: color 0.2s; }
+    .nav-link:hover { color: #DD1764; }
+    .border-lavender-mid { border-color: #EBE7F2; }
+    .bg-soft-pink { background-color: #FADDE6; }
+</style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display transition-colors duration-200">
-<header class="sticky top-0 z-50 w-full bg-white dark:bg-[#1A2C26] border-b border-[#f0f4f3] dark:border-[#2a4037]">
-<div class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-7xl">
-<div class="flex items-center gap-4 text-primary cursor-pointer">
-<div class="size-8">
-<span class="material-symbols-outlined text-3xl">spa</span>
+<!-- Header -->
+<header class="main-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <a href="{% url 'core:home' %}">
+                <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="logo-img" />
+            </a>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="{% url 'core:home' %}" class="nav-link">Home</a>
+            <a href="{% url 'core:about' %}" class="nav-link">About</a>
+            <a href="{% url 'resources:blog_list' %}" class="nav-link">Resources</a>
+            <a href="{% url 'appointment:specialists' %}" class="nav-link">Specialists</a>
+            <a href="{% url 'contact:contact' %}" class="nav-link">Contact</a>
+            
+            <div class="flex items-center gap-3 pl-2 border-l border-lavender-mid">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-primary">{{ user.get_full_name|default:user.username }}</p>
+<p class="text-[10px] text-[#6e5f86]">Free Spirit</p>
 </div>
-<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-main dark:text-white">MindSettler</h2>
+<div class="hidden md:flex gap-3">
+{% if user.is_authenticated %}
+    {% if user.profile.avatar_type == 'masculine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></a>
+    {% elif user.profile.avatar_type == 'feminine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+    {% elif user.profile.avatar_type == 'neutral' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></a>
+    {% else %}
+    <a href="{%url 'users:profile' %}" class="bg-soft-pink rounded-full size-10 border-2 border-primary/20 flex items-center justify-center">
+        <span class="text-sm font-bold text-primary">{{ user.first_name.0|default:user.username.0|upper }}</span>
+    </a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'users:login' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+{% endif %}
 </div>
-<div class="hidden md:flex items-center gap-8">
-<nav class="flex items-center gap-6">
-<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Dashboard</a>
-<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Therapists</a>
-<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">My Journey</a>
-<a class="text-sm font-medium text-primary hover:text-primary/80 transition-colors" href="#">Resources</a>
-</nav>
-<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJFeMdiXartq1qgkpFvqLvmJ5OkdfETBsbUebd226te2Wzf2gIcgjp8QC-jQfHeMLfEWIS66vx4-kMbBUaXXVdy2eDyyOQNZI8nH07pLuwpBzdbcIaUmuYhOS87LHpsaBziq_6XOBqKCF_aM9m1mARwk99Ok4vv7zDVTqdPQZ1EUJRUbr1KZ34vKBUFS8YNdBz6kJcmzYR0gDnaMKOV_kURF-SKv5WRPvDhFALyfsIsR77UkXb_AYfIOgyZ7r8MCYS1XqwC0WQA58");'>
-</div>
-</div>
-<div class="md:hidden text-primary">
-<span class="material-symbols-outlined">menu</span>
-</div>
-</div>
+        </nav>
+    </div>
 </header>
 <main class="flex-1 flex justify-center py-10 px-4 sm:px-6">
 <div class="w-full max-w-[850px] flex flex-col gap-6">
@@ -81,20 +114,75 @@
 <p class="text-sm text-text-muted dark:text-gray-400 font-medium mb-1">Total Amount</p>
 <p class="text-4xl font-bold text-primary dark:text-white">₹1000</p>
 </div>
+<!-- Editable Personal Information Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+    <h4 class="text-sm font-semibold text-text-main dark:text-white">Personal Information</h4>
+    <button id="edit-info-btn" class="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1">
+        <span class="material-symbols-outlined text-sm">edit</span>
+        Edit
+    </button>
+</div>
+
+<!-- View Mode -->
+<div id="info-view" class="flex flex-col gap-3">
+    <div class="p-3 rounded-lg border border-gray-100 dark:border-[#2a4037] bg-white dark:bg-[#11211c]">
+        <p class="text-xs text-text-muted dark:text-gray-400 mb-1">Full Name</p>
+        <p class="text-sm font-medium text-text-main dark:text-white">{{ appointment.full_name }}</p>
+    </div>
+    <div class="p-3 rounded-lg border border-gray-100 dark:border-[#2a4037] bg-white dark:bg-[#11211c]">
+        <p class="text-xs text-text-muted dark:text-gray-400 mb-1">Email</p>
+        <p class="text-sm font-medium text-text-main dark:text-white break-all">{{ appointment.email }}</p>
+    </div>
+    <div class="p-3 rounded-lg border border-gray-100 dark:border-[#2a4037] bg-white dark:bg-[#11211c]">
+        <p class="text-xs text-text-muted dark:text-gray-400 mb-1">Phone</p>
+        <p class="text-sm font-medium text-text-main dark:text-white">{{ appointment.phone }}</p>
+    </div>
+</div>
+
+<!-- Edit Mode -->
+<form method="POST" id="info-edit" class="hidden flex-col gap-3">
+    {% csrf_token %}
+    <input type="hidden" name="update_info" value="1">
+    <div>
+        <label class="block text-xs text-text-muted dark:text-gray-400 mb-1">Full Name</label>
+        <input type="text" name="full_name" value="{{ appointment.full_name }}" required 
+               class="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#2a4037] bg-white dark:bg-[#11211c] text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary">
+    </div>
+    <div>
+        <label class="block text-xs text-text-muted dark:text-gray-400 mb-1">Email</label>
+        <input type="email" name="email" value="{{ appointment.email }}" required
+               class="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#2a4037] bg-white dark:bg-[#11211c] text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary">
+    </div>
+    <div>
+        <label class="block text-xs text-text-muted dark:text-gray-400 mb-1">Phone</label>
+        <input type="tel" name="phone" value="{{ appointment.phone }}" required
+               class="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-[#2a4037] bg-white dark:bg-[#11211c] text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary">
+    </div>
+    <div class="flex gap-2 justify-end">
+        <button type="button" id="cancel-edit-btn" class="px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-300 dark:border-gray-600 text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/5">
+            Cancel
+        </button>
+        <button type="submit" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-primary text-white hover:bg-primary/90">
+            Save Changes
+        </button>
+    </div>
+</form>
+</div>
 <div class="flex flex-col gap-4">
 <h4 class="text-sm font-semibold text-text-main dark:text-white">Session Details</h4>
 <div class="flex items-center gap-3 p-3 rounded-lg border border-gray-100 dark:border-[#2a4037]">
 <div class="bg-center bg-no-repeat bg-cover rounded-full h-12 w-12 shrink-0 shadow-sm" data-alt="Headshot of Dr. Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIsteXQVeocJHRi0PLLTlp9s90mX9Me8utITwE09JtMlnmE9Am_DlI7vSy0MCeFjekiojKX43cy9ZdP8MJ2tdUajGjfy_dLBtvMR_yWqrmVCaVWOmRgutx4HUiYeIuQ09jiK4T_k79wXWo9NZrss6HU8ahPYxwsLxmqku0KcgqQid9XuI41rM7k_NPkaqK07gYDFbPInAIxmCGlv1ZuWowAiw8iB2roNCd0zlMLG8cSYvr0CG_J0VMet5Pw5sGFzyMHTXprimhZl4");'></div>
 <div>
-<p class="text-sm font-bold text-text-main dark:text-white">Dr. Sarah Jenkins</p>
+<p class="text-sm font-bold text-text-main dark:text-white">{{ appointment.therapist_name|default:"Dr. Sarah Jenkins" }}</p>
 <p class="text-xs text-text-muted dark:text-gray-400">Clinical Psychologist</p>
 </div>
 </div>
 <div class="flex items-center gap-3 text-text-main dark:text-white">
 <span class="material-symbols-outlined text-primary">calendar_month</span>
 <div>
-<p class="text-sm font-bold">Wed, Oct 24</p>
-<p class="text-xs text-text-muted dark:text-gray-400">10:00 AM - 11:00 AM</p>
+<p class="text-sm font-bold">{{ appointment.slot.date|date:"D, M d" }}</p>
+<p class="text-xs text-text-muted dark:text-gray-400">{{ appointment.slot.time|time:"g:i A" }} ({{ appointment.duration_minutes }} min session)</p>
 </div>
 </div>
 </div>
@@ -120,41 +208,213 @@
 </div>
 <div class="px-6 sm:px-10 pb-10">
 <h3 class="text-sm font-bold uppercase tracking-wider text-text-muted dark:text-gray-500 mb-4">Payment Verification</h3>
-<div class="group relative w-full border-2 border-dashed border-gray-300 dark:border-[#2a4037] rounded-xl p-8 transition-colors hover:bg-primary/5 hover:border-primary/40 cursor-pointer">
-<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
-<div class="flex flex-col items-center justify-center text-center gap-3">
-<div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined">cloud_upload</span>
+
+{% if messages %}
+<div class="mb-4">
+    {% for message in messages %}
+    <div class="p-3 rounded-lg {% if message.tags == 'success' %}bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400{% else %}bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400{% endif %} text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">{% if message.tags == 'success' %}check_circle{% else %}error{% endif %}</span>
+        {{ message }}
+    </div>
+    {% endfor %}
 </div>
-<div>
-<p class="text-sm font-bold text-text-main dark:text-white">Upload Payment Screenshot</p>
-<p class="text-xs text-text-muted dark:text-gray-400 mt-1">Supports JPG, PNG (Max 5MB)</p>
+{% endif %}
+
+{% if appointment.payment_screenshot %}
+<div class="mb-4 p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+    <div class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-green-600 dark:text-green-400">check_circle</span>
+        <div class="flex-1">
+            <p class="text-sm font-bold text-green-700 dark:text-green-300 mb-1">Screenshot Uploaded</p>
+            <p class="text-xs text-green-600 dark:text-green-400">Your payment proof has been submitted and is under review.</p>
+            <a href="{{ appointment.payment_screenshot.url }}" target="_blank" class="text-xs text-primary hover:underline mt-2 inline-block">View uploaded screenshot →</a>
+        </div>
+    </div>
 </div>
-<span class="text-xs font-medium text-primary mt-2 group-hover:underline">Browse Files</span>
-</div>
-</div>
-</div>
-<div class="bg-[#f6f8f7] dark:bg-[#11211c] p-6 sm:px-10 flex flex-col sm:flex-row gap-4 justify-between items-center border-t border-[#e6ece9] dark:border-[#2a4037]">
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" id="upload-form">
+    {% csrf_token %}
+    <div class="group relative w-full border-2 border-dashed border-gray-300 dark:border-[#2a4037] rounded-xl p-8 transition-colors hover:bg-primary/5 hover:border-primary/40 cursor-pointer">
+        <input id="file-input" name="payment_screenshot" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file" accept="image/jpeg,image/jpg,image/png,image/webp"/>
+        <div id="upload-placeholder" class="flex flex-col items-center justify-center text-center gap-3">
+            <div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined">cloud_upload</span>
+            </div>
+            <div>
+                <p class="text-sm font-bold text-text-main dark:text-white">Upload Payment Screenshot</p>
+                <p class="text-xs text-text-muted dark:text-gray-400 mt-1">Supports JPG, PNG, WEBP (Max 5MB)</p>
+            </div>
+            <span class="text-xs font-medium text-primary mt-2 group-hover:underline" id="browse-files-btn">Browse Files</span>
+        </div>
+        <div id="preview-container" class="hidden">
+            <div class="relative">
+                <img id="preview-image" src="" alt="Preview" class="max-h-64 mx-auto rounded-lg border border-gray-200 dark:border-[#2a4037]"/>
+                <button type="button" id="remove-preview" class="absolute top-2 right-2 size-8 rounded-full bg-red-500 text-white hover:bg-red-600 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
+            </div>
+            <p id="file-name" class="text-xs text-text-muted dark:text-gray-400 mt-2 text-center"></p>
+        </div>
+    </div>
+</form>
+
+<div class="bg-[#f6f8f7] dark:bg-[#11211c] p-6 sm:px-10 flex flex-col sm:flex-row gap-4 justify-between items-center border-t border-[#e6ece9] dark:border-[#2a4037] mt-6 -mx-6 sm:-mx-10">
 <div class="text-sm text-text-muted dark:text-gray-400 flex items-center gap-2">
 <span class="material-symbols-outlined text-lg">security</span>
 <span>Secure 256-bit encrypted payment</span>
 </div>
 <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-<button class="px-6 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 font-medium text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-sm w-full sm:w-auto">
-                            View Booking Details
-                        </button>
-<button class="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors shadow-sm text-sm w-full sm:w-auto flex items-center justify-center gap-2">
+<button type="button" onclick="window.history.back()" class="px-6 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 font-medium text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-sm w-full sm:w-auto text-center">
+Go Back
+</button>
+<button type="submit" form="upload-form" class="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors shadow-sm text-sm w-full sm:w-auto flex items-center justify-center gap-2">
 <span>Submit for Verification</span>
 <span class="material-symbols-outlined text-lg">arrow_forward</span>
 </button>
 </div>
 </div>
 </div>
-<div class="text-center">
+<div class="text-center mt-6">
 <p class="text-sm text-text-muted dark:text-gray-500">
-                    Having trouble with payment? <a class="text-primary font-medium hover:underline" href="#">Contact Support</a>
+Having trouble with payment? <a class="text-primary font-medium hover:underline" href="{% url 'contact:contact' %}">Contact Support</a>
 </p>
 </div>
 </div>
 </main>
+
+<!-- Footer -->
+<footer class="mt-auto border-t border-gray-100 bg-white dark:bg-background-dark py-12 px-6">
+<div class="mx-auto max-w-[1200px] flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center text-primary dark:text-white">
+<a href="{% url 'core:home' %}" class="flex items-center">
+    <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+</a>
+</div>
+<div class="text-sm text-text-muted dark:text-gray-400">
+                    © 2024 MindSettler. All rights reserved.
+                </div>
+<div class="flex gap-6">
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'core:privacypolicy' %}">Privacy</a>
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'core:privacypolicy' %}">Terms</a>
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'contact:contact' %}">Support</a>
+</div>
+</div>
+</footer>
+
+<script>
+// Personal info editing toggle
+const editBtn = document.getElementById('edit-info-btn');
+const cancelBtn = document.getElementById('cancel-edit-btn');
+const viewMode = document.getElementById('info-view');
+const editMode = document.getElementById('info-edit');
+
+if(editBtn && cancelEditBtn && infoView && infoEdit){
+    editBtn.addEventListener('click', () => {
+        document.getElementById('info-view').classList.add('hidden');
+        document.getElementById('info-edit').classList.remove('hidden');
+        document.getElementById('info-edit').classList.add('flex');
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        document.getElementById('info-edit').classList.add('hidden');
+        document.getElementById('info-view').classList.remove('hidden');
+    });
+}
+
+// File upload preview
+const fileInput = document.getElementById('file-input');
+const uploadPlaceholder = document.getElementById('upload-placeholder');
+const previewContainer = document.getElementById('preview-container');
+const previewImage = document.getElementById('preview-image');
+const fileName = document.getElementById('file-name');
+const removeBtn = document.getElementById('remove-preview');
+const browseBtn = document.getElementById('browse-files-btn');
+
+if(fileInput) {
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Invalid file type. Please upload JPG, PNG, or WEBP images only.');
+                this.value = '';
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            const maxSize = 5 * 1024 * 1024;
+            if (file.size > maxSize) {
+                alert('File size exceeds 5MB. Please upload a smaller image.');
+                this.value = '';
+                return;
+            }
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                fileName.textContent = file.name;
+                uploadPlaceholder.classList.add('hidden');
+                previewContainer.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Remove preview
+    if (removeBtn) {
+        removeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            fileInput.value = '';
+            previewContainer.classList.add('hidden');
+            uploadPlaceholder.classList.remove('hidden');
+        });
+    }
+
+    // Make browse files text clickable
+    if (browseBtn) {
+        browseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            fileInput.click();
+        });
+    }
+}
+
+// Form validation before submission
+const uploadForm = document.getElementById('upload-form');
+if (uploadForm) {
+    uploadForm.addEventListener('submit', function(e) {
+        const file = fileInput.files[0];
+        if (!file) {
+            e.preventDefault();
+            alert('Please select a payment screenshot before submitting.');
+            return false;
+        }
+    });
+}
+
+// Edit personal info toggle
+const editBtn = document.getElementById('edit-info-btn');
+const cancelBtn = document.getElementById('cancel-edit-btn');
+const infoView = document.getElementById('info-view');
+const infoEdit = document.getElementById('info-edit');
+
+if (editBtn && cancelBtn && infoView && infoEdit) {
+    editBtn.addEventListener('click', () => {
+        infoView.classList.add('hidden');
+        infoEdit.classList.remove('hidden');
+        infoEdit.classList.add('flex');
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        infoEdit.classList.add('hidden');
+        infoEdit.classList.remove('flex');
+        infoView.classList.remove('hidden');
+    });
+}
+</script>
 </body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+{% load static %}
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - User Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#3F2965",
+                "accent": "#DD1764",
+                "pale-lavender": "#EBE7F2",
+                "soft-pink": "#FADDE6",
+                "background-light": "#f7f6f7",
+                "background-dark": "#18151d",
+                "card-dark": "#1a2c26",
+                "text-main": "#3F2965",
+                "text-muted": "#6b5e84"
+            },
+            fontFamily: {
+                "display": ["Newsreader", "serif"],
+                "body": ["Noto Sans", "sans-serif"]
+            },
+            borderRadius: {DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px"}
+        }
+    }
+};
+</script>
+<style>
+    .nav-link-active {
+        color: #DD1764;
+    }
+    .nav-link-active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #DD1764;
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#111815] dark:text-gray-100 font-body transition-colors duration-200">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-pale-lavender bg-white/95 backdrop-blur-sm px-4 md:px-10 py-3">
+    <div class="layout-content-container mx-auto flex max-w-[1200px] items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="{% url 'core:home' %}">
+                <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+            </a>
+        </div>
+        <!-- Nav Links (Desktop) -->
+        <nav class="hidden md:flex items-center gap-10">
+            <a href="{% url 'core:home' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Home
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'core:about' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                About Us
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'appointment:specialists' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Specialists
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'resources:blog_list' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Resources
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'appointment:myjourney' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                My Journey
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'appointment:journal' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Journal
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+        </nav>
+        <!-- Profile & Mobile Menu -->
+        <div class="flex items-center gap-3 pl-2 border-l border-pale-lavender">
+            <div class="text-right hidden lg:block">
+                <p class="text-xs font-bold text-primary">
+                    {% if user.first_name %}{{ user.first_name }} {{ user.last_name|default:'' }}{% else %}{{ user.username }}{% endif %}
+                </p>
+                <p class="text-[10px] text-text-muted">Dashboard</p>
+            </div>
+            <div class="hidden md:flex gap-3">
+                {% if profile.avatar %}
+                    <a href="{% url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("{{ profile.avatar.url }}");'></a>
+                {% elif profile.avatar_type == 'masculine' %}
+                    <a href="{% url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></a>
+                {% elif profile.avatar_type == 'feminine' %}
+                    <a href="{% url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+                {% elif profile.avatar_type == 'neutral' %}
+                    <a href="{% url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></a>
+                {% else %}
+                    <a href="{% url 'users:profile' %}" class="bg-soft-pink rounded-full size-10 border-2 border-primary/20 flex items-center justify-center">
+                        <span class="text-sm font-bold text-primary">{{ user.first_name.0|default:user.username.0|upper }}</span>
+                    </a>
+                {% endif %}
+            </div>
+            
+            <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center p-2 text-primary">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-pale-lavender mt-3 pt-3">
+        <nav class="flex flex-col gap-3">
+            <a href="{% url 'core:home' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 px-2 py-2">
+                Home
+            </a>
+            <a href="{% url 'core:about' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 px-2 py-2">
+                About Us
+            </a>
+            <a href="{% url 'appointment:specialists' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 px-2 py-2">
+                Specialists
+            </a>
+            <a href="{% url 'resources:blog_list' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 px-2 py-2">
+                Resources
+            </a>
+            <a href="{% url 'users:profile' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 px-2 py-2 border-t border-pale-lavender pt-3">
+                My Profile
+            </a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    });
+</script>
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Welcome Header & Mood Check-in -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 animate-fade-in-up">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-bold tracking-tight text-[#111815] dark:text-white">
+                    {{ greeting }}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}
+                </h1>
+<p class="text-[#63887c] dark:text-gray-400 text-lg">
+                    Ready to take a moment for yourself today?
+                </p>
+</div>
+<div class="bg-white dark:bg-card-dark p-1.5 pl-4 rounded-full shadow-sm flex items-center gap-3 border border-gray-100 dark:border-[#1f362e]">
+<span class="text-sm font-medium text-gray-600 dark:text-gray-300">How are you feeling?</span>
+<div class="flex gap-1">
+<button class="size-9 rounded-full hover:bg-[#f0f4f3] dark:hover:bg-white/10 flex items-center justify-center text-2xl transition-transform hover:scale-110" title="Great">😄</button>
+<button class="size-9 rounded-full hover:bg-[#f0f4f3] dark:hover:bg-white/10 flex items-center justify-center text-2xl transition-transform hover:scale-110" title="Good">🙂</button>
+<button class="size-9 rounded-full hover:bg-[#f0f4f3] dark:hover:bg-white/10 flex items-center justify-center text-2xl transition-transform hover:scale-110" title="Okay">😐</button>
+<button class="size-9 rounded-full hover:bg-[#f0f4f3] dark:hover:bg-white/10 flex items-center justify-center text-2xl transition-transform hover:scale-110" title="Down">😔</button>
+<button class="size-9 rounded-full hover:bg-[#f0f4f3] dark:hover:bg-white/10 flex items-center justify-center text-2xl transition-transform hover:scale-110" title="Anxious">😰</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Content Area (Left) -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Upcoming Session Card -->
+<section class="bg-white dark:bg-card-dark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-[#1f362e] relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1.5 h-full bg-primary"></div>
+<div class="flex flex-col md:flex-row gap-6 items-center">
+<div class="relative shrink-0">
+<div class="w-full md:w-32 aspect-square rounded-xl bg-center bg-cover" data-alt="Professional therapist woman with glasses smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmiun7DgCVNgeztVCGW0ygB4i-1dKGOaTpOKZuSwO2rcekupyGgJnks5q41zBN_4cxzk70mlO3N2rUxktG_orkW_5ywSg-mXFPkAROitmRaMLrTbohyJU3kT7cutRYTiFUkQf4wnoWxl5q8c9Fr25GeIfakddoFVQL77EiQm0vY3tJvCRteZ-4wLahQJwUvQpXHW6cIKT6PNJXfluP9kiupsEGmVujuDXt7Ifqe8GBwnz6xW52NOg_NzBiF7PNhCJHZ_eolSD4V5A");'></div>
+<div class="absolute -bottom-3 -right-3 bg-white dark:bg-card-dark p-1.5 rounded-full">
+<div class="bg-primary/20 text-primary p-1.5 rounded-full">
+{% if next_appointment and next_appointment.session_type == 'ONLINE' %}
+<span class="material-symbols-outlined text-xl">videocam</span>
+{% else %}
+<span class="material-symbols-outlined text-xl">location_on</span>
+{% endif %}
+</div>
+</div>
+</div>
+<div class="flex-1 text-center md:text-left w-full">
+<div class="flex items-center justify-center md:justify-start gap-2 mb-1">
+<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">Next Up</span>
+<span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+{% if next_appointment %}
+  {% if next_appointment.is_today %}Today, {% endif %}{{ next_appointment.slot.date|date:"M d, Y" }} at {{ next_appointment.time_display }}
+{% else %}
+  Today, 4:00 PM
+{% endif %}
+</span>
+</div>
+<h3 class="text-xl font-bold text-[#111815] dark:text-white mb-1">
+{% if next_appointment %}{{ next_appointment.therapist_name|default:"Mental Health Session" }}{% else %}Dr. Emily Chen{% endif %}
+</h3>
+<p class="text-[#63887c] dark:text-gray-400 text-sm mb-4">
+{% if next_appointment %}
+    {% if next_appointment.session_type == 'ONLINE' %}Online{% elif next_appointment.session_type == 'OFFLINE' or next_appointment.session_type == 'STUDIO' %}In-Studio{% else %}{{ next_appointment.session_type }}{% endif %} Session - {{ next_appointment.status }}
+{% else %}
+    Cognitive Behavioral Therapy Session
+{% endif %}
+</p>
+<div class="flex flex-wrap gap-2 justify-center md:justify-start">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-background-light dark:bg-white/5 text-xs text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 45 min
+                                </span>
+</div>
+</div>
+<div class="shrink-0 w-full md:w-auto">
+<button class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary hover:bg-[#25cba0] text-[#111815] font-bold py-3 px-6 rounded-xl transition-all shadow-[0_4px_14px_0_rgba(48,232,171,0.39)] hover:shadow-[0_6px_20px_rgba(48,232,171,0.23)] hover:-translate-y-0.5">
+<span>Join Session</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- My Journey Progress -->
+<section>
+<div class="flex items-center justify-between mb-4 px-1">
+<h2 class="text-xl font-bold text-[#111815] dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">map</span> Your Journey
+                        </h2>
+<a class="text-sm font-medium text-[#63887c] dark:text-primary hover:underline" href="{% url 'appointment:myjourney' %}">View Roadmap</a>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-[#1f362e]">
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-lg font-bold dark:text-white">Building Resilience</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Week {{ journey_week }} of {{ journey_total_weeks }} • Module: Emotional Awareness</p>
+</div>
+<span class="text-2xl font-bold text-primary">{{ journey_progress }}%</span>
+</div>
+<!-- Custom Progress Bar -->
+<div class="h-3 w-full bg-[#f0f4f3] dark:bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/60 to-primary rounded-full" style="width: {{ journey_progress }}%;"></div>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-sm text-[#63887c] dark:text-gray-400 italic">"You're making great progress. Keep going!"</p>
+<a href="{% url 'core:journey' %}" class="text-xs font-bold uppercase tracking-wide text-[#111815] dark:text-white bg-background-light dark:bg-white/10 px-3 py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">
+                                    Continue
+                                </a>
+</div>
+</div>
+</div>
+</section>
+<!-- Mindful Moments (Recommendations) -->
+<section>
+<div class="flex items-center justify-between mb-4 px-1">
+<h2 class="text-xl font-bold text-[#111815] dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">library_books</span> Mindful Moments
+                        </h2>
+<div class="flex gap-2">
+<button class="size-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="size-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Card 1 - Understanding Anxiety -->
+<a href="{% url 'core:usa' %}" class="group bg-white dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-[#1f362e] cursor-pointer flex flex-col h-full">
+<div class="h-32 bg-gray-200 bg-center bg-cover relative" data-alt="Abstract calming blue and green gradient waves" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5zLlTZVutgJ8Phloh5kGiBLsDoTTm-IuIuDkl8pqWel-VrqLHwWOGoVx7IVptUrajMdoFQF3tVl1f7bBTUu066FTm1zYQLuBqSBjqHyMPHPGTjIULFIWyu52y9ul3F5fdrr-Tp8VYTY1hPtDHpWWrieMrb_-3DPTXhyfMYPtE2oYlSA8BjmRV7QEZs4CesfiGirNLa0SS6YjEVyvV7IJCF_CXlMuxLs6DvmEdzAuD8gP2JZF5PfOxjnKLwJiNVvfWhaeSvpXZs_I");'>
+<div class="absolute top-2 right-2 bg-black/30 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">menu_book</span> Read
+                                </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Education</div>
+<h3 class="font-bold text-[#111815] dark:text-white leading-tight mb-2 group-hover:text-primary transition-colors">Understanding Anxiety Triggers</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 flex-1">Learn to identify the subtle signs before anxiety takes over.</p>
+<div class="text-xs text-gray-400 font-medium pt-2 border-t border-gray-100 dark:border-white/5">5 min read</div>
+</div>
+</a>
+<!-- Card 2 - Morning Grounding -->
+<a href="{% url 'core:morning_grounding' %}" class="group bg-white dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-[#1f362e] cursor-pointer flex flex-col h-full">
+<div class="h-32 bg-gray-200 bg-center bg-cover relative" data-alt="Close up of green leaves with dew drops" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBBqZ_R1JARxF2-9X7kBnqE4fARlnLRbFxOx9ZkXid9thcW3uy4dCmqFDaJbnvgDktwh_wJ9DIkkc91ZUpAK4_WXhcJT_O6SSVACLAKMllpR8zcEXjJk8mLgi1ludOyXWQKwA0aJm7AU7lLX22Ugrhc-7PJiGKGfi5hydjuIubOzMWhhtiPKFuokKiJEm1iQeCvGiSHgzsfJp2Sb3TSngRu9JbaZ7k0t46yk2xRfD4PR1u2GTokU9YAIncdQwTSioNdPMqj7J-VO4A");'>
+<div class="absolute top-2 right-2 bg-black/30 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">play_circle</span> Audio
+                                </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Meditation</div>
+<h3 class="font-bold text-[#111815] dark:text-white leading-tight mb-2 group-hover:text-primary transition-colors">Morning Grounding</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 flex-1">Start your day with stability and clear intention.</p>
+<div class="text-xs text-gray-400 font-medium pt-2 border-t border-gray-100 dark:border-white/5">10 min listen</div>
+</div>
+</a>
+<!-- Card 3 - Gratitude Journaling -->
+<a href="{% url 'core:gratitude_journaling' %}" class="group bg-white dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-[#1f362e] cursor-pointer flex flex-col h-full">
+<div class="h-32 bg-gray-200 bg-center bg-cover relative" data-alt="Person writing in a journal on a wooden table" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9TUTKKFKtjfD3GVvITqoIqZXDb3wPBQ2V5iLYrUJ2S4TeCNV8_EatXxS6i_e8c0OWOMyxcjBUL16DhS4kgOBwcq_xsbQfp_G1k6bglYGTldFGtCdNkh89JdbFU5gJFZ561KIXnasZWwcV8vPADRTo-wQxK9-cZtCSKk-xut0XpM9qMNdrbEBoF8QqNZi9UAcTRMQKB9VXnIqUcSfQLBdpz-96dMRFRTXX0ZnFUUUJWV3BxMPO7FqDiFnZsid4oVD7LvNiMA2VloQ");'>
+<div class="absolute top-2 right-2 bg-black/30 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">edit_note</span> Exercise
+                                </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Practice</div>
+<h3 class="font-bold text-[#111815] dark:text-white leading-tight mb-2 group-hover:text-primary transition-colors">Gratitude Journaling</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 flex-1">Three simple prompts to shift your perspective today.</p>
+<div class="text-xs text-gray-400 font-medium pt-2 border-t border-gray-100 dark:border-white/5">3 min exercise</div>
+</div>
+</a>
+</div>
+</section>
+</div>
+<!-- Right Sidebar -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Daily Focus -->
+<div class="bg-primary/10 dark:bg-primary/5 rounded-2xl p-6 border border-primary/20">
+<h3 class="text-lg font-bold text-[#111815] dark:text-white mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">light_mode</span> Daily Goal
+                    </h3>
+<div class="flex items-start gap-3 bg-white dark:bg-card-dark p-3 rounded-xl shadow-sm cursor-pointer group hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<div class="mt-0.5 relative flex items-center justify-center size-5 rounded border-2 border-gray-300 dark:border-gray-500 group-hover:border-primary transition-colors">
+<!-- Unchecked state essentially empty -->
+</div>
+<div>
+<p class="text-sm font-medium text-[#111815] dark:text-gray-200 leading-snug">Complete the "Sleep Hygiene" quiz</p>
+<p class="text-xs text-primary mt-1 font-bold">+10 Journey Points</p>
+</div>
+</div>
+</div>
+<!-- Mini Calendar Wrapper -->
+<div class="bg-white dark:bg-card-dark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-[#1f362e]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-[#111815] dark:text-white">{{ current_month }} {{ current_year }}</h3>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-gray-400 text-sm cursor-pointer hover:text-primary">chevron_left</span>
+<span class="material-symbols-outlined text-gray-400 text-sm cursor-pointer hover:text-primary">chevron_right</span>
+</div>
+</div>
+<!-- Simplified Visual Calendar -->
+<div class="grid grid-cols-7 text-center text-xs gap-y-3 mb-2">
+<div class="text-gray-400 font-medium">S</div>
+<div class="text-gray-400 font-medium">M</div>
+<div class="text-gray-400 font-medium">T</div>
+<div class="text-gray-400 font-medium">W</div>
+<div class="text-gray-400 font-medium">T</div>
+<div class="text-gray-400 font-medium">F</div>
+<div class="text-gray-400 font-medium">S</div>
+<!-- Dates -->
+{% for week in calendar_weeks %}
+  {% for day_info in week %}
+    {% if day_info.day %}
+      <div class="{% if day_info.is_today %}relative flex justify-center items-center{% endif %}">
+        {% if day_info.is_today %}
+          <span class="bg-primary text-white font-bold size-7 flex items-center justify-center rounded-full shadow-sm">{{ day_info.day }}</span>
+        {% elif day_info.has_appointment %}
+          <span class="text-primary font-bold">{{ day_info.day }}</span>
+        {% else %}
+          <span class="text-[#111815] dark:text-gray-200">{{ day_info.day }}</span>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="text-gray-300"></div>
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+</div>
+<div class="mt-4 pt-3 border-t border-gray-100 dark:border-white/5">
+<div class="flex items-center gap-2 text-xs">
+<div class="size-2 rounded-full bg-primary"></div>
+<span class="text-gray-500 dark:text-gray-400">Session Today</span>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="bg-white dark:bg-card-dark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-[#1f362e]">
+<h3 class="font-bold text-[#111815] dark:text-white mb-4">Quick Actions</h3>
+<div class="flex flex-col gap-3">
+<a href="{% url 'appointment:journal' %}" class="flex items-center gap-3 w-full p-2.5 rounded-xl hover:bg-[#f0f4f3] dark:hover:bg-white/5 transition-colors text-left group">
+<div class="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 p-2 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</div>
+<span class="text-sm font-medium text-[#111815] dark:text-gray-200">New Journal Entry</span>
+</a>
+<a href="{% url 'contact:chatbot' %}" class="flex items-center gap-3 w-full p-2.5 rounded-xl hover:bg-[#f0f4f3] dark:hover:bg-white/5 transition-colors text-left group">
+<div class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 p-2 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl">chat</span>
+</div>
+<span class="text-sm font-medium text-[#111815] dark:text-gray-200">Message Therapist</span>
+</a>
+<a href="{% url 'users:sessionhistory' %}" class="flex items-center gap-3 w-full p-2.5 rounded-xl hover:bg-[#f0f4f3] dark:hover:bg-white/5 transition-colors text-left group">
+<div class="bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-300 p-2 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl">history</span>
+</div>
+<span class="text-sm font-medium text-[#111815] dark:text-gray-200">View History</span>
+</a>
+</div>
+</div>
+<!-- Crisis Support (Subtle) -->
+<div class="bg-gray-50 dark:bg-white/5 rounded-2xl p-4 border border-gray-100 dark:border-white/5 flex items-center justify-between">
+<div>
+<p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Need help now?</p>
+<p class="text-sm font-bold text-[#111815] dark:text-white">Crisis Support</p>
+</div>
+<button class="bg-white dark:bg-card-dark border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 p-2 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,7 +1,33 @@
-python-dotenv
-Pillow
-google-auth
-google-auth-oauthlib
-google-api-python-client
-google-auth-httplib2
-twilio
+# Django Framework
+Django>=5.0,<6.0
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# Image Processing
+Pillow>=10.0.0
+
+# Google Calendar Integration
+google-auth>=2.25.0
+google-auth-oauthlib>=1.2.0
+google-api-python-client>=2.110.0
+google-auth-httplib2>=0.2.0
+
+# SMS Integration
+twilio>=8.10.0
+
+# Payment Processing
+stripe>=7.0.0
+
+# AI Integration
+openai>=1.0.0
+
+# Phone Number Validation (Recommended)
+phonenumbers>=8.13.0
+
+# Production Server (Recommended)
+gunicorn>=21.2.0
+
+# Security & Performance (Recommended for Production)
+django-cors-headers>=4.3.0
+whitenoise>=6.6.0

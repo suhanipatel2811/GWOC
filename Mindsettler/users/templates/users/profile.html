@@ -116,6 +116,10 @@
 <span class="material-symbols-outlined text-text-muted dark:text-gray-400">settings</span>
 <span class="font-medium text-sm">Settings</span>
 </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'appointment:dashboard' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
 </nav>
 </div>
 <div class="mt-auto p-6 border-t border-[#f0f4f3] dark:border-[#2a3c36]">
@@ -440,6 +444,11 @@ document.querySelectorAll('.preference-toggle').forEach(toggle => {
 </div>
 </div>
 <footer class="mt-8 text-center border-t border-gray-100 dark:border-[#2a3c36] pt-6 pb-2">
+<div class="flex justify-center gap-6 text-xs text-text-muted dark:text-gray-500 mb-2">
+<a class="hover:text-primary transition-colors" href="{% url 'core:privacypolicy' %}">Privacy</a>
+<a class="hover:text-primary transition-colors" href="{% url 'contact:contact' %}">Contact</a>
+<a class="hover:text-primary transition-colors" href="{% url 'core:about' %}">About</a>
+</div>
 <p class="text-xs text-text-muted dark:text-gray-500">
                     © 2024 MindSettler. Prioritizing your mental wellness.
                 </p>

@@ -14,6 +14,9 @@ urlpatterns = [
     path('what_makes_us_different/', views.what_makes_us_different, name='what_makes_us_different'),
     path('book-session/', views.book_session, name='book_session'),
     path('privacypolicy/', views.privacypolicy, name='privacypolicy'),
+    path('understanding-anxiety/', views.usa, name='usa'),
+    path('morning-grounding/', views.morning_grounding, name='morning_grounding'),
+    path('gratitude-journaling/', views.gratitude_journaling, name='gratitude_journaling'),
 
 ]
 

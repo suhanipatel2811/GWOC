@@ -19,6 +19,7 @@ class Appointment(models.Model):
     phone = models.CharField(max_length=15)
     slot = models.ForeignKey(SessionSlot, on_delete=models.PROTECT, related_name="appointments")
     booked_on = models.DateTimeField(auto_now_add=True)
+    therapist_name = models.CharField(max_length=100, blank=True, null=True, help_text='Preferred therapist or doctor name')
 
     # Session info
     SESSION_CHOICES = [
@@ -52,9 +53,15 @@ class Appointment(models.Model):
     google_calendar_link = models.URLField(blank=True, null=True)
 
     stripe_session_id = models.CharField(max_length=200, blank=True, null=True)
+    payment_screenshot = models.ImageField(upload_to='payment_screenshots/', blank=True, null=True, help_text='Screenshot of payment confirmation')
 
     class Meta:
         ordering = ['-booked_on']
+        indexes = [
+            models.Index(fields=['status', '-booked_on']),
+            models.Index(fields=['email', 'status']),
+            models.Index(fields=['session_type', 'status']),
+        ]
 
     def __str__(self):
         return f"{self.full_name} → {self.slot}"

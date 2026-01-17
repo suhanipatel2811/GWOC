@@ -80,16 +80,12 @@
 {% else %}
 <a href="{% url 'users:login' %}?next={% url 'core:about' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors">About Us</a>
 {% endif %}
-<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors" href="#resources">Psycho-Education</a>
+<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors" href="#resources">PsychoEdu</a>
 <a href="{% url 'core:journey' %}"class="text-sm font-medium text-text-main hover:text-secondary transition-colors" href="#specialists">Journey</a>
 <a href="{% url 'users:login' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors">
                         Login</a>
 <a href="{% url 'users:register' %}" class="text-sm font-medium text-text-main hover:text-secondary transition-colors">Register</a>
 </nav>
-
-<button class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-primary hover:opacity-90 shadow-lg shadow-primary/20 transition-all transform hover:scale-105">
-                        Get Started
-                    </button>
 </div>
 </div>
 <div class="md:hidden">
@@ -332,28 +328,26 @@
 <div>
 <h3 class="font-bold text-primary mb-4">Platform</h3>
 <ul class="space-y-3 text-sm text-text-sub">
-<li><a class="hover:text-secondary transition-colors" href="#">Our Approach</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Specialists</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Resources</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Pricing</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:how_it_works' %}">Our Approach</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Specialists</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'resources:blog_list' %}">Resources</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Pricing</a></li>
 </ul>
 </div>
 <div>
 <h3 class="font-bold text-primary mb-4">Company</h3>
 <ul class="space-y-3 text-sm text-text-sub">
-<li><a class="hover:text-secondary transition-colors" href="#">About Us</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Careers</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Contact</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:about' %}">About Us</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'corporate:corporate_services' %}">Careers</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:contact' %}">Contact</a></li>
 <li><a href="{% url 'core:privacypolicy' %}" class="hover:text-secondary transition-colors" >Privacy Policy</a></li>
 </ul>
 </div>
 <div>
 <h3 class="font-bold text-primary mb-4">Support</h3>
 <ul class="space-y-3 text-sm text-text-sub">
-<li><a class="hover:text-secondary transition-colors" href="#">Help Center</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Crisis Resources</a></li>
-<li><a class="hover:text-secondary transition-colors" href="#">Community Guidelines</a></li>
-</ul>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:chatbot' %}">Help Center</a></li>
+
 </div>
 </div>
 <div class="border-t border-lavender pt-8 mt-8 text-center md:text-left">
@@ -366,9 +360,9 @@
 <div class="flex flex-col md:flex-row justify-between items-center text-sm text-text-sub">
 <p>© 2024 MindSettler Inc. All rights reserved.</p>
 <div class="flex gap-6 mt-4 md:mt-0">
-<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-primary transition-colors" href="{% url 'core:privacypolicy' %}">Terms</a>
 <a href="{% url 'core:privacypolicy' %}" class="hover:text-primary transition-colors" >Privacy</a>
-<a class="hover:text-primary transition-colors" href="#">Cookies</a>
+
 </div>
 </div>
 </div>

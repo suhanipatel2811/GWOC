@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+{% load static %}
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Understanding Anxiety Triggers - MindSettler</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "deep-purple": "#3F2965",
+                        "vibrant-pink": "#DD1764",
+                        "pale-lavender": "#EBE7F2",
+                        "soft-pink": "#FADDE6",
+                        "primary": "#3F2965",
+                        "accent": "#DD1764",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3F2965; }
+    </style>
+</head>
+<body class="bg-white text-[#1a1a1a] font-display">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 flex items-center justify-between border-b border-pale-lavender bg-white/90 backdrop-blur-md px-6 py-4 lg:px-10">
+        <div class="flex items-center gap-4">
+            <a href="{% url 'core:home' %}">
+                <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+            </a>
+        </div>
+        <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+            <nav class="hidden md:flex items-center gap-10">
+                <a href="{% url 'core:home' %}" class="text-sm font-medium hover:text-accent transition-colors">Home</a>
+                <a href="{% url 'core:about' %}" class="text-sm font-medium hover:text-accent transition-colors">About</a>
+                <a href="{% url 'core:psycho_education' %}" class="text-sm font-medium hover:text-accent transition-colors">PsychoEdu</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'appointment:dashboard' %}" class="text-sm font-medium hover:text-accent transition-colors">Dashboard</a>
+                {% endif %}
+            </nav>
+            <a href="{% url 'appointment:booking' %}" class="flex items-center justify-center rounded-xl h-10 px-6 bg-deep-purple text-white text-sm font-bold shadow-md hover:bg-deep-purple/90 transition-all">
+                Book Session
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Back Button -->
+        <a href="{% url 'appointment:dashboard' %}" class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-accent mb-6 transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            Back to Dashboard
+        </a>
+
+        <!-- Hero Section -->
+        <div class="mb-12">
+            <div class="inline-flex items-center gap-2 rounded-full bg-soft-pink px-4 py-2 mb-4">
+                <span class="material-symbols-outlined text-accent text-sm">menu_book</span>
+                <span class="text-xs font-bold uppercase tracking-wide text-accent">Education</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-deep-purple mb-4">Understanding Anxiety Triggers</h1>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Learn to identify the subtle signs before anxiety takes over. Understanding your triggers is the first step toward managing your emotional well-being.
+            </p>
+            <div class="flex items-center gap-4 mt-6 text-sm text-gray-500">
+                <span class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-lg">schedule</span>
+                    5 min read
+                </span>
+                <span class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-lg">psychology</span>
+                    Clinically Reviewed
+                </span>
+            </div>
+        </div>
+
+        <!-- Featured Image -->
+        <div class="mb-12 rounded-2xl overflow-hidden shadow-lg">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5zLlTZVutgJ8Phloh5kGiBLsDoTTm-IuIuDkl8pqWel-VrqLHwWOGoVx7IVptUrajMdoFQF3tVl1f7bBTUu066FTm1zYQLuBqSBjqHyMPHPGTjIULFIWyu52y9ul3F5fdrr-Tp8VYTY1hPtDHpWWrieMrb_-3DPTXhyfMYPtE2oYlSA8BjmRV7QEZs4CesfiGirNLa0SS6YjEVyvV7IJCF_CXlMuxLs6DvmEdzAuD8gP2JZF5PfOxjnKLwJiNVvfWhaeSvpXZs_I" alt="Calming waves" class="w-full h-64 object-cover">
+        </div>
+
+        <!-- Content Sections -->
+        <div class="prose prose-lg max-w-none">
+            <!-- Section 1 -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-deep-purple mb-4">What Are Anxiety Triggers?</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Anxiety triggers are specific situations, thoughts, or experiences that cause your body and mind to enter a state of heightened alertness. These triggers activate your nervous system's "fight or flight" response, even when there's no immediate physical danger.
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    Everyone's triggers are different, but learning to identify yours is crucial for developing effective coping strategies and preventing anxiety from escalating.
+                </p>
+            </section>
+
+            <!-- Section 2 -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-deep-purple mb-6">Common Types of Triggers</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-pale-lavender p-6 rounded-xl">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="material-symbols-outlined text-3xl text-vibrant-pink">group</span>
+                            <h3 class="text-xl font-bold text-deep-purple">Social Situations</h3>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Large gatherings, public speaking, meeting new people, or being the center of attention can trigger social anxiety.
+                        </p>
+                    </div>
+                    <div class="bg-soft-pink p-6 rounded-xl">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="material-symbols-outlined text-3xl text-vibrant-pink">health_and_safety</span>
+                            <h3 class="text-xl font-bold text-deep-purple">Health Concerns</h3>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Physical symptoms, medical appointments, or worries about illness can trigger health-related anxiety.
+                        </p>
+                    </div>
+                    <div class="bg-soft-pink p-6 rounded-xl">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="material-symbols-outlined text-3xl text-vibrant-pink">work</span>
+                            <h3 class="text-xl font-bold text-deep-purple">Work Stress</h3>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Deadlines, presentations, conflict with colleagues, or job insecurity can be major anxiety triggers.
+                        </p>
+                    </div>
+                    <div class="bg-pale-lavender p-6 rounded-xl">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="material-symbols-outlined text-3xl text-vibrant-pink">favorite</span>
+                            <h3 class="text-xl font-bold text-deep-purple">Relationships</h3>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Conflict, rejection, abandonment fears, or intimacy issues can trigger relationship anxiety.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3 -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-deep-purple mb-4">Early Warning Signs</h2>
+                <p class="text-gray-700 leading-relaxed mb-6">
+                    Recognizing the early signs of anxiety can help you intervene before it escalates:
+                </p>
+                <div class="space-y-4">
+                    <div class="flex gap-4 items-start bg-white border-l-4 border-vibrant-pink p-4 rounded-r-xl shadow-sm">
+                        <span class="material-symbols-outlined text-vibrant-pink text-2xl">favorite</span>
+                        <div>
+                            <h4 class="font-bold text-deep-purple mb-1">Physical Symptoms</h4>
+                            <p class="text-gray-700 text-sm">Increased heart rate, shallow breathing, muscle tension, sweating, or stomach discomfort.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start bg-white border-l-4 border-deep-purple p-4 rounded-r-xl shadow-sm">
+                        <span class="material-symbols-outlined text-deep-purple text-2xl">psychology</span>
+                        <div>
+                            <h4 class="font-bold text-deep-purple mb-1">Mental Symptoms</h4>
+                            <p class="text-gray-700 text-sm">Racing thoughts, difficulty concentrating, catastrophic thinking, or feeling overwhelmed.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start bg-white border-l-4 border-accent p-4 rounded-r-xl shadow-sm">
+                        <span class="material-symbols-outlined text-accent text-2xl">sentiment_stressed</span>
+                        <div>
+                            <h4 class="font-bold text-deep-purple mb-1">Behavioral Changes</h4>
+                            <p class="text-gray-700 text-sm">Avoidance, restlessness, irritability, or changes in sleep and eating patterns.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4 -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-deep-purple mb-4">How to Track Your Triggers</h2>
+                <div class="bg-gradient-to-br from-pale-lavender to-soft-pink p-8 rounded-2xl">
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        Keeping a trigger journal can help you identify patterns and develop personalized coping strategies:
+                    </p>
+                    <ol class="space-y-4">
+                        <li class="flex gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-deep-purple text-white flex items-center justify-center font-bold">1</span>
+                            <p class="text-gray-700 pt-1"><strong>Note the situation:</strong> Where were you? What were you doing?</p>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-deep-purple text-white flex items-center justify-center font-bold">2</span>
+                            <p class="text-gray-700 pt-1"><strong>Record your thoughts:</strong> What went through your mind just before the anxiety started?</p>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-deep-purple text-white flex items-center justify-center font-bold">3</span>
+                            <p class="text-gray-700 pt-1"><strong>Identify physical sensations:</strong> What did you notice in your body?</p>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-deep-purple text-white flex items-center justify-center font-bold">4</span>
+                            <p class="text-gray-700 pt-1"><strong>Rate intensity:</strong> On a scale of 1-10, how strong was the anxiety?</p>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="mb-12 bg-deep-purple text-white p-8 rounded-2xl text-center">
+                <h2 class="text-2xl font-bold mb-4">Ready to Take the Next Step?</h2>
+                <p class="mb-6 text-white/90">
+                    Work with a licensed therapist to develop personalized strategies for managing your anxiety triggers.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'appointment:booking' %}" class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-white text-deep-purple font-bold rounded-xl hover:bg-gray-100 transition-all">
+                        <span class="material-symbols-outlined">calendar_add_on</span>
+                        Book a Session
+                    </a>
+                    <a href="{% url 'users:myprogress' %}" class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-vibrant-pink text-white font-bold rounded-xl hover:bg-vibrant-pink/90 transition-all">
+                        <span class="material-symbols-outlined">edit_note</span>
+                        Start Journaling
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-lavender pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+<div class="col-span-2 lg:col-span-2">
+<div class="flex items-center gap-3">
+    <a href="{% url 'core:home' %}" class="flex items-center">
+        <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+    </a>
+</div>
+<p class="text-text-sub text-sm leading-relaxed max-w-xs mb-6">
+                    Empowering individuals to understand their minds and reclaim their peace through education and connection.
+                </p>
+<div class="flex gap-4">
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Facebook</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+</a>
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Twitter</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>
+</a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Platform</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:how_it_works' %}">Our Approach</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Specialists</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'resources:blog_list' %}">Resources</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Pricing</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Company</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:about' %}">About Us</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'corporate:corporate_services' %}">Careers</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:contact' %}">Contact</a></li>
+<li><a href="{% url 'core:privacypolicy' %}" class="hover:text-secondary transition-colors" >Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Support</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:chatbot' %}">Help Center</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-lavender pt-8 mt-8 text-center md:text-left">
+<div class="bg-soft-pink/30 border border-soft-pink rounded-lg p-4 mb-6">
+<p class="text-secondary text-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-lg shrink-0">warning</span>
+<strong>In Crisis?</strong> If you or someone you know is in immediate danger, please call 911 or your local emergency number immediately. MindSettler is not an emergency service.
+                </p>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center text-sm text-text-sub">
+<p>© 2024 MindSettler Inc. All rights reserved.</p>
+<div class="flex gap-6 mt-4 md:mt-0">
+<a class="hover:text-primary transition-colors" href="{% url 'core:privacypolicy' %}">Terms</a>
+<a href="{% url 'core:privacypolicy' %}" class="hover:text-primary transition-colors" >Privacy</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

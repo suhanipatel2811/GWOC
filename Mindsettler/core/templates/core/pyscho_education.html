@@ -64,33 +64,52 @@
         <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
     </a>
 </div>
-<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+
 <nav class="hidden md:flex items-center gap-10">
 <a href="{% url 'core:home' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
                 Home
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
 </a>
-<a href="{% url 'core:about' %}" class="text-sm font-medium text-accent cursor-default relative" href="#">
-                About
-                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-accent"></span>
+<a href="{% url 'core:about' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+                About Us
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
 </a>
 <a href="{% url 'core:how_it_works' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
                 How It Works   
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
 </a>
 
-<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
+<a href="{% url 'core:psycho_education' %}" class="text-sm font-medium text-accent cursor-default relative" href="#">
                 PsychoEdu
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-accent"></span>
 </a>
 <a href="{% url 'corporate:corporate_services' %}"class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group" href="#">
                 Corporate Services
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
 </a>
 </nav>
-<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-deep-purple text-white text-sm font-bold shadow-md hover:bg-deep-purple/90 transition-all hover:scale-105 active:scale-95">
-<span>Get Help</span>
-</button>
+<div class="flex items-center gap-3 pl-2 border-l border-lavender-mid">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-primary">{{ user.get_full_name|default:user.username }}</p>
+<p class="text-[10px] text-[#6e5f86]">Free Spirit</p>
+</div>
+<div class="hidden md:flex gap-3">
+{% if user.is_authenticated %}
+    {% if user.profile.avatar_type == 'masculine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></a>
+    {% elif user.profile.avatar_type == 'feminine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+    {% elif user.profile.avatar_type == 'neutral' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></a>
+    {% else %}
+    <a href="{%url 'users:profile' %}" class="bg-soft-pink rounded-full size-10 border-2 border-primary/20 flex items-center justify-center">
+        <span class="text-sm font-bold text-primary">{{ user.first_name.0|default:user.username.0|upper }}</span>
+    </a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'users:login' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+{% endif %}
+</div>
 </div>
 <div class="md:hidden text-deep-purple">
 <span class="material-symbols-outlined cursor-pointer">menu</span>
@@ -150,7 +169,7 @@
                         </p>
 </div>
 <div class="flex flex-wrap gap-4 pt-2">
-<button class="h-12 px-8 rounded-xl bg-deep-purple text-white font-bold text-sm shadow-lg shadow-deep-purple/25 hover:shadow-deep-purple/40 hover:-translate-y-1 transition-all">
+<button class="h-12 px-6 rounded-xl border border-vibrant-pink bg-white text-vibrant-pink font-bold text-sm hover:bg-soft-pink transition-colors">
                             Start Reading
                         </button>
 <button class="h-12 px-6 rounded-xl border border-vibrant-pink bg-white text-vibrant-pink font-bold text-sm hover:bg-soft-pink transition-colors">
@@ -334,24 +353,73 @@
 </div>
 </div>
 </section>
-<div class="mt-auto pt-10 border-t border-pale-lavender">
-<div class="flex flex-col md:flex-row justify-between items-center gap-6">
-<div>
-<p class="text-sm text-gray-500 mb-1">Next up</p>
-<h4 class="text-lg font-bold text-deep-purple">Module 2: Building Resilience</h4>
-</div>
-<div class="flex gap-4">
-<button class="px-6 py-3 rounded-xl text-sm font-bold text-gray-600 hover:bg-pale-lavender transition-colors">
-                        Back to Modules
-                    </button>
-<button class="px-6 py-3 rounded-xl bg-deep-purple text-white text-sm font-bold shadow-lg shadow-deep-purple/20 hover:shadow-deep-purple/40 hover:-translate-y-0.5 transition-all flex items-center gap-2">
-<span>Continue Journey</span>
-<span class="material-symbols-outlined text-sm">arrow_forward</span>
-</button>
-</div>
-</div>
-</div>
 </main>
 </div>
+
+<footer class="bg-white border-t border-lavender pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+<div class="col-span-2 lg:col-span-2">
+<div class="flex items-center gap-3">
+    <a href="{% url 'core:home' %}" class="flex items-center">
+        <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+    </a>
+</div>
+<p class="text-text-sub text-sm leading-relaxed max-w-xs mb-6">
+                    Empowering individuals to understand their minds and reclaim their peace through education and connection.
+                </p>
+<div class="flex gap-4">
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Facebook</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+</a>
+<a class="text-text-sub hover:text-secondary transition-colors" href="#">
+<span class="sr-only">Twitter</span>
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>
+</a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Platform</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:how_it_works' %}">Our Approach</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Specialists</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'resources:blog_list' %}">Resources</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'appointment:specialists' %}">Pricing</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Company</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'core:about' %}">About Us</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'corporate:corporate_services' %}">Careers</a></li>
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:contact' %}">Contact</a></li>
+<li><a href="{% url 'core:privacypolicy' %}" class="hover:text-secondary transition-colors" >Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-primary mb-4">Support</h3>
+<ul class="space-y-3 text-sm text-text-sub">
+<li><a class="hover:text-secondary transition-colors" href="{% url 'contact:chatbot' %}">Help Center</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-lavender pt-8 mt-8 text-center md:text-left">
+<div class="bg-soft-pink/30 border border-soft-pink rounded-lg p-4 mb-6">
+<p class="text-secondary text-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-lg shrink-0">warning</span>
+<strong>In Crisis?</strong> If you or someone you know is in immediate danger, please call 911 or your local emergency number immediately. MindSettler is not an emergency service.
+                </p>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center text-sm text-text-sub">
+<p>© 2024 MindSettler Inc. All rights reserved.</p>
+<div class="flex gap-6 mt-4 md:mt-0">
+<a class="hover:text-primary transition-colors" href="{% url 'core:privacypolicy' %}">Terms</a>
+<a href="{% url 'core:privacypolicy' %}" class="hover:text-primary transition-colors" >Privacy</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
 
 </body></html>

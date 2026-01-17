@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import CorporateServiceRequestForm
 from django.core.mail import send_mail
 from django.conf import settings
 
+@login_required
 def corporate_services(request):
     return render(request, 'corporate/corporate_services.html')
 
+@login_required
 def request_service(request):
     if request.method == 'POST':
         form = CorporateServiceRequestForm(request.POST)

@@ -1,0 +1,870 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindSettler - Our Specialists</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#470eaa",
+                        "primary-dark": "#3F2965",
+                        "background-light": "#ffffff",
+                        "background-off": "#f7f6f8",
+                        "background-dark": "#171022",
+                        "card-light": "#f2f0f4", 
+                        "text-main": "#131118",
+                        "text-muted": "#706189",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display antialiased transition-colors duration-200">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-100 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-4 lg:px-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary dark:text-white">
+<img src="{% static 'core/images/logo.png' %}" alt="MindSettler Logo" class="h-10 w-auto">
+</div>
+<nav class="hidden md:flex items-center gap-10">
+            <a href="{% url 'core:home' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Home
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'core:about' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                About Us
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="{% url 'appointment:specialists' %}" class="text-sm font-medium text-accent cursor-default relative">
+                Specialists
+                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-accent"></span>
+            </a>
+            <a href="{% url 'resources:blog_list' %}" class="text-sm font-medium hover:text-accent transition-colors duration-300 dark:text-gray-200 relative group">
+                Resources
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
+        </nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex w-64 items-center rounded-xl bg-background-off dark:bg-gray-800 px-3 py-2">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400 text-[20px]">search</span>
+<input id="searchInput" class="w-full bg-transparent px-2 text-sm text-text-main dark:text-white placeholder:text-text-muted focus:outline-none" placeholder="Search specialists..."/>
+</div>
+<div class="flex items-center gap-3 pl-2 border-l border-lavender-mid">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-primary">{{ user.get_full_name|default:user.username }}</p>
+<p class="text-[10px] text-[#6e5f86]">Free Spirit</p>
+</div>
+<div class="hidden md:flex gap-3">
+{% if user.is_authenticated %}
+    {% if user.profile.avatar_type == 'masculine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></a>
+    {% elif user.profile.avatar_type == 'feminine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+    {% elif user.profile.avatar_type == 'neutral' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></a>
+    {% else %}
+    <a href="{%url 'users:profile' %}" class="bg-soft-pink rounded-full size-10 border-2 border-primary/20 flex items-center justify-center">
+        <span class="text-sm font-bold text-primary">{{ user.first_name.0|default:user.username.0|upper }}</span>
+    </a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'users:login' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+{% endif %}
+</div>
+<button class="md:hidden flex items-center text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="layout-container flex grow flex-col">
+<div class="flex flex-1 justify-center py-8 lg:py-12 px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col max-w-[1200px] w-full gap-8">
+<!-- Page Heading -->
+<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 pb-6 border-b border-gray-100 dark:border-gray-800">
+<div class="flex flex-col gap-3 max-w-2xl">
+<h1 class="text-text-main dark:text-white text-4xl lg:text-5xl font-extrabold tracking-tight">Our Specialists</h1>
+<p class="text-text-muted dark:text-gray-400 text-lg font-normal leading-relaxed">
+                                Browse our directory of verified specialists dedicated to your mental well-being. Find the support that resonates with you.
+                            </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-3">
+<div class="flex items-center gap-2 px-4 py-2 bg-background-off dark:bg-gray-800 rounded-lg text-sm text-text-muted dark:text-gray-300">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Advanced Filters</span>
+</div>
+</div>
+</div>
+<!-- Filters & Chips -->
+<div class="flex flex-col gap-6">
+<!-- Primary Category Filters -->
+<div class="flex flex-wrap gap-3 items-center">
+<button data-filter="all" class="filter-btn group flex h-10 items-center justify-center gap-x-2 rounded-xl bg-primary text-white px-5 shadow-md shadow-primary/20 transition-all hover:scale-105">
+<span class="text-sm font-bold">All Specialists</span>
+</button>
+<button data-filter="anxiety" class="filter-btn group flex h-10 items-center justify-center gap-x-2 rounded-xl bg-background-off dark:bg-gray-800 text-text-main dark:text-gray-200 px-4 hover:bg-white hover:shadow-md dark:hover:bg-gray-700 border border-transparent hover:border-gray-100 transition-all">
+<span class="text-sm font-medium">Anxiety</span>
+<span class="material-symbols-outlined text-[18px] opacity-50 group-hover:opacity-100">expand_more</span>
+</button>
+<button data-filter="depression" class="filter-btn group flex h-10 items-center justify-center gap-x-2 rounded-xl bg-background-off dark:bg-gray-800 text-text-main dark:text-gray-200 px-4 hover:bg-white hover:shadow-md dark:hover:bg-gray-700 border border-transparent hover:border-gray-100 transition-all">
+<span class="text-sm font-medium">Depression</span>
+<span class="material-symbols-outlined text-[18px] opacity-50 group-hover:opacity-100">expand_more</span>
+</button>
+<button data-filter="relationships" class="filter-btn group flex h-10 items-center justify-center gap-x-2 rounded-xl bg-background-off dark:bg-gray-800 text-text-main dark:text-gray-200 px-4 hover:bg-white hover:shadow-md dark:hover:bg-gray-700 border border-transparent hover:border-gray-100 transition-all">
+<span class="text-sm font-medium">Relationships</span>
+<span class="material-symbols-outlined text-[18px] opacity-50 group-hover:opacity-100">expand_more</span>
+</button>
+<button data-filter="trauma" class="filter-btn group flex h-10 items-center justify-center gap-x-2 rounded-xl bg-background-off dark:bg-gray-800 text-text-main dark:text-gray-200 px-4 hover:bg-white hover:shadow-md dark:hover:bg-gray-700 border border-transparent hover:border-gray-100 transition-all">
+<span class="text-sm font-medium">Trauma</span>
+<span class="material-symbols-outlined text-[18px] opacity-50 group-hover:opacity-100">expand_more</span>
+</button>
+</div>
+<!-- Directory Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pt-4">
+<!-- Card 1 -->
+<article data-category="anxiety" class="specialist-card flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Professional portrait of Dr. Sarah Jenkins" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSuZOkPjHYA8LutS0iH5XILEAH4s6dfJniW53G8SpetqC-TeD_rev-2-KaEoMO0B3QRmh9Te98-gXb6h78qAqIDX8mqIq-cKUxlxekdpwPKZ2QKUuCUx854VnBsWsp40Ceoji7QiDpnOBTT_HhYgMYCsOGsXz4_i1CNeOIWEVr-PiCjJT1IaEeQiLnJJPEOWk1d92v8gAXE4HC41qKO0ElUCr6vRnfn0nJQtDF4DmawcIt5D-4pTX5pZzIqOljzaURFPlJ-JmMRZLV"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Sarah Jenkins</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Clinical Psychologist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Specializing in cognitive behavioral therapy to help you navigate life's challenges with resilience. I focus on practical tools for anxiety management.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Anxiety</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#CBT</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Stress</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Sarah%20Jenkins" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 2 -->
+<article data-category="relationships" class="specialist-card flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Michael Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8IRoUy_q2_nawYTXY03WS2Zi7oQK_d7QuJyOpoQmMU5IO0HADjdNpz91OgRhUg3R1j56DNngKCUj6X1LNZ2p2wsCAQOmwduBk2PNVzuF9V6uIuLEbaGiLV50_nGh1oFqADXwKj_0T-GwyYN5sHp_HBbrGuyptCFEE-tH11Rktjo3NCjvwYH_D00biigTrUuP6nBgFKuwyF4sG-JiXwv_nIeXglqAvxZDijVTImNFs8KMAVhhWYzsdXMDRfJg43wzmb3xLQrXgc9t_"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Michael Chen</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Marriage &amp; Family Therapist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-gray-400"></span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Offline Studio</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Dedicated to helping couples and families rebuild trust and communication. My approach is rooted in empathy and systemic understanding.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Relationships</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Family</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Michael%20Chen" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 3 -->
+<article data-category="trauma" class="specialist-card flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Elena Rodriguez" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlff5irSrFiAzvW4Vp-EeXNc2WVLEeZ0RxTzc3miPJvQlfvx7cCmrifOl5PacRt0MoEAeiEpWR0X0T-PTlc4ACG9RJItTTgpLlsA9zhTfvnW2SYuIsZIeLamdnuKZ2mvGy29Yb8v-XS4oz8fBhbXFYvb3g3rU0NCQvhkEBuB8NEu4boIBDd19htYDJGJb65ixHmaDatI98dzX749lyLdsQEJiG2SCdRMDZJEQOqoCuu_wHlCkRfCbacKU9ZpKuYcLnGgkieE2GOfja"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Elena Rodriguez</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Trauma Specialist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Helping individuals process past trauma and reclaim their lives. I offer a safe, confidential space for deep healing and personal growth.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Trauma</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#PTSD</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Healing</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Elena%20Rodriguez" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 4 -->
+<article data-category="depression" class="specialist-card flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of James Wilson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqu-VjQMw3NLMc624XExdHHaj0bYKLw7F17ftCxgaJHmoTBa1hmqVumHjQbwgrb3nxF-0XUkeAefGTwJXPXkSauuY7FIDyZnlQ8Hoy3zOfT6ZG0IGuwl44VBP-RFOl0BEZ60JGRKPwd2t7aUAlu3wnlImuxeVFZB2_-2AO2Y_m8L4KwjFy9z7cENPSZx-m6Wff-Siz_9jvJbApwXAQACWtDQfGpp2IrfyYqFyqaKEnwKzDnkWvwzn93rS9JP29g6gJt5WeeCIXZ4rT"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">James Wilson</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Psychotherapist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-orange-400"></span>
+<span class="text-xs font-semibold text-orange-700 dark:text-orange-400">Waitlist Only</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Focusing on men's mental health and stress management in high-pressure environments. Let's work together to build a balanced life.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#MensHealth</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Burnout</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<button class="flex items-center justify-center rounded-xl bg-gray-300 dark:bg-gray-600 cursor-not-allowed px-4 py-2.5 text-sm font-bold text-gray-500 dark:text-gray-400 transition-all" disabled="">
+                                    Waitlist
+                                </button>
+</div>
+</article>
+<!-- Card 5 -->
+<article data-category="other" class="specialist-card flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Anita Patel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsPxWF4zVnGcWQ--HQ-b5B9d_Lq2uNZzZ6oyqLAtLPcJLVr0jM8v0FfiMyP2h2Co51a-3Q6e3XeLLDqCu9s7xo1nL6SOqOYCMOGWJxAHt0ImsjxBIfZKYYHWODyuSdlTrTkixsHdP1sDgkpBW9BW2h3ulQ0kyWx_hbNWunH7rBidKGd5wUVq4aNuFI4EVG2BXZ8G64IvJ-v_xbJHck7WgTGMcAJD_mkJ9Dc5G9uEuyd4HxIEyphtsi6ZsszfRVhc35EeQFH2Oq4dKg"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Anita Patel</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Child Psychologist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Specializing in developmental disorders and behavioral therapy for children and adolescents. I partner with families for holistic care.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Children</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#ADHD</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Autism</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Anita%20Patel" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 6 -->
+<article data-category="other" class="specialist-card flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. David Kim" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnRYVcLs8or7Hm--ECjMtyXbsypxkIXP7TgjqX1xwjIU3qNFgtRgIiZ0QTVBs04K2vXqDHK40pl_Jj9kTLKbO7EDBEMsA1MRXraUFsOTfPSkR-APYzJpxQHSYm9ya6nUtPIf0-wybCgcPLcL4afWyPscVZEBTDK4pO0lyCwmH6h1h2tpXgcTZJbbexSJZ8HO-ewimsjWCsSw36dAVKJLJA7fPEI6bd2dXoeRccl5HvZMHrv9ShvEgjC6lgV930kk_zFjRQ0Dlqk4T0"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. David Kim</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Addiction Specialist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-gray-400"></span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Offline Studio</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Guiding patients through recovery with compassion and evidence-based treatments. I believe in empowering you to regain control.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Addiction</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Recovery</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20David%20Kim" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 7 - Dr. Sarah Chen -->
+<article data-category="anxiety" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Sarah Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQhJL_EMQVKyCeTWPsPEoPpOTkMtiW8zWN6THeDGC5gQ2ZU3PTS1WuQx4ODOxMty1qXClJLT6WJz3dJxz7KLiUfL_V-S3w33QrrM24TTsfcpZUtzfghIQewOyI3rHui_6by--HfF2Casm-pg1uuOnsps1gZVLg-BCAkq7xM5SKDKPbTVzvkt7u-8p77JVLCQw9XNueITNW69eGJKrcQstIZM-18QNNkW_KmTuQtSejFCA1r41W1Wz1QJU4ShyoKhiX7jg_R-PnbvA"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Sarah Chen</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Clinical Director</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    PhD in Clinical Psychology with 15 years specializing in CBT and anxiety disorders. Bringing evidence-based care to help you thrive.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#CBT</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Anxiety</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Leadership</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Sarah%20Chen" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 8 - Marcus Johnson -->
+<article data-category="trauma" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Marcus Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxxvj5jZF3T0VVB6zKWStWSVk2O0zpD8W75Qhm79w868vgXOezGan5LPzvhjcVJoA3gxMyPZoT1rjBMSAIN9K4LyuE-fHiCEreFuPZ4spFVML9xkoA63NQ9S1TPhYGndr3ZG_y_R9mc4q9r4heaM57m1Nqsc6TxIZ-9MgOtX04dcafhc3cMZN4FF5kEsO8LGdYRE6EoGgBmyzBilwdFXRD_J-tSRBQk-LXz6Rm3Z7dI6q2NdhUZKwlNmAQPVDKx8DAwTOfg3c02Ng"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Marcus Johnson</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Lead Therapist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Licensed MFT focused on accessible community care and trauma-informed practices. Creating safe spaces for healing and growth.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Trauma</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Community</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#MFT</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Marcus%20Johnson" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 9 - Dr. Elena Rodriguez (Research Lead) -->
+<article data-category="other" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Elena Rodriguez" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4YLq11QGaU3Ipe_mgTwtEe8h0D25Xi5JHM_k_PMieEdjZHurICfvj1tzSJjGqZb4Y1zVtBD75Fa9YVXqpBZMph3mQilKtdReP_u7Ivxeb1MAvQID5QDfvLdS-UWoeIY-at9CwQrlDQWOHr1nfDjxOB2LpRVg3LGTY55zLzYG85HDWQqrK3z18od1Vod6xTkwtUphL_VLogBIaGTlnmlRzboDCLub6qPwCSTtuQM0r0tTdkWziXEe98DqwlmMYBGFqK9zOtL907E"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Elena Rodriguez</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Research Lead</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Published author on mindfulness-based stress reduction and emotional regulation. Bringing cutting-edge research into practical care.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Mindfulness</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Research</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#MBSR</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Elena%20Rodriguez" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 10 - James Alistair -->
+<article data-category="other" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of James Alistair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuhEbfHaqhRUOPlHNZvPzacffq7Fr5WfZ30AaZFs075XP_VunuG32bXOVE2K8XULfwXSQE96rUjGAld6snBwhOmEhfxWZx04XWYcxot5CwlbFSuTbg2mxU4ewsayuyU1gTAi-SlegDgGqheJvdlwdk8mtJcB7v4VU3s_JZhjgfOwory40VqOcjwIGH8PHLRymXpr8UIJOCi7Jv5PEudw-cpF7UymdiL9gHM7-gs_PPBeqXA5r0uYF4BCegXuORFtUFz1SLOkzM3_0"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">James Alistair</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Education Advisor</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Pedagogical expert ensuring our complex concepts are easy to learn and retain. Making mental health education accessible to all.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Education</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Pedagogy</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Learning</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=James%20Alistair" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 11 - Dr. Rebecca Moore - Anxiety Specialist -->
+<article data-category="anxiety" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Rebecca Moore" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIsteXQVeocJHRi0PLLTlp9s90mX9Me8utITwE09JtMlnmE9Am_DlI7vSy0MCeFjekiojKX43cy9ZdP8MJ2tdUajGjfy_dLBtvMR_yWqrmVCaVWOmRgutx4HUiYeIuQ09jiK4T_k79wXWo9NZrss6HU8ahPYxwsLxmqku0KcgqQid9XuI41rM7k_NPkaqK07gYDFbPInAIxmCGlv1ZuWowAiw8iB2roNCd0zlMLG8cSYvr0CG_J0VMet5Pw5sGFzyMHTXprimhZl4"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Rebecca Moore</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Anxiety Specialist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Specializing in anxiety disorders, panic attacks, and phobias. Using evidence-based techniques to help you overcome fear and live freely.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Anxiety</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#PanicDisorder</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Phobias</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Rebecca%20Moore" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 12 - Dr. Thomas Wright - Depression Specialist -->
+<article data-category="depression" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Thomas Wright" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxxvj5jZF3T0VVB6zKWStWSVk2O0zpD8W75Qhm79w868vgXOezGan5LPzvhjcVJoA3gxMyPZoT1rjBMSAIN9K4LyuE-fHiCEreFuPZ4spFVML9xkoA63NQ9S1TPhYGndr3ZG_y_R9mc4q9r4heaM57m1Nqsc6TxIZ-9MgOtX04dcafhc3cMZN4FF5kEsO8LGdYRE6EoGgBmyzBilwdFXRD_J-tSRBQk-LXz6Rm3Z7dI6q2NdhUZKwlNmAQPVDKx8DAwTOfg3c02Ng"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Thomas Wright</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Depression Specialist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Expert in treating depression and mood disorders. Combining medication management with therapy for comprehensive care and lasting recovery.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Depression</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#MoodDisorders</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Psychiatry</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Thomas%20Wright" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 13 - Dr. Lisa Anderson - Relationship Counselor -->
+<article data-category="relationships" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Lisa Anderson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQhJL_EMQVKyCeTWPsPEoPpOTkMtiW8zWN6THeDGC5gQ2ZU3PTS1WuQx4ODOxMty1qXClJLT6WJz3dJxz7KLiUfL_V-S3w33QrrM24TTsfcpZUtzfghIQewOyI3rHui_6by--HfF2Casm-pg1uuOnsps1gZVLg-BCAkq7xM5SKDKPbTVzvkt7u-8p77JVLCQw9XNueITNW69eGJKrcQstIZM-18QNNkW_KmTuQtSejFCA1r41W1Wz1QJU4ShyoKhiX7jg_R-PnbvA"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Lisa Anderson</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Relationship Counselor</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-gray-400"></span>
+<span class="text-xs font-semibold text-text-muted dark:text-gray-500">Offline Studio</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Helping couples and individuals navigate relationship challenges. Building communication skills and emotional intimacy for lasting connections.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Relationships</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#CouplesCounseling</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Communication</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Lisa%20Anderson" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 14 - Dr. James Foster - Trauma Recovery -->
+<article data-category="trauma" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. James Foster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSuZOkPjHYA8LutS0iH5XILEAH4s6dfJniW53G8SpetqC-TeD_rev-2-KaEoMO0B3QRmh9Te98-gXb6h78qAqIDX8mqIq-cKUxlxekdpwPKZ2QKUuCUx854VnBsWsp40Ceoji7QiDpnOBTT_HhYgMYCsOGsXz4_i1CNeOIWEVr-PiCjJT1IaEeQiLnJJPEOWk1d92v8gAXE4HC41qKO0ElUCr6vRnfn0nJQtDF4DmawcIt5D-4pTX5pZzIqOljzaURFPlJ-JmMRZLV"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. James Foster</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Trauma Recovery Expert</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Specialized in EMDR and trauma-focused therapy. Helping survivors process difficult experiences and build resilience for a brighter future.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Trauma</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#EMDR</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Recovery</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20James%20Foster" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+<!-- Card 15 - Dr. Maria Garcia - Social Anxiety -->
+<article data-category="anxiety" class="specialist-card hidden more-specialists flex flex-col rounded-2xl bg-card-light dark:bg-gray-800/50 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 border border-transparent hover:border-primary/10 group">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="h-16 w-16 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm shrink-0">
+<img class="h-full w-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" data-alt="Portrait of Dr. Maria Garcia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8IRoUy_q2_nawYTXY03WS2Zi7oQK_d7QuJyOpoQmMU5IO0HADjdNpz91OgRhUg3R1j56DNngKCUj6X1LNZ2p2wsCAQOmwduBk2PNVzuF9V6uIuLEbaGiLV50_nGh1oFqADXwKj_0T-GwyYN5sHp_HBbrGuyptCFEE-tH11Rktjo3NCjvwYH_D00biigTrUuP6nBgFKuwyF4sG-JiXwv_nIeXglqAvxZDijVTImNFs8KMAVhhWYzsdXMDRfJg43wzmb3xLQrXgc9t_"/>
+</div>
+<div class="flex flex-col">
+<h3 class="text-lg font-bold text-text-main dark:text-white leading-tight">Dr. Maria Garcia</h3>
+<p class="text-sm text-text-muted dark:text-gray-400">Social Anxiety Specialist</p>
+<div class="flex items-center gap-1.5 mt-1.5">
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-semibold text-green-700 dark:text-green-400">Available Online</span>
+</div>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="mb-5">
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    Empowering individuals to overcome social anxiety and build confidence. Using exposure therapy and CBT to help you thrive in social situations.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#SocialAnxiety</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#Confidence</span>
+<span class="inline-flex items-center rounded-md bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-text-muted dark:text-gray-300 ring-1 ring-inset ring-gray-500/10">#ExposureTherapy</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-2.5 text-sm font-bold text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-700 transition-all">
+                                    Profile
+                                </button>
+<a href="{% url 'appointment:booking' %}?therapist=Dr.%20Maria%20Garcia" class="flex items-center justify-center rounded-xl bg-primary-dark hover:bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all">
+                                    Book Now
+                                </a>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center py-8">
+<button id="loadMoreBtn" class="flex items-center gap-2 rounded-xl bg-background-off dark:bg-gray-800 px-6 py-3 text-sm font-bold text-text-main dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+<span>Load More Specialists</span>
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+
+<script>
+    // Load More Specialists Button
+    document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        const hiddenCards = document.querySelectorAll('.more-specialists');
+        hiddenCards.forEach(card => {
+            card.classList.remove('hidden');
+        });
+        this.style.display = 'none';
+    });
+
+    // Filter by Category
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const specialistCards = document.querySelectorAll('.specialist-card');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active button styling
+            filterButtons.forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white', 'shadow-md', 'shadow-primary/20');
+                btn.classList.add('bg-background-off', 'dark:bg-gray-800', 'text-text-main', 'dark:text-gray-200');
+            });
+            this.classList.add('bg-primary', 'text-white', 'shadow-md', 'shadow-primary/20');
+            this.classList.remove('bg-background-off', 'dark:bg-gray-800', 'text-text-main', 'dark:text-gray-200');
+            
+            // Filter cards
+            let visibleCount = 0;
+            specialistCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    // Show matching cards
+                    card.classList.remove('hidden');
+                    card.classList.remove('more-specialists');
+                    visibleCount++;
+                } else {
+                    // Hide non-matching cards
+                    card.classList.add('hidden');
+                }
+            });
+            
+            // Hide Load More button when filtering
+            if (filter !== 'all') {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                // Reset to show only first 6 cards
+                specialistCards.forEach((card, index) => {
+                    if (index >= 6) {
+                        card.classList.add('hidden');
+                        card.classList.add('more-specialists');
+                    } else {
+                        card.classList.remove('hidden');
+                    }
+                });
+                loadMoreBtn.style.display = 'flex';
+            }
+        });
+    });
+
+    // Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            // Reset all filter buttons to inactive state when searching
+            if (searchTerm !== '') {
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-white', 'shadow-md', 'shadow-primary/20');
+                    btn.classList.add('bg-background-off', 'dark:bg-gray-800', 'text-text-main', 'dark:text-gray-200');
+                });
+            }
+            
+            let hasVisibleCards = false;
+            
+            specialistCards.forEach(card => {
+                // Get doctor name from the card
+                const doctorNameElement = card.querySelector('h3');
+                const doctorName = doctorNameElement ? doctorNameElement.textContent.toLowerCase() : '';
+                
+                if (searchTerm === '' || doctorName.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    card.classList.remove('more-specialists');
+                    hasVisibleCards = true;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            // Hide Load More button when searching
+            if (searchTerm !== '') {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                // Reset to initial state (6 cards + Load More)
+                specialistCards.forEach((card, index) => {
+                    if (index >= 6) {
+                        card.classList.add('hidden');
+                        card.classList.add('more-specialists');
+                    } else {
+                        card.classList.remove('hidden');
+                    }
+                });
+                loadMoreBtn.style.display = 'flex';
+            }
+        });
+    }
+</script>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-gray-100 bg-white dark:bg-background-dark py-12 px-6">
+<div class="mx-auto max-w-[1200px] flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center text-primary dark:text-white">
+<a href="{% url 'core:home' %}" class="flex items-center">
+    <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+</a>
+</div>
+<div class="text-sm text-text-muted dark:text-gray-400">
+                    © 2024 MindSettler. All rights reserved.
+                </div>
+<div class="flex gap-6">
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'core:privacypolicy' %}">Privacy</a>
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'core:privacypolicy' %}">Terms</a>
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'contact:contact' %}">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

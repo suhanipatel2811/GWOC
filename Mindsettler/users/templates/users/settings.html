@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -63,17 +64,19 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white transition-colors duration-200">
 <div class="flex h-screen overflow-hidden">
-<aside class="hidden md:flex w-72 flex-col bg-primary h-full transition-colors duration-200 shadow-xl z-20">
+<aside class="hidden md:flex w-72 flex-col bg-surface-light dark:bg-surface-dark border-r border-[#f0f4f3] dark:border-[#2a3c36] h-full transition-colors duration-200">
 <div class="p-6">
-<div class="flex items-center gap-3 text-white mb-8">
+<div class="flex items-center gap-3 text-text-main dark:text-white mb-8">
 <div class="size-8 text-white">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+
 <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
 </svg>
 </div>
-<h2 class="text-lg font-bold tracking-tight text-white">MindSettler</h2>
+<a href="{% url 'core:home' %}" class="flex items-center">
+    <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+</a>
 </div>
-<div class="flex gap-4 items-center mb-8 p-3 rounded-xl bg-white/10 border border-white/5">
+<div class="flex gap-4 items-center mb-8 p-3 rounded-xl bg-gray-50 dark:bg-[#11211c]">
 {% if user.profile.avatar_type == 'masculine' %}
 <div class="bg-center bg-no-repeat bg-cover rounded-full size-12" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></div>
 {% elif user.profile.avatar_type == 'feminine' %}
@@ -86,35 +89,39 @@
 </div>
 {% endif %}
 <div class="flex flex-col min-w-0">
-<h3 class="text-sm font-bold truncate text-white">{{ user.first_name|default:user.username }} {{ user.last_name }}</h3>
-<p class="text-xs text-white/70 truncate">Member since {{ member_since }}</p>
+<h3 class="text-sm font-bold truncate text-text-main dark:text-white">{{ user.first_name|default:user.username }} {{ user.last_name }}</h3>
+<p class="text-xs text-text-muted dark:text-gray-400 truncate">Member since {{ member_since }}</p>
 </div>
 </div>
 <nav class="flex flex-col gap-2">
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:overview' %}">
-<span class="material-symbols-outlined text-white/70">dashboard</span>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:overview' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">dashboard</span>
 <span class="font-medium text-sm">Overview</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:profile' %}">
-<span class="material-symbols-outlined text-white/70">person</span>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:profile' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">person</span>
 <span class="font-medium text-sm">Personal Info</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:sessionhistory' %}">
-<span class="material-symbols-outlined text-white/70">history</span>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:sessionhistory' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">history</span>
 <span class="font-medium text-sm">Session History</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-colors" href="{% url 'users:myprogress' %}">
-<span class="material-symbols-outlined text-white/70">bar_chart</span>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:myprogress' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">bar_chart</span>
 <span class="font-medium text-sm">My Progress</span>
 </a>
 <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-pale-lavender text-primary shadow-md transition-colors" href="{% url 'users:settings' %}">
 <span class="material-symbols-outlined filled">settings</span>
 <span class="font-medium text-sm">Settings</span>
 </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'appointment:dashboard' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
 </nav>
 </div>
-<div class="mt-auto p-6 border-t border-white/10">
-<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-colors" href="{% url 'users:logout' %}">
+<div class="mt-auto p-6 border-t border-[#f0f4f3] dark:border-[#2a3c36]">
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-text-muted dark:text-gray-400 hover:text-text-main dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'users:logout' %}">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-medium text-sm">Log Out</span>
 </a>
@@ -128,7 +135,9 @@
 <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
 </svg>
 </div>
-<span class="font-bold text-lg text-primary">MindSettler</span>
+<a href="{% url 'core:home' %}" class="flex items-center">
+    <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-8" />
+</a>
 </div>
 <button class="text-text-main dark:text-white">
 <span class="material-symbols-outlined">menu</span>
@@ -204,9 +213,9 @@ Save Changes
 <h3 class="font-bold text-primary dark:text-white text-sm md:text-base">Password</h3>
 <p class="text-xs text-text-muted mt-1">Last changed {{ days_since_password }} days ago</p>
 </div>
-<a href="{% url 'users:profile' %}#change-password" class="px-4 py-2 bg-primary text-white text-xs md:text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap">
+<button onclick="openPasswordModal()" class="px-4 py-2 bg-primary text-white text-xs md:text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap">
 Change Password
-</a>
+</button>
 </div>
 <div class="bg-white dark:bg-white/10 p-5 rounded-xl flex items-center justify-between shadow-sm">
 <div>
@@ -356,10 +365,97 @@ console.error('Error:', error);
 </div>
 </div>
 <footer class="mt-8 text-center border-t border-gray-100 dark:border-[#2a3c36] pt-6 pb-2">
+<div class="flex justify-center gap-6 text-xs text-text-muted dark:text-gray-500 mb-2">
+<a class="hover:text-primary transition-colors" href="{% url 'core:privacypolicy' %}">Privacy</a>
+<a class="hover:text-primary transition-colors" href="{% url 'contact:contact' %}">Contact</a>
+<a class="hover:text-primary transition-colors" href="{% url 'core:about' %}">About</a>
+</div>
 <p class="text-xs text-text-muted dark:text-gray-500">
                     © 2024 MindSettler. Prioritizing your mental wellness.
                 </p>
 </footer>
 </main>
 </div>
+
+<!-- Password Change Modal -->
+<div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl max-w-md w-full p-6 md:p-8 transform transition-all">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-2xl font-bold text-primary dark:text-white flex items-center gap-2">
+                <span class="material-symbols-outlined">lock_reset</span>
+                Change Password
+            </h3>
+            <button onclick="closePasswordModal()" class="text-text-muted hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <form method="POST" action="{% url 'users:change_password' %}" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label for="old_password" class="block text-sm font-medium text-text-main dark:text-white mb-2">
+                    Current Password
+                </label>
+                <input type="password" id="old_password" name="old_password" required
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#11211c] text-text-main dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                    placeholder="Enter your current password">
+            </div>
+            
+            <div>
+                <label for="new_password1" class="block text-sm font-medium text-text-main dark:text-white mb-2">
+                    New Password
+                </label>
+                <input type="password" id="new_password1" name="new_password1" required
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#11211c] text-text-main dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                    placeholder="Enter new password">
+                <p class="text-xs text-text-muted mt-1">Must be at least 8 characters</p>
+            </div>
+            
+            <div>
+                <label for="new_password2" class="block text-sm font-medium text-text-main dark:text-white mb-2">
+                    Confirm New Password
+                </label>
+                <input type="password" id="new_password2" name="new_password2" required
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#11211c] text-text-main dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                    placeholder="Confirm new password">
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+                <button type="button" onclick="closePasswordModal()"
+                    class="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-text-main dark:text-white rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="flex-1 px-4 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                    Update Password
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside
+document.getElementById('passwordModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePasswordModal();
+    }
+});
+</script>
+
 </body></html>

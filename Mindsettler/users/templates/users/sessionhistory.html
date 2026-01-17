@@ -65,13 +65,10 @@
 <div class="flex h-screen overflow-hidden">
 <aside class="hidden md:flex w-72 flex-col bg-surface-light dark:bg-surface-dark border-r border-[#f0f4f3] dark:border-[#2a3c36] h-full transition-colors duration-200">
 <div class="p-6">
-<div class="flex items-center gap-3 text-text-main dark:text-white mb-8">
-<div class="size-8 text-primary">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-</svg>
-</div>
-<h2 class="text-lg font-bold tracking-tight">MindSettler</h2>
+<div class="flex items-center text-text-main dark:text-white mb-8">
+<a href="{% url 'core:home' %}" class="flex items-center">
+    <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+</a>
 </div>
 <div class="flex gap-4 items-center mb-8 p-3 rounded-xl bg-background-light dark:bg-[#11211c]">
 {% if user.profile.avatar_type == 'masculine' %}
@@ -111,6 +108,10 @@
 <span class="material-symbols-outlined text-text-muted dark:text-gray-400">settings</span>
 <span class="font-medium text-sm">Settings</span>
 </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3c36] transition-colors" href="{% url 'appointment:dashboard' %}">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
 </nav>
 </div>
 <div class="mt-auto p-6 border-t border-[#f0f4f3] dark:border-[#2a3c36]">
@@ -122,17 +123,10 @@
 </aside>
 <main class="flex-1 flex flex-col h-full overflow-y-auto relative bg-background-light dark:bg-background-dark">
 <header class="md:hidden flex items-center justify-between px-4 py-3 bg-surface-light dark:bg-surface-dark border-b border-[#f0f4f3] dark:border-[#2a3c36] sticky top-0 z-20">
-<div class="flex items-center gap-3 text-text-main dark:text-white">
-<div class="size-6 text-primary">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-</svg>
-</div>
-<div class="flex items-center gap-3">
-    <a href="{% url 'core:home' %}" class="flex items-center">
-        <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
-    </a>
-</div>
+<div class="flex items-center text-text-main dark:text-white">
+<a href="{% url 'core:home' %}" class="flex items-center">
+    <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+</a>
 </div>
 <button class="text-text-main dark:text-white">
 <span class="material-symbols-outlined">menu</span>

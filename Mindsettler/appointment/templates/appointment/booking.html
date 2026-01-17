@@ -6,9 +6,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Book Session</title>
+        <title>Book Session - MindSettler</title>
         <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+        <script src="https://cdn.tailwindcss.com"></script>
         <style>
+                * { font-family: 'Lexend', sans-serif; }
+                body { margin: 0; background: #f9fafb; }
+                
+                /* Header Styles */
+                .main-header { background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 50; }
+                .header-content { max-width: 1400px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+                .logo-section { display: flex; align-items: center; gap: 0.75rem; }
+                .logo-img { height: 2.5rem; }
+                .nav-links { display: flex; gap: 2rem; align-items: center; }
+                .nav-link { color: #3F2965; text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: color 0.2s; }
+                .nav-link:hover { color: #DD1764; }
+                .user-menu { position: relative; }
+                .user-button { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 9999px; border: 1px solid #e5e7eb; background: white; cursor: pointer; transition: all 0.2s; }
+                .user-button:hover { background: #f9fafb; border-color: #DD1764; }
+                .user-avatar { width: 2rem; height: 2rem; border-radius: 9999px; background: #FADDE6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #3F2965; font-size: 0.875rem; background-size: cover; background-position: center; }
+                .user-name { font-weight: 600; color: #3F2965; font-size: 0.875rem; }
+                .dropdown-menu { position: absolute; right: 0; top: 100%; margin-top: 0.5rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.75rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 200px; display: none; }
+                .dropdown-menu.active { display: block; }
+                .dropdown-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; color: #111815; text-decoration: none; transition: background 0.2s; }
+                .dropdown-item:hover { background: #f9fafb; }
+                .dropdown-divider { height: 1px; background: #e5e7eb; margin: 0.5rem 0; }
+                
+                /* Footer Styles */
+                .main-footer { background: white; border-top: 1px solid #e5e7eb; margin-top: 3rem; padding: 3rem 1.5rem 2rem; }
+                .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+                .footer-section h4 { color: #3F2965; font-weight: 700; margin-bottom: 1rem; font-size: 0.875rem; }
+                .footer-links { display: flex; flex-direction: column; gap: 0.75rem; }
+                .footer-link { color: #63887c; text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+                .footer-link:hover { color: #DD1764; }
+                .footer-bottom { max-width: 1400px; margin: 2rem auto 0; padding-top: 2rem; border-top: 1px solid #e5e7eb; text-align: center; color: #63887c; font-size: 0.875rem; }
+                
                 /* Booking multi-step page styles (uses project palette variables) */
                 .booking-wrap { max-width:1100px; margin:28px auto; padding:20px; }
                 .booking-card { background: white; border-radius:14px; padding:20px; box-shadow:0 18px 40px rgba(63,41,101,0.06); border:1px solid var(--border-soft); }
@@ -55,6 +89,48 @@
         </style>
 </head>
 <body>
+<!-- Header -->
+<header class="main-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <a href="{% url 'core:home' %}">
+                <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="logo-img" />
+            </a>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="{% url 'core:home' %}" class="nav-link">Home</a>
+            <a href="{% url 'core:about' %}" class="nav-link">About</a>
+            <a href="{% url 'resources:blog_list' %}" class="nav-link">Resources</a>
+            <a href="{% url 'appointment:specialists' %}" class="nav-link">Specialists</a>
+            <a href="{% url 'contact:contact' %}" class="nav-link">Contact</a>
+            
+            <div class="flex items-center gap-3 pl-2 border-l border-lavender-mid">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-primary">{{ user.get_full_name|default:user.username }}</p>
+<p class="text-[10px] text-[#6e5f86]">Free Spirit</p>
+</div>
+<div class="hidden md:flex gap-3">
+{% if user.is_authenticated %}
+    {% if user.profile.avatar_type == 'masculine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhHHgZ9dtY04LKWmnaFO_zuWr-nvhOMkikf7glv9jjhjW34soAWJtg1Ezfji2QW-FTm4AssdDfallCJypnVz8bXPQIH9OFspTYa8RwFk-uGjam30zoXpuISf6C0KlB7LwxXk9a_OkxXxfltEsPcdaLg1jMsrDIYr2-9i-_nKlH02uemfvbI_hxSiPoYs5GAJE2QTrVjYIidr0ivD9W7CizNyKkDVaIIkPdxJOUWNojrTdoHji4oDks3b_F0DR4_zQc3fARGU6WoI_A");'></a>
+    {% elif user.profile.avatar_type == 'feminine' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+    {% elif user.profile.avatar_type == 'neutral' %}
+    <a href="{%url 'users:profile' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAixXpUehE17jx6XSugCs3bmjgPik7TWVeiLEp-KyVO1LX3bqhp-fYxSlCZoFXtueeg9YTe7aMybEAF8UDg-rs9nQotScmHo0wod4CQljl1V-rvR8a8sjk2DnDLy0oMqpaOdgMd9mDdeLYBPKTY6921mP8OCv7W5Djbq_31PstKhrUOf5GK0Edy8uzWPfzMoTFdHg8wsU5U7YiGE0rKL-kaydxWWJY-1Tn0wIyBL4r0-t2r2HRR9YJeJsMFN-jjF7wFjThqFmSF8vlt");'></a>
+    {% else %}
+    <a href="{%url 'users:profile' %}" class="bg-soft-pink rounded-full size-10 border-2 border-primary/20 flex items-center justify-center">
+        <span class="text-sm font-bold text-primary">{{ user.first_name.0|default:user.username.0|upper }}</span>
+    </a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'users:login' %}" class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo-_6pH73xFibPz6-R56q1Q-EzEJJDyvWY_rOrv9edZUdoDgTa3ClGay7MOFTlc0N2l4fONWmrWVmUQ-SWItxN8_lFhjEhcsdTQ1uJIT29UxvB2-qlE2BI_YtqQCa5AlTqb5AP7M5ffRcVhqw83BfEnNBLJz2qW21Bne4M59WV-YuaGfbBE1qYr7KoVunP8CcZkd3WI0WelY-QEFIIqFHzyAnGtZOOOXDFOXW_5Xd--64iSMuT1XvFEIHjzXM0fL3m6jp41AFVpE_a");'></a>
+{% endif %}
+</div>
+        </nav>
+    </div>
+</header>
+
 <div class="booking-wrap">
     <div class="booking-card">
         <div class="booking-header">
@@ -79,14 +155,14 @@
                     <p style="color:var(--text-light);">Choose the setting that makes you feel most comfortable.</p>
                     <div class="choice-grid" style="margin-top:18px;">
                         <div class="choice-card" data-value="online">
-                            <img src="{% static 'images/online.jpeg' %}" alt="Online session">
+                            <img src="{% static 'appointment/images/online.jpeg' %}" alt="Online session">
                             <h3>Online Video Call</h3>
                             <p style="color:var(--text-light);">Secure, private sessions from the comfort of your home via our encrypted video platform.</p>
                             <div style="margin-top:12px;"> <button class="btn secondary select-btn" type="button">Select Online →</button></div>
                         </div>
 
                         <div class="choice-card" data-value="studio">
-                            <img src="{% static 'images/offline.jpeg' %}" alt="Studio session">
+                            <img src="{% static 'appointment/images/offline.jpeg' %}" alt="Studio session">
                             <h3>In-Person Studio</h3>
                             <p style="color:var(--text-light);">Visit our serene studio spaces designed for healing, presence, and face-to-face connection.</p>
                             <div style="margin-top:12px;"><button class="btn secondary select-btn" type="button">Select Studio →</button></div>
@@ -115,6 +191,7 @@
                     <div style="margin-top:16px;" class="review-row">
                         <div class="review-card">
                             <h4 style="margin:0 0 8px 0;color:var(--primary);">Session</h4>
+                            <div id="rev-therapist">—</div>
                             <div id="rev-type">—</div>
                             <div id="rev-date">—</div>
                             <div id="rev-time">—</div>
@@ -151,6 +228,7 @@
 
                 <div style="margin-top:12px;border-top:1px dashed var(--border-soft);padding-top:12px;">
                     <div style="font-weight:700;color:var(--primary);">Booking Summary</div>
+                    <div id="summary-therapist" style="color:var(--text-light);margin-top:8px;">Therapist: —</div>
                     <div id="summary-type" style="color:var(--text-light);margin-top:8px;">Type: —</div>
                     <div id="summary-date" style="color:var(--text-light);">Date: —</div>
                     <div id="summary-time" style="color:var(--text-light);">Time: —</div>
@@ -169,6 +247,14 @@
         const progressFill = document.getElementById('progress-fill');
         const currentStepEl = document.getElementById('current-step');
         let step = 1;
+        
+        // Get therapist name from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const therapistName = urlParams.get('therapist') || '';
+        if(therapistName) {
+            document.getElementById('summary-therapist').textContent = 'Therapist: ' + decodeURIComponent(therapistName);
+            document.getElementById('rev-therapist').textContent = 'Therapist: ' + decodeURIComponent(therapistName);
+        }
 
         function showStep(n){
             panes.forEach(p => p.classList.toggle('active', parseInt(p.dataset.step)===n));
@@ -311,6 +397,9 @@
                 payload.append('session_type', document.querySelector('.choice-card.selected')?.dataset.value||'');
                 payload.append('date', chosenDate);
                 payload.append('time', chosenSlot.dataset.time||'');
+                if(therapistName) {
+                    payload.append('therapist_name', therapistName);
+                }
 
                 fetch(postUrl, {
                     method: 'POST',
@@ -372,6 +461,9 @@
                 payload.append('session_type', document.querySelector('.choice-card.selected')?.dataset.value||'');
                 payload.append('date', document.getElementById('session-date').value||'');
                 payload.append('time', document.querySelector('.slot.selected')?.dataset.time||'');
+                if(therapistName) {
+                    payload.append('therapist_name', therapistName);
+                }
 
                 fetch(postUrl, {
                     method: 'POST',
@@ -403,6 +495,38 @@
 
         showStep(step);
     })();
+    
+    // Toggle dropdown menu
+    function toggleDropdown() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('active');
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const userMenu = document.querySelector('.user-menu');
+        if (userMenu && !userMenu.contains(event.target)) {
+            document.getElementById('userDropdown')?.classList.remove('active');
+        }
+    });
 </script>
+
+<!-- Footer -->
+<footer class="mt-auto border-t border-gray-100 bg-white dark:bg-background-dark py-12 px-6">
+<div class="mx-auto max-w-[1200px] flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center text-primary dark:text-white">
+<a href="{% url 'core:home' %}" class="flex items-center">
+    <img src="{% static 'core/images/logo.png' %}" alt="MindSettler" class="h-10" />
+</a>
+</div>
+<div class="text-sm text-text-muted dark:text-gray-400">
+                    © 2024 MindSettler. All rights reserved.
+                </div>
+<div class="flex gap-6">
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'core:privacypolicy' %}">Privacy</a>
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'core:privacypolicy' %}">Terms</a>
+<a class="text-text-muted hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="{% url 'contact:contact' %}">Support</a>
+</div>
+</div>
 </body>
 </html>

@@ -4,11 +4,12 @@ from .models import Appointment, SessionSlot
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ['full_name', 'email', 'phone', 'slot', 'session_type', 'first_session', 'payment_mode', 'upi_id', 'add_to_google_calendar']
+        fields = ['full_name', 'email', 'phone', 'therapist_name', 'slot', 'session_type', 'first_session', 'payment_mode', 'upi_id', 'add_to_google_calendar']
         widgets = {
             'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your full name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your phone number'}),
+            'therapist_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Preferred doctor/therapist name (optional)'}),
             'slot': forms.Select(attrs={'class': 'form-control'}),
             'session_type': forms.Select(attrs={'class': 'form-control'}),
             'first_session': forms.CheckboxInput(attrs={'class': 'form-check-input'}),

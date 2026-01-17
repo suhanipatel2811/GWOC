@@ -1,20 +1,220 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en" class="light">
 <head>
-    <title>MindSettler Chatbot</title>
-    <link rel="stylesheet" href="{% static 'contact/chatbot.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Therapist - MindSettler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3f2965",
+                        "accent": "#DD1764",
+                        "sage": "#8FA89B",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .message-bubble {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 dark:bg-gray-900 font-display">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'appointment:dashboard' %}" class="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        <span class="text-sm font-medium">Back to Dashboard</span>
+                    </a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <h1 class="text-lg font-bold text-gray-900 dark:text-white">Chat with Therapist</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">AI-Powered Support</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">psychology</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<div class="chatbot-container">
-    <h2>MindSettler Chatbot</h2>
+    <!-- Main Chat Container -->
+    <div class="max-w-4xl mx-auto h-[calc(100vh-8rem)] flex flex-col p-4">
+        <!-- Messages Container -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto space-y-4 mb-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+            <!-- Welcome Message -->
+            <div class="flex gap-3 message-bubble">
+                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-primary text-sm">psychology</span>
+                </div>
+                <div class="flex-1">
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm p-4 max-w-lg">
+                        <p class="text-sm text-gray-800 dark:text-gray-200">Hello! I'm here to support you. How are you feeling today?</p>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-2">Just now</p>
+                </div>
+            </div>
+        </div>
 
-    <div id="chat-box"></div>
+        <!-- Input Area -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4">
+            <form id="chat-form" class="flex gap-3">
+                {% csrf_token %}
+                <input 
+                    type="text" 
+                    id="message-input"
+                    name="message"
+                    placeholder="Type your message..."
+                    class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    autocomplete="off"
+                    required
+                />
+                <button 
+                    type="submit"
+                    class="px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-medium transition-all hover:shadow-lg flex items-center gap-2"
+                >
+                    <span>Send</span>
+                    <span class="material-symbols-outlined text-lg">send</span>
+                </button>
+            </form>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                This is an AI assistant. For emergencies, please call your local crisis line.
+            </p>
+        </div>
+    </div>
 
-    <input type="text" id="chat-input" placeholder="Type your message..." />
-</div>
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const chatMessages = document.getElementById('chat-messages');
 
-<script src="{% static 'contact/chatbot.js' %}"></script>
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            messageInput.value = '';
+
+            // Show typing indicator
+            const typingId = addTypingIndicator();
+
+            try {
+                const formData = new FormData();
+                formData.append('message', message);
+                formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+                const response = await fetch("{% url 'contact:chatbot_api' %}", {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+                
+                // Remove typing indicator
+                removeTypingIndicator(typingId);
+
+                // Add bot response
+                if (data.response) {
+                    addMessage(data.response, 'bot');
+                } else {
+                    addMessage("I'm having trouble connecting right now. Please try again.", 'bot');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                removeTypingIndicator(typingId);
+                addMessage("Sorry, there was an error. Please try again.", 'bot');
+            }
+        });
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex gap-3 message-bubble ${sender === 'user' ? 'flex-row-reverse' : ''}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = `w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                sender === 'user' 
+                    ? 'bg-accent/10' 
+                    : 'bg-primary/10'
+            }`;
+            avatar.innerHTML = `<span class="material-symbols-outlined text-sm ${
+                sender === 'user' ? 'text-accent' : 'text-primary'
+            }">${sender === 'user' ? 'person' : 'psychology'}</span>`;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'flex-1';
+
+            const bubble = document.createElement('div');
+            bubble.className = `rounded-2xl p-4 max-w-lg ${
+                sender === 'user'
+                    ? 'bg-primary text-white rounded-tr-sm ml-auto'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-sm'
+            }`;
+            bubble.innerHTML = `<p class="text-sm">${text}</p>`;
+
+            const timestamp = document.createElement('p');
+            timestamp.className = `text-xs text-gray-500 dark:text-gray-400 mt-1 ${sender === 'user' ? 'text-right mr-2' : 'ml-2'}`;
+            timestamp.textContent = 'Just now';
+
+            contentDiv.appendChild(bubble);
+            contentDiv.appendChild(timestamp);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.className = 'flex gap-3 message-bubble';
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-primary text-sm">psychology</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm p-4">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
+                        <div class="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return 'typing-indicator';
+        }
+
+        function removeTypingIndicator(id) {
+            const indicator = document.getElementById(id);
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+    </script>
 </body>
 </html>
