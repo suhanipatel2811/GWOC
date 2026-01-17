@@ -31,3 +31,7 @@ gunicorn>=21.2.0
 # Security & Performance (Recommended for Production)
 django-cors-headers>=4.3.0
 whitenoise>=6.6.0
+
+# Database
+psycopg2-binary>=2.9.9
+dj-database-url>=2.1.0
