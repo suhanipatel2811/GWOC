@@ -33,6 +33,12 @@ DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
 # Configure allowed hosts from environment variable
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+# CSRF Trusted Origins - Required for HTTPS requests on Render
+CSRF_TRUSTED_ORIGINS = [
+    'https://mindsettler-b9tb.onrender.com',
+    'https://*.onrender.com',
+]
+
 # Security settings for production
 if not DEBUG:
     SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True').lower() in ('true', '1', 't')
