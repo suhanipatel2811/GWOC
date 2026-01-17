@@ -8,6 +8,9 @@ pip install -r requirements.txt
 # Navigate to Django project directory
 cd Mindsettler
 
+# Create staticfiles directory if it doesn't exist
+mkdir -p staticfiles
+
 # Collect static files
 python manage.py collectstatic --no-input
 
